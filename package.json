@@ -1,0 +1,19 @@
+{
+  "name": "arikaim-services",
+  "version": "1.0.0",
+  "description": "Arikam CMS services",
+  "main": "index.js",
+  "dependencies": {
+    "bookshelf": "^0.12.1",
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "mysql": "^2.15.0",
+    "nunjucks": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
