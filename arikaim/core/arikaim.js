@@ -1,10 +1,12 @@
 const express = require('express');
+const Config = include('core/system/config.js');
 
 class Arikaim  
 {
 
     constructor()
     {
+        this.config = new Config();
         this.express = express();
         this.port = 8080;
         this.dev_mode = true;
@@ -22,7 +24,6 @@ class Arikaim
     run()
     {
         console.log("Arikam Services version: " + this.version);
-
         this.express.listen(this.port,() => {
              console.log('Server started on port: ' + this.port);
         });
@@ -34,7 +35,7 @@ class Arikaim
             handler(request,response);
         });
     }
-    
+
 }
 
 module.exports = Arikaim;
