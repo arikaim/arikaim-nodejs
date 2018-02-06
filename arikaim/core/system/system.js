@@ -15,8 +15,13 @@ class System
 
 module.exports = System;
 
-global.include = (name) => {
+global.include = function(name) 
+{
     var file_name = process.cwd() + path.sep + 'arikaim' + path.sep + name;
     return require(file_name);
-   
+}
+
+global.isFunction = function(name)
+{
+
 }
