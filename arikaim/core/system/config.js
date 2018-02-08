@@ -1,27 +1,20 @@
-
+'use strict';
 const file = require('fs');
 const System = include('core/system/system.js');
 
+class Config {
 
-class Config
-{
-    constructor()
-    {
+    constructor() {
         this.config = {};
-       // this.load('config.json');
     }
 
-    load(file_name)
-    {
-        var config_file_name = Config.getConfigPath() + file_name;
+    load(file_name) {
+        var config_file_name = System.getConfigPath() + file_name;
+        console.log(config_file_name);
+
         file.readFile(config_file_name, 'utf8',(err, data) => {
             this.config = JSON.parse(data);
         });
-    }
-
-    static getConfigPath()
-    {
-        return System.getBasePath();
     }
 }
 

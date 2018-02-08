@@ -1,11 +1,10 @@
+'use strict';
 const express = require('express');
 const Config = include('core/system/config.js');
 
-class Arikaim  
-{
+class Arikaim {
 
-    constructor()
-    {
+    constructor() {
         this.config = new Config();
         this.express = express();
         this.port = 8080;
@@ -14,28 +13,26 @@ class Arikaim
         this.self = this;
     }
     
-    log(msg) 
-    {
+    log(msg) {
         if (this.dev_mode == true) {
             console.log(msg);
         }
     }
 
-    run()
-    {
+    run() {
         console.log("Arikam Services version: " + this.version);
+        this.config.load('config.json');
+
         this.express.listen(this.port,() => {
              console.log('Server started on port: ' + this.port);
         });
     }
 
-    get(path,handler)
-    {
+    get(path,handler) {
         this.express.get(path, (request, response) => {
             handler(request,response);
         });
     }
-
 }
 
 module.exports = Arikaim;
