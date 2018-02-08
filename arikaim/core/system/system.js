@@ -11,14 +11,19 @@ class System
     {
         System.getRootPath() + path.sep + 'arikaim' + path.sep;
     }
+
+    static include(name) 
+    {
+        var file_name = process.cwd() + path.sep + 'arikaim' + path.sep + name;
+        return require(file_name);
+    }
 }
 
 module.exports = System;
 
-global.include = function(name) 
+global.include = function(name)
 {
-    var file_name = process.cwd() + path.sep + 'arikaim' + path.sep + name;
-    return require(file_name);
+    return System.include(name);
 }
 
 global.isFunction = function(name)
