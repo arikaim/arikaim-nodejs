@@ -2,7 +2,7 @@
   "name": "arikaim-services",
   "version": "1.0.0",
   "description": "Arikam CMS services",
-  "main": "index.js",
+  "main": "start.js",
   "dependencies": {
     "express": "^4.16.2",
     "mysql": "^2.15.0",
