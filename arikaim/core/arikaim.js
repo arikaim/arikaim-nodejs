@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 const Config = include('core/system/config.js');
+const Utils = include('core/utils/utils.js');
+
 
 class Arikaim {
 
@@ -22,6 +24,8 @@ class Arikaim {
     run() {
         console.log("Arikam Services version: " + this.version);
         this.config.load('config.json');
+
+        console.log(Utils.createUUID() );
 
         this.express.listen(this.port,() => {
              console.log('Server started on port: ' + this.port);
