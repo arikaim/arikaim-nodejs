@@ -5,14 +5,9 @@
   "main": "start.js",
   "dependencies": {
     "express": "^4.16.2",
-    "mysql": "^2.15.0",
-    "nunjucks": "^3.0.1",
-    "sequelize": "^4.33.3"
+    "sequelize": "^4.33.4"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+  "author": "Konstantin Atanasov",
+  "license": "GPL-3.0-or-later"
 }
