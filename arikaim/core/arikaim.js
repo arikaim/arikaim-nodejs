@@ -25,7 +25,10 @@ class Arikaim {
 
     run() {
         console.log("Arikam Services version: " + this.version);
-        this.config.load('config.json');
+        this.config.load('config.json',(config) => {
+            console.log(config);
+            this.db.connect(config.db)
+        });
 
        // console.log(Utils.createUUID() );
 

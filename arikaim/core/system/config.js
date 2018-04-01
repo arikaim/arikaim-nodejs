@@ -15,7 +15,7 @@ class Config {
 
         file.readFile(config_file_name, 'utf8',(err, data) => {
             this.config = JSON.parse(data);
-            callFunction(onDone,config_file_name);
+            callFunction(onDone,this.config);
         });
     }
 
