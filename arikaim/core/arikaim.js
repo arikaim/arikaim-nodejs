@@ -17,6 +17,10 @@ class Arikaim {
         this.self = this;
     }
     
+    setDevMode(mode = true) {
+        this.dev_mode = mode;
+    }
+
     log(msg) {
         if (this.dev_mode == true) {
             console.log(msg);
