@@ -10,7 +10,7 @@ class Arikaim {
     constructor() {
         this.config = new Config();
         this.db = new Db();
-        this.express = express();
+        this.app = express();
         this.port = 8080;
         this.dev_mode = true;
         this.version = '1.0';
@@ -31,19 +31,13 @@ class Arikaim {
         console.log("Arikam Services version: " + this.version);
         this.config.load('config.json',(config) => {
             console.log(config);
-            this.db.connect(config.db)
+            this.db.connect(config.db);
         });
 
        // console.log(Utils.createUUID() );
 
-        this.express.listen(this.port,() => {
+        this.app.listen(this.port,() => {
              console.log('Server started on port: ' + this.port);
-        });
-    }
-
-    get(path,handler) {
-        this.express.get(path, (request, response) => {
-            handler(request,response);
         });
     }
 }
