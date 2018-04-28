@@ -4,6 +4,7 @@ const express = require('express');
 const Config = include('core/system/config.js');
 const Utils = include('core/utils/utils.js');
 const Db = include('core/system/db.js');
+const Routes = include('core/system/routes.js');
 
 class Arikaim {
 
@@ -11,6 +12,8 @@ class Arikaim {
         this.config = new Config();
         this.db = new Db();
         this.app = express();
+        this.routes = new Routes(this.app);
+
         this.port = 8080;
         this.dev_mode = true;
         this.version = '1.0';
