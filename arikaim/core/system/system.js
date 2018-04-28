@@ -1,7 +1,12 @@
 'use strict';
+
 const path = require('path');
 
 class System {
+
+    static log(msg) {
+        console.log(msg);
+    }
 
     static getRootPath() {
         return process.cwd();

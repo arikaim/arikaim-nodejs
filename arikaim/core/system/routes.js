@@ -1,5 +1,8 @@
 'use strict';
 
+const System = include('core/system/system.js');
+
+
 class Routes {
 
     constructor(app) {
@@ -9,12 +12,12 @@ class Routes {
     createSystemRoutes(app) {
         // login
         app.post('/api/login/',function(req,res) {
-            console.log('login');
+            System.log('login');
             res.send('login');
         });
         // logout
         app.get('/api/logout/',function(req,res) {
-            console.log('logout');
+            System.log('logout');
             res.send('logout');
         });
         // connect
