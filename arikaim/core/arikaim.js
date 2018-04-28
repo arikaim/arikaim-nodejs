@@ -5,6 +5,8 @@ const Config = include('core/system/config.js');
 const Utils = include('core/utils/utils.js');
 const Db = include('core/system/db.js');
 const Routes = include('core/system/routes.js');
+const System = include('core/system/system.js');
+
 
 class Arikaim {
 
@@ -14,12 +16,20 @@ class Arikaim {
         this.app = express();
         this.routes = new Routes(this.app);
 
-        this.port = 8080;
         this.dev_mode = true;
         this.version = '1.0';
         this.self = this;
+        this.port = 8080;
     }
     
+    setPort(port) {
+        if (isEmpty(port) == false) {
+            this.port = port;
+            return true;
+        }
+        return false;
+    }
+
     setDevMode(mode = true) {
         this.dev_mode = mode;
     }
@@ -31,16 +41,18 @@ class Arikaim {
     }
 
     run() {
-        console.log("Arikam Services version: " + this.version);
+        System.message("Arikam Services version: " + this.version);
         this.config.load('config.json',(config) => {
-            console.log(config);
+            System.log('Config loaded.');
+            this.setPort(config.port);
             this.db.connect(config.db);
+            this.start();
         });
+    }
 
-       // console.log(Utils.createUUID() );
-
+    start() {
         this.app.listen(this.port,() => {
-             console.log('Server started on port: ' + this.port);
+            System.message('Server started on port: ' + this.port);
         });
     }
 }

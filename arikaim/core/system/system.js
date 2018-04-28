@@ -7,6 +7,10 @@ class System {
     static log(msg) {
         console.log(msg);
     }
+    
+    static message(msg) {
+        console.log(msg);
+    }
 
     static getRootPath() {
         return process.cwd();
