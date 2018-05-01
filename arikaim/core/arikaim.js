@@ -42,11 +42,16 @@ class Arikaim {
 
     run() {
         System.message("Arikam Services version: " + this.version);
-        this.config.load('config.json',(config) => {
+        this.config.load('config.json')
+        .then(config => {
             System.log('Config loaded.');
             this.setPort(config.port);
-            this.db.connect(config.db);
-            this.start();
+            this.db.connect(config.db)
+            .then(result => {
+                this.start();
+            });
+        }).catch(() => {
+            System.log('Error loading config.');
         });
     }
 

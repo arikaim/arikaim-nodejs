@@ -9,11 +9,17 @@ class Config {
         this.config = {};
     }
 
-    load(file_name,onDone) {
+    load(file_name) {
         var config_file_name = System.getConfigPath() + file_name;
-        file.readFile(config_file_name, 'utf8',(err, data) => {
-            this.config = JSON.parse(data);
-            callFunction(onDone,this.config);
+        return new Promise((resolve, reject) => {
+            file.readFile(config_file_name, 'utf8',(error, data) => {
+                if (error == true) {
+                    reject();
+                } else {
+                    this.config = JSON.parse(data);
+                    resolve(this.config);
+                }
+            });
         });
     }
 
