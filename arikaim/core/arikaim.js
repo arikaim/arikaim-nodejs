@@ -40,24 +40,48 @@ class Arikaim {
         }
     }
 
-    run() {
+    init() {
         System.message("Arikam Services version: " + this.version);
-        this.config.load('config.json')
-        .then(config => {
-            System.log('Config loaded.');
-            this.setPort(config.port);
-            this.db.connect(config.db)
-            .then(result => {
-                this.start();
+        return new Promise((resolve, reject) => {
+            this.config.load('config.json').then(config => {
+                System.log('Config loaded.');
+                this.setPort(config.port);
+                this.db.connect(config.db).then(result => {
+                    resolve();
+                }).catch(error => {
+                    console.log('Error connect to database: ' + error);
+                    reject(error);
+                });
+            }).catch(error => {
+                console.log('Error loading config: ' + error);
+                reject(error);
             });
-        }).catch(() => {
-            System.log('Error loading config.');
+        });
+    }
+
+    run() {
+        this.init().then(result => {
+            this.start();
+        }).catch(error => {
+            System.message('Error start server');
         });
     }
 
     start() {
         this.app.listen(this.port,() => {
             System.message('Server started on port: ' + this.port);
+        });
+    }
+
+    isInstalled() {
+        return true;
+    }
+
+    install() {
+        this.init().then(result => {
+            console.log('install');
+        }).catch(error => {
+            System.message('Error install Arikaim Services');
         });
     }
 }

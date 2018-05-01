@@ -1,0 +1,33 @@
+{
+    "name": "name",
+    "title": "Service Title",
+    "description": "service description",
+    "access": {
+        "auth": "[NONE,JWT]",        
+        "permission": {
+            "name": [
+                "read",
+                "write",
+                "delete",
+                "execute"
+            ]
+        }
+    },
+    "route": {
+        "method": "",
+        "path": "",
+        "middleware": "",
+        "handler": ""
+    },
+    "params": {
+        "param_name": {
+            "required": "true or false",
+            "constraint": {
+                "min": "",
+                "max": "",
+                "number": ""
+            }
+        }
+    }
+
+}
