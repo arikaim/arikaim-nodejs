@@ -11,9 +11,9 @@ const System = include('core/system/system.js');
 class Arikaim {
 
     constructor() {
+        this.app = express();
         this.config = new Config();
         this.db = new Db();
-        this.app = express();
         this.routes = new Routes(this.app);
 
         this.dev_mode = true;
