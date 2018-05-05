@@ -6,6 +6,9 @@ class Model {
         this.model = null;
         this.define(sequelize);
     }
+    
+    define(sequelize) {
+    }
 }
 
 module.exports = Model;
