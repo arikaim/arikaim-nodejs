@@ -1,13 +1,9 @@
 'use strict';
 
+const Model = include('core/models/model.js');
 const Sequelize = require('sequelize');
 
-class Users {
-
-    constructor(sequelize) {
-        this.model = null;
-        this.define(sequelize);
-    }
+class Users extends Model {
 
     define(sequelize) {
         this.model = sequelize.define('users',{
