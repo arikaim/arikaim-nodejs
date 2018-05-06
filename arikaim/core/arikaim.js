@@ -1,4 +1,12 @@
 'use strict';
+/**
+ * Arikaim Services
+ *
+ * @link        http://www.arikaim.com
+ * @copyright   Copyright (c) 2017-2018 Konstantin Atanasov <info@arikaim.com>
+ * @license     http://www.arikaim.com/license.html
+ * 
+*/
 
 const express = require('express');
 const Config = include('core/system/config.js');
@@ -44,16 +52,16 @@ class Arikaim {
         System.message("Arikam Services version: " + this.version);
         return new Promise((resolve, reject) => {
             this.config.load('config.json').then(config => {
-                System.log('Config loaded.');
+                System.message('Config loaded.');
                 this.setPort(config.port);
                 this.db.connect(config.db).then(result => {
                     resolve();
                 }).catch(error => {
-                    console.log('Error connect to database: ' + error);
+                    System.message('Error connect to database: ' + error);
                     reject(error);
                 });
             }).catch(error => {
-                console.log('Error loading config: ' + error);
+                System.message('Error loading config: ' + error);
                 reject(error);
             });
         });
@@ -79,21 +87,24 @@ class Arikaim {
 
     install() {
         this.init().then(result => {
-            console.log('install');
+            System.message('Install');
             var users = this.db.create('Users');
+            var routes = this.db.create('Routes');
 
-            this.db.sequelize.sync();
-
-          //  console.log(this.db.sequelize);
-
-          
-            
-           // console.log(users.model);
-           // users.model.sync();
-            process.exit(0);
+            this.db.sequelize.sync().then(resut => {
+                System.message('Database tables created');
+                this.exit();
+            }).catch(error => {
+                System.message('Error create database tables');
+                this.exit();
+            });
         }).catch(error => {
             System.message('Error install Arikaim Services');
         });
+    }
+
+    exit() {
+        process.exit(0);
     }
 }
 

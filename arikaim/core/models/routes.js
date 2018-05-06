@@ -1,11 +1,28 @@
 'use strict';
+/**
+ * Arikaim Services
+ *
+ * @link        http://www.arikaim.com
+ * @copyright   Copyright (c) 2017-2018 Konstantin Atanasov <info@arikaim.com>
+ * @license     http://www.arikaim.com/license.html
+ * 
+*/
+/**
+ * Arikaim Services
+ *
+ * @link        http://www.arikaim.com
+ * @copyright   Copyright (c) 2017-2018 Konstantin Atanasov <info@arikaim.com>
+ * @license     http://www.arikaim.com/license.html
+ * 
+*/
 
 const Model = include('core/models/model.js');
+const Sequelize = require('sequelize');
 
 class Routes extends Model {
  
     define(sequelize) {
-        this.model = sequelize.define('routes',{
+        this.model = sequelize.define('routes', {
             id:                     { type: Sequelize.BIGINT, primaryKey: true, autoIncrement: true, allowNull: false },
             name:                   { type: Sequelize.STRING, allowNull: true, unique: true, defaultValue: null },
             pattern:                { type: Sequelize.STRING, allowNull: false },
