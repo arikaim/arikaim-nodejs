@@ -80,6 +80,17 @@ class Arikaim {
     install() {
         this.init().then(result => {
             console.log('install');
+            var users = this.db.create('Users');
+
+            this.db.sequelize.sync();
+
+          //  console.log(this.db.sequelize);
+
+          
+            
+           // console.log(users.model);
+           // users.model.sync();
+            process.exit(0);
         }).catch(error => {
             System.message('Error install Arikaim Services');
         });

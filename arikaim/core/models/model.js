@@ -8,6 +8,8 @@ class Model {
     }
     
     define(sequelize) {
+        throw("Abstract method!");
+        return false;
     }
 }
 

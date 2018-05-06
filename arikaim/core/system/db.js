@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 class Db {
 
     constructor() {
-        this.db = null;
+        this.sequelize = null;
     }
 
     create(model_class_name) {
@@ -13,13 +13,16 @@ class Db {
         var Model = include('core/models/' + model_file_name);
 
         var obj = new Model(this.db);
+      
+        console.log('Create ' + model_class_name);
+     //   obj.define(this.db);
         return obj;
     }
 
     connect(settings) {
         return new Promise((resolve, reject) => {
-            this.db = new Sequelize(settings);
-            this.db.authenticate()
+            this.sequelize = new Sequelize(settings);
+            this.sequelize.authenticate()
             .then(() => {
                 console.log('Db Connection has been established successfully.');
                 resolve();
