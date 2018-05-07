@@ -19,11 +19,39 @@ class Services {
     }
 
     install() {
-        var files = fs.readdirSync(Services.getPath());
+        var path = Services.getPath();
+        System.message('Install Services');
+        var files = fs.readdirSync(path);
+        files.forEach((file, index) => {
+            var stats = fs.lstatSync(path + file);
+            if (stats.isDirectory() == true) {
+                this.installService(file);
+            }
+        });
+    }
+
+    installService(name) {
+        var path = Services.getPath() + name;
+        console.log(path);
+        var service = loadServiceConfigFile(name);
+    }
+
+    loadServiceConfigFile(name) {
+        var config_file = Services.getConfigFile(name);
+        var service_config = fs.readFileSync(config_file);
+        return JSON.parse(service_config);
+    }
+
+    static getConfigFile(name) {
+        return Services.getPath() + name + path.sep + 'service.json'
     }
 
     static getPath() {
         return System.getBasePath() + "services" + path.sep;
+    }
+    
+    static getModelsPath() {
+        return Services.getPath() + "models" + path.sep;
     }
 }
 
