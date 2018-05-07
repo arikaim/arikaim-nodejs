@@ -26,6 +26,9 @@ class Users extends Model {
             last_login:         { type: Sequelize.BIGINT, allowNull: true },
             access_key:         { type: Sequelize.STRING, allowNull: true, unique: true },
             access_key_expire:  { type: Sequelize.BIGINT, allowNull: true }
+        },{
+            timestamps: false,
+            engine: 'InnoDB'
         });
     }
 }

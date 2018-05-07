@@ -38,6 +38,9 @@ class Routes extends Model {
             required_permission:    { type: Sequelize.STRING, allowNull: true, defaultValue: null },
             permission_type:        { type: Sequelize.STRING, allowNull: true, defaultValue: null },
             type:                   { type: Sequelize.INTEGER, allowNull: false, defaultValue: 0 }
+        },{
+            timestamps: false,
+            engine: 'InnoDB'
         });
     }
 }
