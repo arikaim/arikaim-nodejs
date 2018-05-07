@@ -8,18 +8,17 @@
  * 
 */
 
-
 class Service {
 
-    constructor() {
-
+    constructor(name) {
+        this.name = name;
     }
 
     install() {
         throw('Override install method');
     }
 
-    addRoute() {
+    addRoute(method,path,handler_class,handler_method) {
 
     }
 
