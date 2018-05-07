@@ -8,12 +8,22 @@
  * 
 */
 
-const Service = include('core/system/service.js');
 
-class UsersService extends Service {
+class Service {
+
+    constructor() {
+
+    }
 
     install() {
+        throw('Override install method');
     }
+
+    addRoute() {
+
+    }
+
+
 }
 
-module.exports = UsersService;
+module.exports = Service;
