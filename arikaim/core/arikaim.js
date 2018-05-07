@@ -15,7 +15,6 @@ const Db = include('core/system/db.js');
 const Routes = include('core/system/routes.js');
 const System = include('core/system/system.js');
 
-
 class Arikaim {
 
     constructor() {
@@ -86,6 +85,9 @@ class Arikaim {
     }
 
     install() {
+        const Services = include('core/system/services.js');
+        var services = new Services();
+
         this.init().then(result => {
             System.message('Install');
             var users = this.db.create('Users');
@@ -93,6 +95,7 @@ class Arikaim {
 
             this.db.sequelize.sync().then(resut => {
                 System.message('Database tables created');
+                services.install();
                 this.exit();
             }).catch(error => {
                 System.message('Error create database tables');

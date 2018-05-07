@@ -8,9 +8,23 @@
  * 
 */
 
+const fs = require('fs');
+const path = require('path');
+const System = include('core/system/system.js');
+
 class Services {
 
     constructor() {
 
     }
+
+    install() {
+        var files = fs.readdirSync(Services.getPath());
+    }
+
+    static getPath() {
+        return System.getBasePath() + "services" + path.sep;
+    }
 }
+
+module.exports = Services;
