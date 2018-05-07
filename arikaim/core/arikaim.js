@@ -10,7 +10,7 @@
 
 const express = require('express');
 const Config = include('core/system/config.js');
-const Utils = include('core/utils/utils.js');
+const Utils = include('core/system/utils.js');
 const Db = include('core/system/db.js');
 const Routes = include('core/system/routes.js');
 const System = include('core/system/system.js');
