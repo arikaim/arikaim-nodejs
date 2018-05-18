@@ -19,11 +19,11 @@ class Services {
     }
 
     install() {
-        var path = Services.getPath();
+        var services_path = Services.getPath();
         System.message('Install Services');
-        var files = fs.readdirSync(path);
+        var files = fs.readdirSync(services_path);
         files.forEach((file, index) => {
-            var stats = fs.lstatSync(path + file);
+            var stats = fs.lstatSync(services_path + file);
             if (stats.isDirectory() == true) {
                 this.installService(file);
             }
@@ -31,9 +31,16 @@ class Services {
     }
 
     installService(name) {
-        var path = Services.getPath() + name;
-        console.log(path);
         var service = loadServiceConfigFile(name);
+    }
+
+    installServiceModels(name) {
+        var models_path = Services.getModelsPath(name);
+        var files = fs.readdirSync(models_path);
+        files.forEach((file, index) => {
+            var file_name = models_path + file;
+            var model = 
+        });
     }
 
     loadServiceConfigFile(name) {
@@ -50,9 +57,11 @@ class Services {
         return System.getBasePath() + "services" + path.sep;
     }
     
-    static getModelsPath() {
-        return Services.getPath() + "models" + path.sep;
+    static getModelsPath(service_name) {
+        return Services.getPath() + service_name + path.sep + "models" + path.sep;
     }
+
+    
 }
 
 module.exports = Services;

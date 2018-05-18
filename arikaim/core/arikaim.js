@@ -90,7 +90,6 @@ class Arikaim {
 
         this.init().then(result => {
             System.message('Install');
-            var users = this.db.create('Users');
             var routes = this.db.create('Routes');
 
             this.db.sequelize.sync().then(resut => {
