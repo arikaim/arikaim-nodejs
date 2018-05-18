@@ -8,7 +8,7 @@
  * 
 */
 
-const Model = include('core/models/model.js');
+const Model = include('core/system/model.js');
 const Sequelize = require('sequelize');
 
 class Users extends Model {
