@@ -31,6 +31,7 @@ class Users extends Model {
             engine: 'InnoDB'
         });
     }
+    
 }
 
 module.exports = Users;
