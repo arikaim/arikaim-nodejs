@@ -33,18 +33,26 @@ class System {
     }
 
     static getServicePath(service_name) {
-        var path = System.getBasePath() + "services" + path.sep;
+        var result = System.getBasePath() + 'services' + path.sep;
+       
         if (isEmpty(service_name) == false) {
-            path = path + service_name + path.sep;
+            result += service_name + path.sep;
         }
-        return path;
+        return result;
     }
     
+    static getModelsIncludePath(service_name) {
+        if (isEmpty(service_name) == true) {
+            return 'core' + path.sep + 'models' + path.sep;
+        } 
+        return  'services' + path.sep + 'models' + path.sep;
+    }
+
     static getModelsPath(service_name) {
         if (isEmpty(service_name) == true) {
             return System.getBasePath() + 'core' + path.sep + 'models' + path.sep;
-        }
-        return System.getServicePath(service_name) + "models" + path.sep;
+        } 
+        return  System.getServicePath(service_name) + 'models' + path.sep;
     }
 
     static include(name) {

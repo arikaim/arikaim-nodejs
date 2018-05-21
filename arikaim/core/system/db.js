@@ -9,7 +9,8 @@
 */
 
 const Sequelize = require('sequelize');
-const Model = include('core/system/services.js');
+const Model = include('core/system/model.js');
+const System = include('core/system/system.js');
 
 class Db {
 
@@ -18,7 +19,10 @@ class Db {
     }
 
     create(model_class_name,service_name) {
-        var model_file = getModelFileName(model_class_name,service_name);
+        console.log('create model');
+        var model_file = this.getModelFileName(model_class_name,service_name);
+        console.log(model_file);
+
         var Model = include(model_file);     
 
         var obj = new Model(this.sequelize);
@@ -27,7 +31,7 @@ class Db {
 
     getModelFileName(model_class_name,service_name) {
         var file_name = model_class_name.toLowerCase() + '.js';
-        return System.getModelsPath(service_name) + file_name;
+        return System.getModelsIncludePath(service_name) + file_name;
     }
 
     connect(settings) {

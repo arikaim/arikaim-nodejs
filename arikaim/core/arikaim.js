@@ -71,6 +71,7 @@ class Arikaim {
             this.start();
         }).catch(error => {
             System.message('Error start server');
+            this.exit();
         });
     }
 
@@ -89,19 +90,19 @@ class Arikaim {
         var services = new Services();
 
         this.init().then(result => {
-            System.message('Install');
+            System.message('Install');          
             var routes = this.db.create('Routes');
-
+           
             this.db.sequelize.sync().then(resut => {
                 System.message('Database tables created');
                 services.install();
-                this.exit();
             }).catch(error => {
                 System.message('Error create database tables');
                 this.exit();
             });
         }).catch(error => {
             System.message('Error install Arikaim Services');
+            this.exit();
         });
     }
 

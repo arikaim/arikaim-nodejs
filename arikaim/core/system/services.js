@@ -9,6 +9,8 @@
 */
 
 const fs = require('fs');
+const path = require('path');
+
 const System = include('core/system/system.js');
 
 class Services {
@@ -18,26 +20,35 @@ class Services {
     }
 
     install() {
-        var services_path = System.getServicePath();
         System.message('Install Services');
+       
+        var services_path = System.getServicePath();
+        console.log(services_path);
+
         var files = fs.readdirSync(services_path);
         files.forEach((file, index) => {
+            console.log(services_path + file);
             var stats = fs.lstatSync(services_path + file);
             if (stats.isDirectory() == true) {
+                console.log('install serv:' + file);
                 this.installService(file);
             }
         });
     }
 
     installService(name) {
-        var service = loadServiceConfigFile(name);
+        var service = this.loadServiceConfigFile(name);
+        this.installServiceModels(name);
     }
 
     installServiceModels(name) {
         var models_path = System.getModelsPath(name);
+        console.log(models_path);
+
         var files = fs.readdirSync(models_path);
         files.forEach((file, index) => {
             var file_name = models_path + file;
+            console.log(file_name);
             //var model = 
         });
     }
