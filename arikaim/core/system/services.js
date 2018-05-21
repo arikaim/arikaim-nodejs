@@ -9,7 +9,6 @@
 */
 
 const fs = require('fs');
-const path = require('path');
 const System = include('core/system/system.js');
 
 class Services {
@@ -19,7 +18,7 @@ class Services {
     }
 
     install() {
-        var services_path = Services.getPath();
+        var services_path = System.getServicePath();
         System.message('Install Services');
         var files = fs.readdirSync(services_path);
         files.forEach((file, index) => {
@@ -35,11 +34,11 @@ class Services {
     }
 
     installServiceModels(name) {
-        var models_path = Services.getModelsPath(name);
+        var models_path = System.getModelsPath(name);
         var files = fs.readdirSync(models_path);
         files.forEach((file, index) => {
             var file_name = models_path + file;
-            var model = 
+            //var model = 
         });
     }
 
@@ -49,19 +48,10 @@ class Services {
         return JSON.parse(service_config);
     }
 
-    static getConfigFile(name) {
-        return Services.getPath() + name + path.sep + 'service.json'
+    static getConfigFile(serice_name) {
+        return System.getServicePath(serice_name) + 'service.json';
     }
 
-    static getPath() {
-        return System.getBasePath() + "services" + path.sep;
-    }
-    
-    static getModelsPath(service_name) {
-        return Services.getPath() + service_name + path.sep + "models" + path.sep;
-    }
-
-    
 }
 
 module.exports = Services;

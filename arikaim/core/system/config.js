@@ -34,6 +34,7 @@ class Config {
     getConfig() {
         return this.config;
     }
+    
 }
 
 module.exports = Config;

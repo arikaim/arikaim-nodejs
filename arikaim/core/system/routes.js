@@ -34,6 +34,7 @@ class Routes {
             res.send('logout');
         });
     }
+    
 }
 
 module.exports = Routes;

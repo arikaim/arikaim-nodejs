@@ -32,9 +32,25 @@ class System {
         return System.getBasePath() + 'config'  + path.sep;
     }
 
+    static getServicePath(service_name) {
+        var path = System.getBasePath() + "services" + path.sep;
+        if (isEmpty(service_name) == false) {
+            path = path + service_name + path.sep;
+        }
+        return path;
+    }
+    
+    static getModelsPath(service_name) {
+        if (isEmpty(service_name) == true) {
+            return 
+        }
+        return System.getServicePath(service_name) + "models" + path.sep;
+    }
+
     static include(name) {
         return require(System.getBasePath() + name);
     }
+    
 }
 
 global.include = function(name) {

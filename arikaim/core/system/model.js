@@ -39,6 +39,7 @@ class Model {
         } 
         return System.getBasePath() + 'core' + path.sep + 'models' + path.sep + file_name;
     }
+    
 }
 
 module.exports = Model;
