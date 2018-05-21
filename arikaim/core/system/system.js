@@ -42,7 +42,7 @@ class System {
     
     static getModelsPath(service_name) {
         if (isEmpty(service_name) == true) {
-            return 
+            return System.getBasePath() + 'core' + path.sep + 'models' + path.sep;
         }
         return System.getServicePath(service_name) + "models" + path.sep;
     }
@@ -50,7 +50,7 @@ class System {
     static include(name) {
         return require(System.getBasePath() + name);
     }
-    
+
 }
 
 global.include = function(name) {

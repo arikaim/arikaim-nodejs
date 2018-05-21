@@ -18,11 +18,16 @@ class Db {
     }
 
     create(model_class_name,service_name) {
-        var model_file = Services.getModelFileName(model_class_name,service_name);
+        var model_file = getModelFileName(model_class_name,service_name);
         var Model = include(model_file);     
 
         var obj = new Model(this.sequelize);
         return obj;
+    }
+
+    getModelFileName(model_class_name,service_name) {
+        var file_name = model_class_name.toLowerCase() + '.js';
+        return System.getModelsPath(service_name) + file_name;
     }
 
     connect(settings) {
@@ -38,7 +43,7 @@ class Db {
             });
         });
     }
-    
+
 }
 
 module.exports = Db;
