@@ -92,7 +92,9 @@ class Arikaim {
         this.init().then(result => {
             System.message('Install');          
             var routes = this.db.create('Routes');
-           
+            var service = this.db.create('Service');
+            var actions = this.db.create('Actions');
+
             this.db.sequelize.sync().then(resut => {
                 System.message('Database tables created');
                 services.install();

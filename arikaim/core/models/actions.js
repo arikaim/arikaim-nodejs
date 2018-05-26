@@ -11,11 +11,12 @@
 const Model = include('core/system/model.js');
 const Sequelize = require('sequelize');
 
-class ServiceActions extends Model {
+class Actions extends Model {
  
     define(sequelize) {
-        this.model = sequelize.define('service_actions', {
+        this.model = sequelize.define('actions', {
             id:             { type: Sequelize.BIGINT, primaryKey: true, autoIncrement: true, allowNull: false },
+            service_id:     { type: Sequelize.INTEGER, allowNull: false },
             name:           { type: Sequelize.STRING, allowNull: true, unique: true, defaultValue: null },
             title:          { type: Sequelize.STRING, allowNull: true, defaultValue: null },
             description:    { type: Sequelize.STRING, allowNull: true, defaultValue: null },
@@ -35,4 +36,4 @@ class ServiceActions extends Model {
 
 }
 
-module.exports = Routes;
+module.exports = Actions;

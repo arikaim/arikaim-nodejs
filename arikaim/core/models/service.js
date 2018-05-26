@@ -32,4 +32,4 @@ class Service extends Model {
 
 }
 
-module.exports = Routes;
+module.exports = Service;
