@@ -19,7 +19,7 @@ class Routes {
 
     createSystemRoutes(app) {
         // login
-        app.post('/api/login/',function(req,res) {
+        app.put('/api/login/',function(req,res) {
             System.log('login');
             res.send('login');
         });
@@ -29,7 +29,12 @@ class Routes {
             res.send('logout');
         });
         // connect
-        app.post('/api/connect/',function(req,res) {
+        app.put('/api/connect/',function(req,res) {
+            console.log('logout');
+            res.send('logout');
+        });
+        // execute service
+        app.put('/api/service/execute/',function(req,res) {
             console.log('logout');
             res.send('logout');
         });
