@@ -30,32 +30,35 @@ class Services {
             console.log(services_path + file);
             var stats = fs.lstatSync(services_path + file);
             if (stats.isDirectory() == true) {
-                console.log('install serv:' + file);
+                console.log('install service:' + file);
                 this.installService(file);
             }
         });
     }
 
-    installService(name) {
-        var service = this.loadServiceConfigFile(name);
-        this.installServiceModels(name);
+    installService(service_name) {
+        var service = this.loadServiceConfigFile(service_name);
+        this.installServiceModels(service_name);
     }
 
-    installServiceModels(name) {
-        var models_path = System.getModelsPath(name);
-        console.log(models_path);
-
+    installServiceModels(service_name) {
+        var models_include_path = System.getModelsIncludePath(service_name);
+        var models_path = System.getModelsPath(service_name);
+        console.log(models_include_path);
         var files = fs.readdirSync(models_path);
         files.forEach((file, index) => {
-            var file_name = models_path + file;
-            console.log(file_name);
-            //var model = 
-            var model = arikaim.db.createModel(file_name);
+            var model = arikaim.db.createModel(models_include_path + file);
+        });
+        arikaim.db.sequelize.sync().then(resut => {
+            System.message('Service db tables created.');
+        }).catch(error => {
+            System.message('Error create service database tables!');
+            arikaim.exit();
         });
     }
 
-    loadServiceConfigFile(name) {
-        var config_file = Services.getConfigFile(name);
+    loadServiceConfigFile(service_name) {
+        var config_file = Services.getConfigFile(service_name);
         var service_config = fs.readFileSync(config_file);
         return JSON.parse(service_config);
     }

@@ -45,7 +45,7 @@ class System {
         if (isEmpty(service_name) == true) {
             return 'core' + path.sep + 'models' + path.sep;
         } 
-        return  'services' + path.sep + 'models' + path.sep;
+        return  'services' + path.sep + service_name + path.sep + 'models' + path.sep;
     }
 
     static getModelsPath(service_name) {
