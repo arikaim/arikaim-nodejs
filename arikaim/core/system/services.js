@@ -20,11 +20,8 @@ class Services {
     }
 
     install() {
-        System.message('Install Services');
-       
+        System.message('Install Services'); 
         var services_path = System.getServicePath();
-        console.log(services_path);
-
         var files = fs.readdirSync(services_path);
         files.forEach((file, index) => {
             console.log(services_path + file);
