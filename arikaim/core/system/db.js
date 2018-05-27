@@ -19,12 +19,12 @@ class Db {
     }
 
     create(model_class_name,service_name) {
-        console.log('create model');
         var model_file = this.getModelFileName(model_class_name,service_name);
-        console.log(model_file);
+        return this.createModel(model_file);
+    }
 
+    createModel(model_file) {
         var Model = include(model_file);     
-
         var obj = new Model(this.sequelize);
         return obj;
     }

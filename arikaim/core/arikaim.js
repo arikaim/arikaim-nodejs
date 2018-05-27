@@ -113,4 +113,7 @@ class Arikaim {
     }
 }
 
+if (isEmpty(global.arikaim) == true) {
+    global.arikaim = new Arikaim();
+}
 module.exports = Arikaim;

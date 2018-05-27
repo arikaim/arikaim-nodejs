@@ -50,6 +50,7 @@ class Services {
             var file_name = models_path + file;
             console.log(file_name);
             //var model = 
+            var model = arikaim.db.createModel(file_name);
         });
     }
 
