@@ -12,7 +12,8 @@ class Model {
 
     constructor(sequelize) {
         this.model = null;
-        return this.define(sequelize);
+        this.define(sequelize);
+        return this.model;
     }
     
     define(sequelize) {

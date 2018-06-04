@@ -28,7 +28,6 @@ class Service extends Model {
             timestamps: false,
             engine: 'InnoDB'
         });
-        return this.model;
     }
 
     getModel() {

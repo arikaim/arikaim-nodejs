@@ -59,8 +59,23 @@ class Services {
         if (isArray(actions) == false) {
             console.log('Error: Service action properties not valid!');
         }
+        var service_actions = arikaim.db.create('Actions');
         for(var item of actions) {
             console.log(item);
+            service_actions.findOrCreate({
+                where: { name: item.name, service_id: service_id },
+                name: item.name,
+                title: item.title,
+                description: item.description,
+                uuid: Utils.createUUID(),
+                service_id: service_id,
+                handler_class: item.class,
+                handler_method: item.method
+            }).spread(result =>{
+                console.log('Action ' + item.name + ' registered.');
+            }).catch(error => {
+                console.log('Error register action:  ' + item.name + " for service: " + service_name + " details: " + error);
+            });
         }
     }
 
