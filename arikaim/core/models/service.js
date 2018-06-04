@@ -28,8 +28,12 @@ class Service extends Model {
             timestamps: false,
             engine: 'InnoDB'
         });
+        return this.model;
     }
 
+    getModel() {
+        return this.model;
+    }
 }
 
 module.exports = Service;

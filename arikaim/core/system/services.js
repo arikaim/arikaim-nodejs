@@ -27,14 +27,21 @@ class Services {
             console.log(services_path + file);
             var stats = fs.lstatSync(services_path + file);
             if (stats.isDirectory() == true) {
-                console.log('install service:' + file);
                 this.installService(file);
             }
         });
     }
 
+    
+
     installService(service_name) {
+        console.log('install service ' + service_name);
         var service = this.loadServiceConfigFile(service_name);
+        console.log(service);
+        var service_model = arikaim.db.createModel('Service');
+        //service_model.findAll().then(data => {
+         //   console.log(data);
+        //});
         this.installServiceModels(service_name);
     }
 

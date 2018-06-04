@@ -28,7 +28,7 @@ class Db {
         var Model = include(model_file);     
       //  console.log(this.sequelize);
         var obj = new Model(this.sequelize);
-        console.log(obj);
+       // console.log(obj);
         return obj;
     }
 
@@ -47,6 +47,7 @@ class Db {
             })
             .catch(error => {
                 console.log('Unable to connect to the database:' + error);
+                reject(error);
             });
         });
     }

@@ -12,7 +12,7 @@ class Model {
 
     constructor(sequelize) {
         this.model = null;
-        this.define(sequelize);
+        return this.define(sequelize);
     }
     
     define(sequelize) {
