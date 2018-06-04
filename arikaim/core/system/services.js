@@ -61,7 +61,7 @@ class Services {
         }
         var service_actions = arikaim.db.create('Actions');
         for(var item of actions) {
-            console.log(item);
+            console.log(item.class);
             service_actions.findOrCreate({
                 where: { name: item.name, service_id: service_id },
                 name: item.name,
@@ -74,7 +74,7 @@ class Services {
             }).spread(result =>{
                 console.log('Action ' + item.name + ' registered.');
             }).catch(error => {
-                console.log('Error register action:  ' + item.name + " for service: " + service_name + " details: " + error);
+                console.log('Error register action:  ' + item.name + " for service: " + service_preperties.name + " details: " + error);
             });
         }
     }

@@ -21,7 +21,7 @@ class Actions extends Model {
             title:          { type: Sequelize.STRING, allowNull: true, defaultValue: null },
             description:    { type: Sequelize.STRING, allowNull: true, defaultValue: null },
             handler_class:  { type: Sequelize.STRING, allowNull: false },
-            handler_method: { type: Sequelize.STRING, allowNull: true, defaultValue: null },
+            handler_method: { type: Sequelize.STRING, allowNull: false },
             status:         { type: Sequelize.INTEGER, allowNull: false, defaultValue: 1 },
             uuid:           { type: Sequelize.STRING, allowNull: false, unique: true },
             auth:           { type: Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
