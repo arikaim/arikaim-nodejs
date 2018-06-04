@@ -24,7 +24,7 @@ class Db {
     }
 
     createModel(model_file) {
-        console.log('include:' + model_file);
+     //   console.log('include:' + model_file);
         var Model = include(model_file);     
       //  console.log(this.sequelize);
         var obj = new Model(this.sequelize);
@@ -51,7 +51,6 @@ class Db {
             });
         });
     }
-
 }
 
 module.exports = Db;

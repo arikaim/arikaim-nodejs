@@ -1,7 +1,7 @@
 {
     "name": "users",
-    "title": "Service Title",
-    "description": "service description",
+    "title": "Users",
+    "description": "Manage users",
     "access": {
         "auth": "[NONE,JWT]",        
         "permission": {
@@ -19,14 +19,14 @@
         "middleware": "",
         "handler": ""
     },
-    "params": {
-        "param_name": {
-            "required": "true or false",
-            "constraint": {
-                "min": "",
-                "max": "",
-                "number": ""
-            }
-        }
-    }
+    "actions": [{
+        "name": "login",
+        "class": "Users",
+        "method": "login"
+    },
+    {
+        "name": "logout",
+        "class": "Users",
+        "method": "logout"
+    }]
 }
