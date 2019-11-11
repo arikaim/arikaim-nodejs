@@ -7,7 +7,7 @@
  * 
 */
 
-export class Utils {
+module.exports = class Utils {
 
   
 }

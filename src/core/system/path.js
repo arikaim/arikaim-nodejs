@@ -15,7 +15,7 @@ module.exports = class Path {
     }
 
     static getBasePath() {
-        return Path.getRootPath() + path.sep + 'arikaim' + path.sep;
+        return Path.getRootPath() + path.sep + 'src' + path.sep;
     }
 
     static getConfigPath() {

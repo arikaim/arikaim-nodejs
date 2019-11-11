@@ -6,7 +6,7 @@
  * @license     http://www.arikaim.com/license
 */
 
-const Path = require('core/path.js');
+const Path = require('./path.js');
 
 module.exports = class System {
     static log(msg) {

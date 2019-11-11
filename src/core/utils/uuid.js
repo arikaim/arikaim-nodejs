@@ -6,7 +6,7 @@
  * @license     http://www.arikaim.com/license
 */
 
-export class Uuid {
+module.exports = class Uuid {
 
     static create() {
         var time = new Date().getTime();

@@ -10,24 +10,23 @@
 
 const express = require('express');
 
-const System = require('./src/core/system/system.js');
-const Config = require('./core/system/config.js');
-const Db = include('core/system/db.js');
-const Routes = include('core/system/routes.js');
-
+const container = require('./core/system/container.js');
+const System = container.resolve('System');
+const Path = container.resolve('Path');
+const config = container.resolve('Config')
 
 
 module.exports = class Arikaim {
 
     constructor() {
         this.app = express();
-        this.config = new Config();
-        this.db = new Db();
-        this.routes = new Routes(this.app);
+        this.config = config;
+      //  this.db = new Db();
+       // this.routes = new Routes(this.app);
 
-        this.dev_mode = true;
-        this.version = '1.0';
-        this.self = this;
+       // this.dev_mode = true;
+        this.version = '1.0.0';
+       // this.self = this;
         this.port = 8080;
     }
     
@@ -55,12 +54,8 @@ module.exports = class Arikaim {
             this.config.load('config.json').then(config => {
                 System.log('Config loaded.');
                 this.setPort(config.port);
-                this.db.connect(config.db).then(result => {
-                    resolve();
-                }).catch(error => {
-                    System.log('Error connect to database: ' + error);
-                    reject(error);
-                });
+               
+
             }).catch(error => {
                 System.log('Error loading config: ' + error);
                 reject(error);
