@@ -9,13 +9,15 @@
 */
 
 const express = require('express');
-const Config = include('core/system/config.js');
-const Utils = include('core/system/utils.js');
+
+const System = require('./src/core/system/system.js');
+const Config = require('./core/system/config.js');
 const Db = include('core/system/db.js');
 const Routes = include('core/system/routes.js');
-const System = include('core/system/system.js');
 
-class Arikaim {
+
+
+module.exports = class Arikaim {
 
     constructor() {
         this.app = express();
@@ -48,19 +50,19 @@ class Arikaim {
     }
 
     init() {
-        System.message("Arikam Services version: " + this.version);
+        System.log("Arikam Services version: " + this.version);
         return new Promise((resolve, reject) => {
             this.config.load('config.json').then(config => {
-                System.message('Config loaded.');
+                System.log('Config loaded.');
                 this.setPort(config.port);
                 this.db.connect(config.db).then(result => {
                     resolve();
                 }).catch(error => {
-                    System.message('Error connect to database: ' + error);
+                    System.log('Error connect to database: ' + error);
                     reject(error);
                 });
             }).catch(error => {
-                System.message('Error loading config: ' + error);
+                System.log('Error loading config: ' + error);
                 reject(error);
             });
         });
@@ -70,14 +72,14 @@ class Arikaim {
         this.init().then(result => {
             this.start();
         }).catch(error => {
-            System.message('Error start server');
+            System.log('Error start server');
             this.exit();
         });
     }
 
     start() {
         this.app.listen(this.port,() => {
-            System.message('Server started on port: ' + this.port);
+            System.log('Server started on port: ' + this.port);
         });
     }
 
@@ -90,20 +92,20 @@ class Arikaim {
         var services = new Services();
 
         this.init().then(result => {
-            System.message('Install');          
-            var routes = this.db.create('Routes');
+            System.log('Install');          
+          
             var service = this.db.create('Service');
-            var actions = this.db.create('Actions');
+           
 
             this.db.sequelize.sync().then(resut => {
-                System.message('Database tables created');
+                System.log('Database tables created');
                 services.install();
             }).catch(error => {
-                System.message('Error create database tables');
+                System.log('Error create database tables');
                 this.exit();
             });
         }).catch(error => {
-            System.message('Error install Arikaim Services');
+            System.log('Error install Arikaim Services');
             this.exit();
         });
     }
@@ -112,8 +114,3 @@ class Arikaim {
         process.exit(0);
     }
 }
-
-if (isEmpty(global.arikaim) == true) {
-    global.arikaim = new Arikaim();
-}
-module.exports = Arikaim;

@@ -1,16 +1,14 @@
 'use strict';
 /**
  * Arikaim Services
- *
  * @link        http://www.arikaim.com
  * @copyright   Copyright (c) 2017-2018 Konstantin Atanasov <info@arikaim.com>
- * @license     http://www.arikaim.com/license.html
- * 
+ * @license     http://www.arikaim.com/license
 */
 
-class Utils {
+export class Uuid {
 
-    static createUUID() {
+    static create() {
         var time = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(value) {
             var random = (time + Math.random()*16)%16 | 0;
@@ -20,5 +18,3 @@ class Utils {
         return uuid;
     }
 }
-
-module.exports = Utils;

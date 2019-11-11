@@ -9,9 +9,9 @@
 */
 
 const file = require('fs');
-const System = include('core/system/system.js');
+const System = require('system.js');
 
-class Config {
+module.exports = class Config {
 
     constructor() {
         this.config = {};
@@ -36,5 +36,3 @@ class Config {
     }
     
 }
-
-module.exports = Config;

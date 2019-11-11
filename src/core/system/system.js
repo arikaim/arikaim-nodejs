@@ -1,64 +1,21 @@
 'use strict';
 /**
  * Arikaim Services
- *
  * @link        http://www.arikaim.com
  * @copyright   Copyright (c) 2017-2018 Konstantin Atanasov <info@arikaim.com>
- * @license     http://www.arikaim.com/license.html
- * 
+ * @license     http://www.arikaim.com/license
 */
 
-const path = require('path');
+const Path = require('core/path.js');
 
-class System {
-
+module.exports = class System {
     static log(msg) {
         console.log(msg);
     }
     
-    static message(msg) {
-        console.log(msg);
-    }
-
-    static getRootPath() {
-        return process.cwd();
-    }
-
-    static getBasePath() {
-        return System.getRootPath() + path.sep + 'arikaim' + path.sep;
-    }
-
-    static getConfigPath() {
-        return System.getBasePath() + 'config'  + path.sep;
-    }
-
-    static getServicePath(service_name) {
-        var result = System.getBasePath() + 'services' + path.sep;
-       
-        if (isEmpty(service_name) == false) {
-            result += service_name + path.sep;
-        }
-        return result;
-    }
-    
-    static getModelsIncludePath(service_name) {
-        if (isEmpty(service_name) == true) {
-            return 'core' + path.sep + 'models' + path.sep;
-        } 
-        return  'services' + path.sep + service_name + path.sep + 'models' + path.sep;
-    }
-
-    static getModelsPath(service_name) {
-        if (isEmpty(service_name) == true) {
-            return System.getBasePath() + 'core' + path.sep + 'models' + path.sep;
-        } 
-        return  System.getServicePath(service_name) + 'models' + path.sep;
-    }
-
     static include(name) {
-        return require(System.getBasePath() + name);
+        return require(Path.getBasePath() + name);
     }
-
 }
 
 global.include = function(name) {
@@ -77,16 +34,19 @@ global.callFunction = function(function_name,params) {
     return null;
 }
 
-global.isJSON = function(json_string) {
+global.isJSON = function(json) {
     try {
-        var json_string = JSON.stringify(json_string);
-        var json = JSON.parse(json_string);
-        if(typeof(json_string) == 'string')
-            if(json_string.length == 0) return false;
+        var json = JSON.stringify(json);
+        var json = JSON.parse(json);
+        if (typeof(json) == 'string') {
+            if (json.length == 0) return false;
+        }
+           
     }
-    catch(e){
+    catch (e) {
         return false;
     }
+
     return true;
 }
 
@@ -96,17 +56,17 @@ global.getObjectProperty = function(path, obj) {
     }, obj || self)
 }
 
-global.getValue = function(path,obj,default_value) {
+global.getValue = function(path,obj,defaultValue) {
     var val = getObjectProperty(path,obj);
     if (val == null) {
-        val = default_value;
+        val = defaultValue;
     }
     return val;
 }
 
-global.getDefaultValue = function(variable,default_value) {
+global.getDefaultValue = function(variable, defaultValue) {
     if (isEmpty(variable) == true) {
-        return default_value;
+        return defaultValue;
     }
     return variable;
 }
@@ -126,5 +86,3 @@ global.isArray = function(variable) {
     if (isEmpty(variable) == true) return false;
     return (variable.constructor === Array);
 }
-
-module.exports = System;

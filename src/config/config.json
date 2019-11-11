@@ -6,7 +6,6 @@
         "username" : "root",
         "password" : "adminpas",
         "database" : "arikaim",
-        "charset"  : "utf8",
-        "operatorsAliases": false
+        "charset"  : "utf8"
     }
 }
