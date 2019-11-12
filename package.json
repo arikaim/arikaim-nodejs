@@ -1,20 +1,12 @@
 {
-  "name": "arikaim-services",
-  "version": "1.0.0",
-  "description": "Arikam CMS services",
-  "author": "Konstantin Atanasov",
-  "main": "start.js",
-  "dependencies": {
-    "express": "^4.*",
-    "mysql2": "^2.*",
-    "twig": "^1.*",
-    "typeorm ": "*",
-    "awilix": "^4.*"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "install": "node install.js",
-    "start": "mode start.js"
-  },
-  "license": "GPL-3.0-or-later"
+    "private": true,
+    "dependencies": {
+        
+    },
+    "devDependencies": {},
+    "scripts": {
+      "install": "node install.js",
+      "start": "mode start.js"
+    },
+    "license": "GPL-3.0-or-later"
 }

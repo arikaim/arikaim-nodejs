@@ -6,20 +6,30 @@
  * @license     http://www.arikaim.com/license
 */
 
+const chalk = require('chalk');
 const Path = require('./path.js');
 
 module.exports = class System {
     static log(msg) {
-        console.log(msg);
+        
     }
     
     static include(name) {
-        return require(Path.getBasePath() + name);
+        
     }
 }
 
+global.message = function(message,color) {
+    message = (color) ? chalk.keyword(color)(message) : message;
+    console.log(message);
+}
+
+global.errorMessage = function(message) {
+    global.message(message,'red');
+}
+
 global.include = function(name) {
-    return System.include(name);
+    return require(Path.getBasePath() + name);
 }
 
 global.isFunction = function(variable) {

@@ -6,7 +6,7 @@
  * @license     http://www.arikaim.com/license 
 */
 
-const Arikaim = require('./src/arikaim.js');
+const Arikaim = require('arikaim-services');
 
 const arikaim = new Arikaim();
 arikaim.run();

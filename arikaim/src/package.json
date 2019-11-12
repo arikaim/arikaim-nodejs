@@ -1,0 +1,17 @@
+{
+  "name": "arikaim-services",
+  "version": "1.0.0",
+  "description": "Arikam CMS services",
+  "author": "Konstantin Atanasov",
+  "main": "arikaim.js",
+  "dependencies": {
+    "awilix": "^4.*",
+    "chalk": "^3.0.0",
+    "express": "^4.*",
+    "mysql2": "^2.*",
+    "twig": "^1.*",
+    "typeorm": "*"
+  },
+  "devDependencies": {},
+  "license": "GPL-3.0-or-later"
+}
