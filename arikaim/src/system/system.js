@@ -7,7 +7,7 @@
 */
 
 const chalk = require('chalk');
-const Path = require('./path.js');
+const Path = require('./path.js.js');
 
 module.exports = class System {
     static log(msg) {

@@ -8,7 +8,7 @@
 
 const express = require('express');
 
-const container = require('./core/system/container.js');
+const container = require('./system/container.js.js');
 const System = container.resolve('System');
 const Path = container.resolve('Path');
 const config = container.resolve('Config')

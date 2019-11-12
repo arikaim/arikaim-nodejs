@@ -1,6 +1,6 @@
 {
     "port": 3000,
-    "db": {
+    "database": {
         "dialect" : "mysql",
         "host" : "localhost",
         "username" : "root",
