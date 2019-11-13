@@ -8,17 +8,14 @@
 
 const awilix  = require('awilix');
 
-const Path = require('./path.js');
-const System = require('./system.js');
+//const Path = require('./path.js');
 const Config = require('./config.js');
 
 const container = awilix.createContainer({
     injectionMode: awilix.InjectionMode.CLASSIC
 });
 
-container.register({ 
-    System: awilix.asValue(System),
-    Path: awilix.asValue(Path),
+container.register({     
     Config: awilix.asClass(Config)  
 });
 

@@ -6,9 +6,6 @@
  * @license     http://www.arikaim.com/license
 */
 
-
-module.exports = class Users {
-
-    
-    
+module.exports = class ServiceRoutes {
+  
 }

@@ -6,31 +6,36 @@
  * @license     http://www.arikaim.com/license 
 */
 
+require('./system/global.js')
+
 const express = require('express');
+const server = require('http').Server(express);
+const io = require('socket.io')(server);
 
-const container = require('./system/container.js.js');
-const System = container.resolve('System');
-const Path = container.resolve('Path');
-const config = container.resolve('Config')
-
+const Config = require('./system/config.js')
+const Path = require('./system/path.js')
+const container = require('./system/container.js');
 
 module.exports = class Arikaim {
 
     constructor() {
         this.app = express();    
+        this.config = new Config();
         this.version = '1.0.0';     
         this.port = 8080;
         this.devMode = true;
     }
     
+    resolve(name) {
+        return container.resolve(name);
+    }
+
     getConfig() {
         return config;
     }
 
     setPort(port) {
-        if (isEmpty(port) == false) {
-            this.port = port;          
-        } 
+        this.port = port;          
     }
 
     setDevMode(mode) {
@@ -44,11 +49,10 @@ module.exports = class Arikaim {
         message('');
 
         return new Promise((resolve, reject) => {
-            this.config.load('config.json').then(config => {
-                message('Config loaded.');
+            this.config.load().then(config => {
+                message('Config loaded.');     
                 this.setPort(config.port);
-               
-
+                resolve();
             }).catch(error => {
                 errorMessage('Error loading config: ' + error);
                 reject(error);
@@ -67,7 +71,7 @@ module.exports = class Arikaim {
 
     start() {
         this.app.listen(this.port,() => {
-            message('Server started on port: ' + this.port);
+            message('Http server started on port: ' + this.port);
         });
     }
 

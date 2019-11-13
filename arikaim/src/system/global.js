@@ -7,17 +7,7 @@
 */
 
 const chalk = require('chalk');
-const Path = require('./path.js.js');
-
-module.exports = class System {
-    static log(msg) {
-        
-    }
-    
-    static include(name) {
-        
-    }
-}
+const Path = require('./path.js');
 
 global.message = function(message,color) {
     message = (color) ? chalk.keyword(color)(message) : message;
@@ -33,8 +23,7 @@ global.include = function(name) {
 }
 
 global.isFunction = function(variable) {
-    if (typeof variable === 'function') return true;    
-    return false;
+    return (typeof variable === 'function');
 }
 
 global.callFunction = function(function_name,params) {
@@ -51,7 +40,6 @@ global.isJSON = function(json) {
         if (typeof(json) == 'string') {
             if (json.length == 0) return false;
         }
-           
     }
     catch (e) {
         return false;
@@ -68,23 +56,18 @@ global.getObjectProperty = function(path, obj) {
 
 global.getValue = function(path,obj,defaultValue) {
     var val = getObjectProperty(path,obj);
-    if (val == null) {
-        val = defaultValue;
-    }
-    return val;
+    return (val == null) ? defaultValue : val;      
 }
 
 global.getDefaultValue = function(variable, defaultValue) {
-    if (isEmpty(variable) == true) {
-        return defaultValue;
-    }
-    return variable;
+    return (isEmpty(variable) == true) ? defaultValue : variable;      
 }
 
 global.isEmpty = function(variable) {
     if (variable === undefined) return true;
     if (variable === null) return true;
     if (variable === "") return true;
+
     return false;
 }
 
@@ -93,6 +76,5 @@ global.isObject = function(variable) {
 }
 
 global.isArray = function(variable) {
-    if (isEmpty(variable) == true) return false;
-    return (variable.constructor === Array);
+    return (isEmpty(variable) == true) ? false : (variable.constructor === Array);   
 }

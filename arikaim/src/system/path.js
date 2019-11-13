@@ -14,12 +14,16 @@ module.exports = class Path {
         return process.cwd();
     }
 
+    static getArikaimPath() {
+        return Path.getRootPath() +  path.sep + 'arikaim' + path.sep;
+    }
+
     static getBasePath() {
         return Path.getRootPath() + path.sep + 'src' + path.sep;
     }
 
     static getConfigPath() {
-        return Path.getBasePath() + 'config'  + path.sep;
+        return Path.getArikaimPath() + 'config' + path.sep;
     }
 
     static getServicePath(serviceName) {

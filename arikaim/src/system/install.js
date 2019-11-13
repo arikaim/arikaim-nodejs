@@ -6,29 +6,19 @@
  * @license     http://www.arikaim.com/license
 */
 
-const System = require('./arikaim/core/system/system.js');
-const Arikaim = include('core/arikaim.js');
 
+module.exports = class Install {
 
+    constructor(app) {
+       
+    }
 
+    install() {
+       
+    }   
 
-const Services = include('core/system/services.js');
-var services = new Services();
+    isInstalled() {
+        
+    }
+}
 
-this.init().then(result => {
-    System.log('Install');          
-  
-    var service = this.db.create('Service');
-   
-
-    this.db.sequelize.sync().then(resut => {
-        System.log('Database tables created');
-        services.install();
-    }).catch(error => {
-        System.log('Error create database tables');
-        this.exit();
-    });
-}).catch(error => {
-    System.log('Error install Arikaim Services');
-    this.exit();
-});

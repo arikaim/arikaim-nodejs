@@ -7,7 +7,6 @@
 */
 
 const file = require('fs');
-
 const Path = require('./path.js');
 
 module.exports = class Config {
@@ -17,8 +16,9 @@ module.exports = class Config {
     }
 
     load(fileName) {
+        fileName = getDefaultValue(fileName,'services-config.json');
         fileName = Path.getConfigPath() + fileName;
-
+    
         return new Promise((resolve, reject) => {
             file.readFile(fileName, 'utf8',(error, data) => {
                 if (error == true) {
