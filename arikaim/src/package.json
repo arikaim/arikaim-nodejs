@@ -11,7 +11,9 @@
     "mysql2": "^2.*",
     "socket.io": "*",
     "twig": "^1.14.0",
-    "typeorm": "*"
+    "typeorm": "*",
+    "jsonwebtoken": "^8.*",
+    "forever-monitor": "^1.*"
   },
   "devDependencies": {},
   "license": "GPL-3.0-or-later"
