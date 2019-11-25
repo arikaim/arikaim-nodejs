@@ -6,9 +6,9 @@
  * @license     http://www.arikaim.com/license
 */
 
+module.exports = class Access {
 
-module.exports = class Users {
-
-    
-    
+    constructor() {
+        
+    }
 }

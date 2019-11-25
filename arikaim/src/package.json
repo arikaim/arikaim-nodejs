@@ -5,15 +5,16 @@
   "author": "Konstantin Atanasov",
   "main": "arikaim.js",
   "dependencies": {
-    "awilix": "^4.*",
+    "awilix": "^4.2.3",
     "chalk": "^3.0.0",
     "express": "^4.*",
-    "mysql2": "^2.*",
+    "forever-monitor": "^1.*",
+    "mysql2": "^2.0.1",
+    "passport": "*",
+    "passport-jwt": "*",
     "socket.io": "*",
     "twig": "^1.14.0",
-    "typeorm": "*",
-    "jsonwebtoken": "^8.*",
-    "forever-monitor": "^1.*"
+    "typeorm": "*"
   },
   "devDependencies": {},
   "license": "GPL-3.0-or-later"
