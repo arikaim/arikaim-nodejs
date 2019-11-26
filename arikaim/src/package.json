@@ -14,7 +14,7 @@
     "passport-jwt": "*",
     "socket.io": "*",
     "twig": "^1.14.0",
-    "typeorm": "*"
+    "sequelize": "*"
   },
   "devDependencies": {},
   "license": "GPL-3.0-or-later"

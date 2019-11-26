@@ -15,6 +15,7 @@ const io = require('socket.io')(server);
 const Config = require('./system/config.js')
 const Path = require('./system/path.js')
 const container = require('./system/container.js');
+const Db = require('./db/db.js');
 
 module.exports = class Arikaim {
 
@@ -24,6 +25,7 @@ module.exports = class Arikaim {
         this.version = '1.0.0';     
         this.port = 8080;
         this.devMode = true;
+        this.db = new Db();
     }
     
     resolve(name) {
@@ -70,6 +72,15 @@ module.exports = class Arikaim {
     }
 
     start() {
+        message('Database connection.');
+        this.db.connect(this.config.getDatabaseConfig()).then(() => {
+            this.startHttpServer()
+        }).catch((err) => {
+            errorMessage(err);
+        });
+    }
+
+    startHttpServer() {
         this.app.listen(this.port,() => {
             message('Http server started on port: ' + this.port);
         });

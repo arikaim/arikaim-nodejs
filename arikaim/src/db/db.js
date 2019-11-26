@@ -9,16 +9,16 @@
 */
 
 const Sequelize = require('sequelize');
-const Model = include('core/system/model.js');
-const System = include('core/system/system.js');
 
-class Db {
+module.exports = class Db {
 
     constructor() {
         this.sequelize = null;
     }
 
-    
+    connect(config) {
+        message(config);
+        this.sequelize = new Sequelize(config);
+        return this.sequelize.authenticate();
+    }
 }
-
-module.exports = Db;

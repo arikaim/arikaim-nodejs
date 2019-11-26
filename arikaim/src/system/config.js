@@ -34,4 +34,8 @@ module.exports = class Config {
     getConfig() {
         return this.config;
     }    
+
+    getDatabaseConfig() {
+        return this.config.database;
+    }
 }
