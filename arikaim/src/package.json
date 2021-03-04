@@ -5,17 +5,20 @@
   "author": "Konstantin Atanasov",
   "main": "arikaim.js",
   "dependencies": {
-    "awilix": "^4.2.3",
     "chalk": "^3.0.0",
     "express": "^4.*",
     "forever-monitor": "^1.*",
-    "mysql2": "^2.0.1",
+    "mysql": "^2.18.1",
     "passport": "*",
     "passport-jwt": "*",
     "socket.io": "*",
     "twig": "^1.14.0",
-    "sequelize": "*"
+    "typeorm": "^0.2.31",
+    "typescript": "^4.1.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.28"
+  },
   "license": "GPL-3.0-or-later"
 }
