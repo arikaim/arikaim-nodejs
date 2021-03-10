@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "outDir": "arikaim/build",
+      "sourceMap": false
+    }
+  }

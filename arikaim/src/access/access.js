@@ -6,17 +6,9 @@
  * @license     http://www.arikaim.com/license
 */
 
-module.exports = class Service {
+module.exports = class Access {
 
-    constructor(name) {
-        this.name = name;
+    constructor() {
+        
     }
-
-    install() {
-    }
-
-    addRoute(method, path,handler_class,handler_method) {
-
-    }
-
 }

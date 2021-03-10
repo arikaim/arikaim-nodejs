@@ -3,22 +3,22 @@
  * Arikaim Services
  *
  * @link        http://www.arikaim.com
- * @copyright   Copyright (c) 2017-2018 Konstantin Atanasov <info@arikaim.com>
+ * @copyright   Copyright (c)  Konstantin Atanasov <info@arikaim.com>
  * @license     http://www.arikaim.com/license.html
  * 
 */
 
 const Sequelize = require('sequelize');
-const Model = include('core/system/model.js');
-const System = include('core/system/system.js');
 
-class Db {
+module.exports = class Db {
 
     constructor() {
         this.sequelize = null;
     }
 
-    
+    connect(config) {
+        message(config);
+        this.sequelize = new Sequelize(config);
+        return this.sequelize.authenticate();
+    }
 }
-
-module.exports = Db;
