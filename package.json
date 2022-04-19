@@ -1,12 +1,26 @@
 {
-    "private": true,
-    "dependencies": {
-        
-    },
-    "devDependencies": {},
-    "scripts": {
-      "install": "node install.js",
-      "start": "mode start.js"
-    },
-    "license": "GPL-3.0-or-later"
+  "name": "@arikaim/arikaim-services",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Arikam CMS services server for nodejs",
+  "keywords": [
+    "arikaim",
+    "arikaim cms",
+    "arikaim services"
+  ],
+  "author": "Konstantin Atanasov",
+  "main": "arikaim.js",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "commander": "^8.3.0",
+    "express": "^4.*",
+    "mysql2": "^2.3.3",
+    "reflect-metadata": "^0.1.13",
+    "socket.io": "*",
+    "typeorm": "^0.2.41"
+  },
+  "bin": {
+    "arikaim": "./arikaim.js"
+  },
+  "license": "GPL-3.0-or-later"
 }

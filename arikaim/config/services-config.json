@@ -1,11 +1,12 @@
 {
     "port": 8080,
     "database": {
-        "dialect" : "mysql",
-        "host" : "localhost",
+        "type": "mysql",
+        "host" : "127.0.0.1",
         "username" : "root",
         "password" : "adminpas",
         "database" : "arikaim",
-        "charset"  : "utf8"
+        "synchronize": true,
+        "entities": []
     }
 }
