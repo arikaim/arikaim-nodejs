@@ -6,7 +6,10 @@
  * @license     http://www.arikaim.com/license 
 */
 
-const Arikaim = require('arikaim-services');
+import  { default as ArikaimServicesServer }  from "@arikaim/arikaim-services/src/server.js"
 
-const arikaim = new Arikaim();
-arikaim.run();
+const server = new ArikaimServicesServer();
+
+server.loadConfig();
+server.boot();
+server.run();
