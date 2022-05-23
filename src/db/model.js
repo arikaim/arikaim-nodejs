@@ -8,19 +8,16 @@
  * 
 */
 
-class Model {
+import Path from './../system/path.js';
 
-    constructor(sequelize) {
-        this.model = null;
-        this.define(sequelize);
-        return this.model;
-    }
-    
-    define(sequelize) {
-        throw("Abstract method!");
-        return false;
-    }
+export default class Model {
 
+    static async create(modelName, serviceName) {
+        if (isEmpty(serviceName) == true) {
+            var modelFile = './models/' + modelName + '.js';
+        }
+        var { default: modelClass } = await import(modelFile);
+
+        return modelClass;
+    }
 }
-
-module.exports = Model;

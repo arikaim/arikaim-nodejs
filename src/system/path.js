@@ -28,6 +28,7 @@ export default class Path {
     }
 
     static getServicesPath(serviceName) {
+        
         var result = Path.getArikaimPath() + 'services' + path.sep;       
         if (isEmpty(serviceName) == false) {
             result += serviceName + path.sep;
@@ -36,12 +37,8 @@ export default class Path {
         return result;
     }
     
-    static getModelsIncludePath(serviceName) {
-        if (isEmpty(serviceName) == true) {
-            return 'core' + path.sep + 'models' + path.sep;
-        } 
-
-        return  'services' + path.sep + serviceName + path.sep + 'models' + path.sep;
+    static getDbModelPath(serviceName) {
+        return Path.getServicesPath(serviceName) + path.sep + 'models' + path.sep;
     }
 
     static getModelsPath(serviceName) {

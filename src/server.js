@@ -10,11 +10,12 @@ import  * as globalVars from './system/global.js';
 import { readFileSync, readdirSync, statSync } from 'fs';
 import Path from './system/path.js';
 import Db from './db/db.js';
+import Auth from './auth/auth.js';
+import Queue from './queue/queue.js';
 import express from 'express'
 import path from 'path';
-import { dir } from 'console';
-
-//import Users from "./db/models/users.js";
+import { Server } from "socket.io";
+import * as http from "http";
 
 /**
  *  Server class
@@ -22,31 +23,48 @@ import { dir } from 'console';
 export default class ArikaimServicesServer {
     #config = null;
     #express = null;
+    #httpServer = null;
+    #socketServer = null;
 
     constructor() {
     }
 
     async boot() {
+        // init auth
+        var auth = new Auth();
+
         this.#express = express();
+        // web socket server
+        this.#httpServer = http.createServer(this.#express,{
+            cors: {
+                origin: "http://localhost:3000",
+                allowedHeaders: 'Access-Control-Allow-Origin',
+                methods: ["GET", "POST","PUT"],
+                credentials: true
+            }
+        });
+        this.#socketServer = new Server(this.#httpServer);
+        global.io = this.#socketServer;
 
+        this.#socketServer.on('connection',(socket) => {
+            console.log('socket connected');
+        });
+       
+        // init db
         const db = new Db();
-        var result = await db.connect(this.#config.database);
-
-        if (result == false) {
-            errorMessage('Error connect to db.');
-        } else {
-            console.log('Db ok');
-        }
-       
+        await db.connect(this.#config.database);
+        global.sequelize = db.connection;
+        // load service routes
         this.loadServices();
-       
 
-       // const userRepository = db.connection.getRepository(Users);
-
+        // start queue
+        var queue = new Queue();
+        queue.run();
     }
 
     run() {
-        this.#express.listen(this.#config.port,this.#config.host,() => {
+        // http server
+        this.#httpServer.listen(this.#config.port,this.#config.host,() => {
             console.log('Server started at ' + this.#config.host + ":" + this.#config.port);
         });
     }

@@ -8,8 +8,6 @@
  * 
 */
 
-//import "reflect-metadata";
-//import typeorm from "typeorm";
 import { Sequelize } from 'sequelize';
 
 export default class Db {
@@ -24,26 +22,18 @@ export default class Db {
     }
 
     async connect(config) {
-        console.log('conn');
-
-        this.#dbConnection = new Sequelize(config.database.database, config.database.username, config.database.password, {
+        this.#dbConnection = new Sequelize(config.database, config.username, config.password, {
             host: 'localhost',
             dialect: 'mysql'
         });
 
-        //this.dbConnection = await typeorm.createConnection(config); 
+        try {
+            await this.#dbConnection.authenticate();
+            console.log('Db Connection OK.');
+          } catch (error) {
+            console.error('Unable to connect to the database:', error);
+        }
 
-       // console.log(con);
-
-        /*
-        .then(connection => {
-            console.log(connection);
-           // this.#dbConnection = connection;
-           
-        }).catch(error => {
-            console.log(error);
-        });
-        */
         return isObject(this.#dbConnection);
     }
 }

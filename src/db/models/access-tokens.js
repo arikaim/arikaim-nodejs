@@ -8,13 +8,17 @@
 
 import { DataTypes, Model } from 'sequelize';
 
-export default class Users extends Model {}
+export default class AccessTokens extends Model {}
 
-Users.init({
+AccessTokens.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     status: {
         type: DataTypes.INTEGER
@@ -23,17 +27,17 @@ Users.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    user_name: {
+    token: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
     },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: true
+    type: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 },{ 
     sequelize,
-    modelName: 'Users',
+    modelName: 'AccessTokens',
     timestamps: false,
-    tableName: 'users'
+    tableName: 'access_tokens'
 });

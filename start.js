@@ -6,7 +6,7 @@
  * @license     http://www.arikaim.com/license 
 */
 
-import  { default as ArikaimServicesServer }  from "@arikaim/arikaim-services/src/server.js"
+import  { default as ArikaimServicesServer }  from "@arikaim/arikaim-services/server.js"
 
 const server = new ArikaimServicesServer();
 
