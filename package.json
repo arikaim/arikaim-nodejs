@@ -25,6 +25,7 @@
   },
   "exports": {
     "./db": "./src/db/",
+    "./queue": "./src/queue/",
     "./utils": "./src/utils/",
     "./*": "./src/*"
   },

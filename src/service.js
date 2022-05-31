@@ -17,5 +17,5 @@ export default class ArikaimService {
         return this.#router;
     }
 
-    boot() {}
+    async boot() {}
 }

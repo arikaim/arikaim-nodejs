@@ -10,7 +10,7 @@ import  * as globalVars from './system/global.js';
 import { readFileSync, readdirSync, statSync } from 'fs';
 import Path from './system/path.js';
 import Db from './db/db.js';
-import Auth from './auth/auth.js';
+import Access from './access/access.js';
 import Queue from './queue/queue.js';
 import express from 'express'
 import path from 'path';
@@ -31,19 +31,13 @@ export default class ArikaimServicesServer {
 
     async boot() {
         // init auth
-        var auth = new Auth();
+        var access = new Access();
 
         this.#express = express();
         // web socket server
-        this.#httpServer = http.createServer(this.#express,{
-            cors: {
-                origin: "http://localhost:3000",
-                allowedHeaders: 'Access-Control-Allow-Origin',
-                methods: ["GET", "POST","PUT"],
-                credentials: true
-            }
-        });
-        this.#socketServer = new Server(this.#httpServer);
+        this.#httpServer = http.createServer(this.#express);
+        this.#socketServer = new Server(this.#httpServer,this.#config.socket.cors);
+        // ser global var    
         global.io = this.#socketServer;
 
         this.#socketServer.on('connection',(socket) => {
@@ -59,6 +53,9 @@ export default class ArikaimServicesServer {
 
         // start queue
         var queue = new Queue();
+        await queue.boot();
+        
+        global.queue = queue;
         queue.run();
     }
 

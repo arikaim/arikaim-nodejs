@@ -9,5 +9,13 @@
         "database" : "cryptobees",
         "synchronize": true,
         "entities": []
+    }, 
+    "socket": {
+        "cors": {
+            "origin": "*",
+            "allowedHeaders": "*",
+            "methods": ["GET", "POST","PUT"],
+            "credentials": true
+        }
     }
 }

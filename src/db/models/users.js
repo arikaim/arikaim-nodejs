@@ -16,12 +16,13 @@ Users.init({
       autoIncrement: true,
       primaryKey: true
     },
-    status: {
-        type: DataTypes.INTEGER
-    },
     uuid: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
+    },
+    status: {
+        type: DataTypes.INTEGER
     },
     user_name: {
         type: DataTypes.STRING,

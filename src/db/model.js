@@ -13,8 +13,11 @@ import Path from './../system/path.js';
 export default class Model {
 
     static async create(modelName, serviceName) {
+        var modelFile;
         if (isEmpty(serviceName) == true) {
-            var modelFile = './models/' + modelName + '.js';
+            modelFile = './models/' + modelName + '.js';
+        } else {
+            modelFile = Path.getDbModelsPath(serviceName,modelName);
         }
         var { default: modelClass } = await import(modelFile);
 

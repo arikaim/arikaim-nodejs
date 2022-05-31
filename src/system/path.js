@@ -28,7 +28,6 @@ export default class Path {
     }
 
     static getServicesPath(serviceName) {
-        
         var result = Path.getArikaimPath() + 'services' + path.sep;       
         if (isEmpty(serviceName) == false) {
             result += serviceName + path.sep;
@@ -37,15 +36,18 @@ export default class Path {
         return result;
     }
     
-    static getDbModelPath(serviceName) {
-        return Path.getServicesPath(serviceName) + path.sep + 'models' + path.sep;
+    static getDbModelsPath(serviceName, modelName) {
+        var modelPath = Path.getServicesPath(serviceName) + 'models' + path.sep;
+
+        return (isEmpty(modelPath) == true) ? modelPath : modelPath + modelName + '.js';
     }
 
-    static getModelsPath(serviceName) {
-        if (isEmpty(serviceName) == true) {
-            return Path.getBasePath() + 'core' + path.sep + 'models' + path.sep;
-        } 
+    static getJobsPath(serviceName, jobFile) {
+        if (isEmpty(jobFile) == true) {
+            return null;
+        }
+        var jobsPath = Path.getServicesPath(serviceName) + 'jobs' + path.sep;
 
-        return  Path.getServicePath(serviceName) + 'models' + path.sep;
+        return (isEmpty(jobsPath) == false) ? jobsPath + jobFile + '.js' : null;
     }
 }

@@ -8,9 +8,9 @@
 
 import { DataTypes, Model } from 'sequelize';
 
-export default class AccessTokens extends Model {}
+export default class Chat extends Model {}
 
-AccessTokens.init({
+Chat.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -18,27 +18,12 @@ AccessTokens.init({
     },
     uuid: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    status: {
-        type: DataTypes.INTEGER
-    },
-    token: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    type: {
-        type: DataTypes.INTEGER,
         allowNull: false
     }
+   
 },{ 
     sequelize,
-    modelName: 'AccessTokens',
+    modelName: 'Chat',
     timestamps: false,
-    tableName: 'access_tokens'
+    tableName: 'chat'
 });

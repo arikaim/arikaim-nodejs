@@ -5,6 +5,15 @@ import { default as Contoller } from "@arikaim/arikaim-services/controller.js"
 export default class ChatApi extends Contoller {
    
     home = async (req, res) => {
+        var Chat = await Model.create('chat','chat');
+        const chat = await Chat.findOne({
+            where: {
+                id: 1
+            }
+        });
+
+        console.log(Chat);
+
         var Users = await Model.create('users');
 
         const users = await Users.findOne({
