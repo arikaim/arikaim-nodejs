@@ -25,9 +25,3 @@ arikaimCli.command('help')
         console.log('Show help');
 });
 
-
-const server = new ArikaimServicesServer();
-
-server.loadConfig();
-server.boot();
-server.run();

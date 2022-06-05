@@ -24,7 +24,8 @@ export default class Db {
     async connect(config) {
         this.#dbConnection = new Sequelize(config.database, config.username, config.password, {
             host: 'localhost',
-            dialect: 'mysql'
+            dialect: 'mysql',
+            logging: config.logging
         });
 
         try {

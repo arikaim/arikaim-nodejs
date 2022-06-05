@@ -11,7 +11,7 @@ export default class ChatService extends ArikaimService {
 
       //  console.log(passport);
         // 
-        console.log('Chat api routes');
+      //  console.log('Chat api routes');
 
        // console.log(passport.authenticate('bearer',{ session: false }));
  // ,passport.authenticate('bearer',{ session: false })
@@ -28,6 +28,14 @@ export default class ChatService extends ArikaimService {
         //queue.addJob(job);
 
        // queue.executeJob(job);
+
+    //  console.log('add completed');
+
+     // console.log(queue);
+
+      queue.on('completed',function(job) {
+        console.log(job.options);
+      });
 
     }
 }

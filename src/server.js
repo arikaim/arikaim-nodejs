@@ -14,8 +14,8 @@ import Access from './access/access.js';
 import Queue from './queue/queue.js';
 import express from 'express'
 import path from 'path';
-import { Server } from "socket.io";
 import * as http from "http";
+import SocketServer from './socket-server.js';
 
 /**
  *  Server class
@@ -24,39 +24,34 @@ export default class ArikaimServicesServer {
     #config = null;
     #express = null;
     #httpServer = null;
-    #socketServer = null;
-
+   
     constructor() {
     }
 
     async boot() {
+        // load server config 
+        await this.loadConfig();
+
+        // init db
+        const db = new Db();
+        await db.connect(this.#config.database);
+        global.sequelize = db.connection;
+
         // init auth
         var access = new Access();
 
         this.#express = express();
         // web socket server
         this.#httpServer = http.createServer(this.#express);
-        this.#socketServer = new Server(this.#httpServer,this.#config.socket.cors);
-        // ser global var    
-        global.io = this.#socketServer;
-
-        this.#socketServer.on('connection',(socket) => {
-            console.log('socket connected');
-        });
+        global.socketServer = new SocketServer(this.#httpServer,this.#config.socket);
        
-        // init db
-        const db = new Db();
-        await db.connect(this.#config.database);
-        global.sequelize = db.connection;
-        // load service routes
-        this.loadServices();
-
-        // start queue
+        // boot queue
         var queue = new Queue();
         await queue.boot();
-        
         global.queue = queue;
-        queue.run();
+       
+        // load services 
+        await this.loadServices();              
     }
 
     run() {
@@ -64,29 +59,35 @@ export default class ArikaimServicesServer {
         this.#httpServer.listen(this.#config.port,this.#config.host,() => {
             console.log('Server started at ' + this.#config.host + ":" + this.#config.port);
         });
+
+        // start queue
+        queue.run();
     }
 
-    loadServices() {
-        const router = express.Router();
+    async loadServices() {
+        process.stdout.write('Load services ');
 
-        console.log('Load services');
+        const router = express.Router();      
         var servicesPath = Path.getServicesPath();
 
-        var services = readdirSync(servicesPath).filter(function (file) {
+        var services = await readdirSync(servicesPath).filter(function (file) {
             return statSync(servicesPath + path.sep + file).isDirectory();
         });
 
-        services.forEach(async (dir) => {
+        for (var dir of services) {
             var serviceFile = servicesPath + dir + path.sep + dir + '.js';
             var { default: serviceClass } = await import(serviceFile);
        
             var service = new serviceClass(router);
-            service.boot();
+            await service.boot();
             this.#express.use('/api/service/',service.router);
-        });
+            process.stdout.write('.');
+        }
+     
+        console.log(' Ok');
     }
 
-    loadConfig(fileName) {
+    async loadConfig(fileName) {
         fileName = getDefaultValue(fileName,'services-config.json');
         fileName = Path.getConfigPath() + fileName;
         var data = readFileSync(fileName,'utf8');   

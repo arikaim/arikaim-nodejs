@@ -26,9 +26,9 @@ global.isFunction = function(variable) {
     return (typeof variable === 'function');
 }
 
-global.callFunction = function(function_name,params) {
-    if (isFunction(function_name) == true) {
-        return function_name(params);
+global.callFunction = function(functionName,params) {
+    if (isFunction(functionName) == true) {
+        return functionName(params);
     }
     return null;
 }
@@ -72,7 +72,7 @@ global.isEmpty = function(variable) {
 }
 
 global.isObject = function(variable) {
-    return (typeof variable === 'object');
+    return (typeof variable === 'object') && (variable != null);
 }
 
 global.isArray = function(variable) {

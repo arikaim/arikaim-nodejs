@@ -1,3 +1,10 @@
+'use strict';
+/**
+ * Arikaim Services
+ * @link        http://www.arikaim.com
+ * @copyright   Copyright (c)  Konstantin Atanasov <info@arikaim.com>
+ * @license     http://www.arikaim.com/license
+*/
 
 import Uuid from './../utils/uuid.js';
 
@@ -19,7 +26,7 @@ export default class Job {
     constructor(options) {
         options = (isObject(options) == false) ? {} : options;  
         this.#options = options;
-        this.#id = options['id'] ?? options['uuid'] ?? Uuid.create();   
+        this.#id = options['uuid'] ?? options['id'] ?? Uuid.create();   
         this.#name = options['name'];
         this.#serviceName = options['serviceName'] ?? options['service_name'] ?? null;
         this.#fileName = options['fileName'];
@@ -27,48 +34,54 @@ export default class Job {
         this.#interval = options['interval'] ?? options['recuring_interval'] ?? null;
         this.#params = options['params'] ?? null;
         this.#dateCreated = options['dateCreated'] ?? options['date_created'] ?? Date.now()
-        this.#status = options['status'] ?? Job.STATUS_PENDING()
+        this.#status = options['status'] ?? Job.STATUS_PENDING
         this.#priority = options['priority'] ?? 0; 
+
+        if (isEmpty(this.#interval) == false && isEmpty(this.#scheduleTime) == false) {
+            this.#scheduleTime = null;
+        }
+
+        this.init();
     }
 
     init() {
-        
+        // job init
     }
 
     execute() {
-        console.log('main job class');
         // job code
     }
     
-    static crateFromDb(options) {
 
-       // options['serviceName'] = options['service_name']
-        return new Job({
-            serviceName: options['service_name']
-        })
+    isRecuring() {
+        return (isEmpty(this.#interval) == false);
     }
 
-    static STATUS_CREATED() {
+    isScheduled() {
+        return (isEmpty(this.#scheduleTime) == false);
+    }
+
+    static get STATUS_CREATED() {
         return 0;
     }
 
-    static STATUS_PENDING() {
+    static get STATUS_PENDING() {
         return 1;
     }
 
-    static STATUS_COMPLETED() {
+    static get STATUS_COMPLETED() {
         return 2;
     }
     
-    static STATUS_EXECUTED() {
+    static get STATUS_EXECUTED() {
         return 3;
     }
 
-    static STATUS_SUSPENDED() {
+    static get STATUS_SUSPENDED() {
         return 5;
     }
 
-    static STATUS_ERROR() {
+    static get STATUS_ERROR() {
         return 10;
     }
 
@@ -94,6 +107,10 @@ export default class Job {
 
     get name() {
         return this.#name;
+    }
+
+    get id() {
+        return this.#id;
     }
 
     set name(value) {

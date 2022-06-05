@@ -15,7 +15,6 @@ export default class MyJob extends Job {
     }
     
     execute() {
-        console.log('execited  test job');
-        console.log(this.options);
+        console.log('execited  test job');      
     }
 }

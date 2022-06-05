@@ -4,6 +4,5 @@ import  { default as ArikaimService }  from "@arikaim/arikaim-services/service.j
 export default class OneService extends ArikaimService {
 
     boot() { 
-        console.log('boo one');
     }
 }

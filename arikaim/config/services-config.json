@@ -8,6 +8,7 @@
         "password" : "adminpas",
         "database" : "cryptobees",
         "synchronize": true,
+        "logging": false,
         "entities": []
     }, 
     "socket": {
