@@ -45,7 +45,7 @@ export default class SocketServer {
             console.log("Disconnected ");
         });
 
-        this.$usersNamespace.on('error', (error) => {
+        this.#usersNamespace.on('error', (error) => {
             console.log(error); 
         });
     }

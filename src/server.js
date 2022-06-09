@@ -6,16 +6,18 @@
  * @license     http://www.arikaim.com/license
 */
 
-import  * as globalVars from './system/global.js';
+import './system/global.js';
 import { readFileSync, readdirSync, statSync } from 'fs';
 import Path from './system/path.js';
-import Db from './db/db.js';
-import Access from './access/access.js';
-import Queue from './queue/queue.js';
+import db from './db/db.js';
+import access from './access/access.js';
+import queue from './queue/queue.js';
 import express from 'express'
 import path from 'path';
 import * as http from "http";
 import SocketServer from './socket-server.js';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 /**
  *  Server class
@@ -32,23 +34,24 @@ export default class ArikaimServicesServer {
         // load server config 
         await this.loadConfig();
 
-        // init db
-        const db = new Db();
+        // init db      
         await db.connect(this.#config.database);
-        global.sequelize = db.connection;
-
+       
         // init auth
-        var access = new Access();
+        access.init();     
+        console.log(access.msg);
 
+        // init express
         this.#express = express();
+        this.#express.use(cookieParser());
+        this.#express.use(cors(this.#config.cors));
+
         // web socket server
         this.#httpServer = http.createServer(this.#express);
         global.socketServer = new SocketServer(this.#httpServer,this.#config.socket);
        
         // boot queue
-        var queue = new Queue();
         await queue.boot();
-        global.queue = queue;
        
         // load services 
         await this.loadServices();              

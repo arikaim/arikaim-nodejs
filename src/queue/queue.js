@@ -11,7 +11,7 @@ import { default as Job } from "@arikaim/arikaim-services/queue/job.js"
 import Path from './../system/path.js';
 import { EventEmitter } from "events";
 
-export default class Queue {
+class Queue {
 
     #queueModel = null;
     #interval = null;
@@ -158,4 +158,11 @@ export default class Queue {
         
         clearInterval(this.#interval);
     }
+
+    static getInstance() {
+        global.queue = (global.queue === undefined) ? new Queue() : global.queue;   
+        return global.queue;    
+    }
 }
+
+export default Queue.getInstance();

@@ -10,7 +10,7 @@
 
 import { Sequelize } from 'sequelize';
 
-export default class Db {
+class Db {
     #dbConnection;
 
     constructor() {
@@ -30,6 +30,9 @@ export default class Db {
 
         try {
             await this.#dbConnection.authenticate();
+            // set global 
+            global.sequelize = this.#dbConnection;
+
             console.log('Db Connection OK.');
           } catch (error) {
             console.error('Unable to connect to the database:', error);
@@ -37,4 +40,11 @@ export default class Db {
 
         return isObject(this.#dbConnection);
     }
+
+    static getInstance() {
+        global.db = (global.db === undefined) ? new Db() : global.db;     
+        return global.db;  
+    }
 }
+
+export default Db.getInstance();

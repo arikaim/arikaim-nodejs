@@ -1,3 +1,7 @@
 node_modules
 package-lock.json
-
+arikaim
+composer.json
+composer.lock
+package-lock.json
+vendor

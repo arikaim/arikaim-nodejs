@@ -13,9 +13,12 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "commander": "^8.3.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
+    "passport-custom": "^1.1.1",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
     "php-unserialize": "^0.0.1",
@@ -29,6 +32,7 @@
   "exports": {
     "./db": "./src/db/",
     "./queue": "./src/queue/",
+    "./access": "./src/access/",
     "./utils": "./src/utils/",
     "./*": "./src/*"
   },
