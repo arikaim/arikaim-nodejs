@@ -23,7 +23,7 @@ class Access {
         this.#passport = passport;
     }
 
-    init() {
+    async init() {
         // create db models
         this.#usersModel = await Model.create('users');
         this.#tokensModel = await Model.create('access-tokens');
@@ -41,13 +41,13 @@ class Access {
         
         const CustomStrategy = passportCustom.Strategy;
         this.#passport.use('php-session', new CustomStrategy(
-            async function(req, callback) {
+            async (req, callback) => {
                 var user = false;
                 if (isEmpty(req.cookies.PHPSESSID) == false) {
                     // read php session data
                     var data = await Utils.readPHPSession(req.cookies.PHPSESSID,'/var/lib/php/sessions');
                     console.log(data);
-
+                    this.findUser(1);
                 }
                 console.log(req.cookies);
                 // Do your custom user finding logic here, or set to false based on req object
@@ -58,6 +58,16 @@ class Access {
 
     get passport() {
         return this.#passport;
+    }
+
+    async findUser(id) {
+        var user = await this.#usersModel.findById(id);
+        console.log(user);
+       // var user = this.#usersModel.findOne({
+       //     where: {
+
+       //     }
+       // })
     }
 
     static getInstance() {
