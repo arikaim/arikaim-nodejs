@@ -14,8 +14,12 @@ export default class Utils {
 
     static async readPHPSession(id, storageFolder) {
         var fileName = storageFolder + '/sess_' + id;
-        var data = await readFileSync(fileName,'utf8');
-          
+        try {
+            var data = await readFileSync(fileName,'utf8');
+        } catch (error) {
+            return false;
+        }
+        
         return PHPUnserialize.unserializeSession(data);
     }
 }

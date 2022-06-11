@@ -44,6 +44,7 @@ export default class ArikaimServicesServer {
         // init express
         this.#express = express();
         this.#express.use(cookieParser());
+      
         this.#express.use(cors(this.#config.cors));
 
         // web socket server

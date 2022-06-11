@@ -9,9 +9,7 @@
 import { default as Model } from "@arikaim/arikaim-services/db/model.js"
 import passport from "passport";
 import BearerStrategy from "passport-http-bearer";
-import passportCustom from 'passport-custom';
-import Utils from './../utils/utils.js';
-
+import PHPSessionStrategy from './php-session.js';
 
 class Access {
 
@@ -33,27 +31,11 @@ class Access {
        
         this.#passport.use(new BearerStrategy(
             function(token, done) {
-        
-
                 return done(null,user);        
             }
         ));
         
-        const CustomStrategy = passportCustom.Strategy;
-        this.#passport.use('php-session', new CustomStrategy(
-            async (req, callback) => {
-                var user = false;
-                if (isEmpty(req.cookies.PHPSESSID) == false) {
-                    // read php session data
-                    var data = await Utils.readPHPSession(req.cookies.PHPSESSID,'/var/lib/php/sessions');
-                    console.log(data);
-                    this.findUser(1);
-                }
-                console.log(req.cookies);
-                // Do your custom user finding logic here, or set to false based on req object
-                callback(null, user);
-            }
-        ));        
+        this.#passport.use('php-session', new PHPSessionStrategy({},this.#usersModel));    
     }
 
     get passport() {
@@ -61,13 +43,7 @@ class Access {
     }
 
     async findUser(id) {
-        var user = await this.#usersModel.findById(id);
-        console.log(user);
-       // var user = this.#usersModel.findOne({
-       //     where: {
-
-       //     }
-       // })
+        return await this.#usersModel.findById(id);       
     }
 
     static getInstance() {
