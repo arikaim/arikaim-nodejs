@@ -8,12 +8,13 @@
  * 
 */
 
-export default function findById(id,scope) {
+export default function findById(id, scope, raw) {
     const model = (isEmpty(scope) == true) ? this : this.scope(scope);
-
+   
     return model.findOne({
         where: {
             id: id
-        }
+        },
+        raw: raw ?? true
     });
 };

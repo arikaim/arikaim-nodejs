@@ -8,6 +8,9 @@
 
 import Strategy from 'passport-strategy';
 import Utils from './../utils/utils.js';
+import cookie from 'cookie';
+import e from 'express';
+
 
 export default class PHPSessionStrategy extends Strategy {
 
@@ -25,27 +28,52 @@ export default class PHPSessionStrategy extends Strategy {
      * @param {Object} req HTTP request object.
      * @api protected
      */
-    async authenticate(req, options) {
-        var user = false;
-        if (isEmpty(req.cookies.PHPSESSID) == false) {
-            // read php session data
-            var data = await Utils.readPHPSession(req.cookies.PHPSESSID,'/var/lib/php/sessions');
-            var userId = data['auth.id'] ?? null;
-            
-            if (isEmpty(userId) == false) {
-                user = await this.userModel.findById(userId);
-            }                   
-        }
-               
+    async authenticate(req, options, callback) {       
+        var sessionId = null;
+        var sessionId = options['sessionId'] ?? req.cookies.PHPSESSID;              
+        var user = this.authUser(sessionId);
+
         if (user == false) {
             return this.fail("Access denied",401);
         }
 
         try {
             return this.success(user,options);
-        } catch (ex) {
-            return this.error(ex);
+        } catch (error) {
+            return this.error(error);
         }
+    }
+
+    async authenticateSocket(socket) {
+        var cookieData = cookie.parse(socket.handshake.headers.cookie);
+        var sessionId = cookieData.PHPSESSID ?? null;
+    
+        console.log(sessionId);
+
+        try {
+            return await this.authUser(sessionId);           
+        } catch (error) {  
+            console.log(error);          
+            return false;
+        }
+    }
+
+    async authUser(sessionId) {
+        if (isEmpty(sessionId) == true) {           
+            return false;
+        }
+        // read php session data
+        var data = await Utils.readPHPSession(sessionId,'/var/lib/php/sessions');
+        var userId = data['auth.id'] ?? null;
+        
+        console.log(userId);
+
+        if (isEmpty(userId) == false) {           
+            return await this.userModel.findById(userId);           
+        } else {
+          
+            return false;
+        }                   
     }
 
     get options() {

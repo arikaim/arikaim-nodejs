@@ -16,9 +16,11 @@ class Access {
     #passport = null;
     #usersModel = null;
     #tokensModel = null;
+    #strategies = {};
 
     constructor() {
         this.#passport = passport;
+        this.#strategies = {};
     }
 
     async init() {
@@ -26,26 +28,37 @@ class Access {
         this.#usersModel = await Model.create('users');
         this.#tokensModel = await Model.create('access-tokens');
 
-        // init passport 
-        this.#passport.initialize();
-       
-        this.#passport.use(new BearerStrategy(
+        // add strategies
+        var phpSession = new PHPSessionStrategy({},this.#usersModel);
+        var bearer = new BearerStrategy(
             function(token, done) {
                 return done(null,user);        
             }
-        ));
-        
-        this.#passport.use('php-session', new PHPSessionStrategy({},this.#usersModel));    
+        );
+
+        // init passport 
+        this.#passport.initialize();
+       
+        this.add('php-session',phpSession);
+    }
+
+    add(name, strategy) {
+        this.#strategies[name] = strategy;      
+        this.#passport.use(strategy);        
+    }
+
+    getStrategy(name) {
+        return this.#strategies[name];
     }
 
     get passport() {
         return this.#passport;
     }
 
-    async findUser(id) {
-        return await this.#usersModel.findById(id);       
+    get users() {
+        return this.#usersModel;
     }
-
+    
     static getInstance() {
         global.access = (global.access === undefined) ? new Access() : global.access;      
         return global.access; 

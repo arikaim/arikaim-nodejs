@@ -38,7 +38,7 @@ export default class ArikaimServicesServer {
         await db.connect(this.#config.database);
        
         // init auth
-        access.init();     
+        await access.init();     
         console.log(access.msg);
 
         // init express

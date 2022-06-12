@@ -7,6 +7,8 @@
 */
 
 import { Server } from "socket.io";
+import cookie from 'cookie';
+import access from '@arikaim/arikaim-services/access/access.js';
 
 export default class SocketServer {
 
@@ -35,10 +37,30 @@ export default class SocketServer {
         });
 
         // users namespace 
-        this.#usersNamespace.on('connection', (socket) => {
-            const token = socket.handshake.auth.token;
-            console.log("Connected ");
-            console.log(token);
+        this.#usersNamespace.use( async (socket, next) => {
+            socket.user = await access.getStrategy('php-session').authenticateSocket(socket);
+
+            if (socket.user == false) {
+                console.log('err auth');               
+                next(new Error('Not autorized'));
+            } else {                      
+                next();    
+            }
+                 
+        });
+
+        this.#usersNamespace.on('connection', async (socket) => {
+    
+          
+            
+            // auth
+          
+           
+            console.log('Connected');
+           
+
+            console.log(socket.user);
+
         });
 
         this.#usersNamespace.on('disconnect', (socket) => {
