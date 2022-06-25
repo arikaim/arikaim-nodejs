@@ -36,11 +36,9 @@ export default class ArikaimServicesServer {
 
         // init db      
         await db.connect(this.#config.database);
-       
         // init auth
         await access.init();     
-        console.log(access.msg);
-
+       
         // init express
         this.#express = express();
         this.#express.use(cookieParser());
@@ -49,8 +47,9 @@ export default class ArikaimServicesServer {
 
         // web socket server
         this.#httpServer = http.createServer(this.#express);
-        global.socketServer = new SocketServer(this.#httpServer,this.#config.socket);
-       
+        global.socket = new SocketServer(this.#httpServer,this.#config.socket);
+        global.socket.boot();
+
         // boot queue
         await queue.boot();
        

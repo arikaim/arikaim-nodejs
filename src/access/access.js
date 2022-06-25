@@ -42,6 +42,14 @@ class Access {
         this.add('php-session',phpSession);
     }
 
+    hasControlPanelAccess(id) {
+
+    }
+
+    hasAccess(name, id) {
+
+    }
+
     add(name, strategy) {
         this.#strategies[name] = strategy;      
         this.#passport.use(strategy);        
