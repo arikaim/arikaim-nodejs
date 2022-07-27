@@ -11,6 +11,9 @@ import  { default as ArikaimServicesServer }  from "@arikaim/arikaim-services/se
 const server = new ArikaimServicesServer();
 
 // boot
-await server.boot();
-// run
-server.run();
+if (await server.boot() == false) {
+    console.error('Error starting server');
+} else {
+    // run
+    server.run();
+}

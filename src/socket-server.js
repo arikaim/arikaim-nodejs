@@ -17,7 +17,7 @@ export default class SocketServer {
     #users;
     
     constructor(httpServer, config) {
-        this.#io = new Server(httpServer,config.cors);   
+        this.#io = new Server(httpServer,config);   
         this.#usersNamespace = this.#io.of('/users');  
         this.#users = new Map();     
     }
@@ -25,7 +25,7 @@ export default class SocketServer {
     async boot() {
         // main namespace
         this.io.on('connection', (socket) => {
-            console.log("Connected");
+            console.log("Web socket client connected.");
         });
 
         this.io.on('disconnect', (socket) => {
@@ -38,7 +38,16 @@ export default class SocketServer {
 
         // users namespace 
         this.#usersNamespace.use( async (socket, next) => {
-            var cookieData = cookie.parse(socket.handshake.headers.cookie);
+
+            var phpSession = (socket.handshake.headers.tokentype == 'php-session') ?  socket.handshake.headers.token : socket.handshake.headers.cookie;
+              
+            if (isEmpty(phpSession) == true) {
+                console.log('Cookie data is empty Not autorized');
+                next(new Error('Cookie data is empty Not autorized'));
+                return;
+            }
+
+            var cookieData = cookie.parse(phpSession);
             var sessionId = cookieData.PHPSESSID ?? null;
 
             socket.user = await access.getStrategy('php-session').authUser(sessionId);
@@ -51,13 +60,12 @@ export default class SocketServer {
                 var userId = socket.user.uuid ?? socket.user.id;
                 this.#users[userId] = socket.user;   
                 next();    
-            }
-                 
+            }                 
         });
 
         this.#usersNamespace.on('connection', async (socket) => {
             // auth
-            console.log('Connected User');
+            console.log('Web scoket User connected');
             console.log(socket.user);
         });
 

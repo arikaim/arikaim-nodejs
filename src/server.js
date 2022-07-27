@@ -7,8 +7,9 @@
 */
 
 import './system/global.js';
-import { readFileSync, readdirSync, statSync } from 'fs';
+import { readdirSync, statSync } from 'fs';
 import Path from './system/path.js';
+import { default as Config } from './system/config.js';
 import db from './db/db.js';
 import access from './access/access.js';
 import queue from './queue/queue.js';
@@ -32,7 +33,11 @@ export default class ArikaimServicesServer {
 
     async boot() {
         // load server config 
-        await this.loadConfig();
+        this.#config = await Config.loadConfig();
+
+        if (this.#config === false) {           
+            return false;
+        };
 
         // init db      
         await db.connect(this.#config.database);
@@ -52,9 +57,10 @@ export default class ArikaimServicesServer {
 
         // boot queue
         await queue.boot();
-       
         // load services 
-        await this.loadServices();              
+        await this.loadServices(); 
+         
+        return true;            
     }
 
     run() {
@@ -88,20 +94,5 @@ export default class ArikaimServicesServer {
         }
      
         console.log(' Ok');
-    }
-
-    async loadConfig(fileName) {
-        fileName = getDefaultValue(fileName,'services-config.json');
-        fileName = Path.getConfigPath() + fileName;
-        var data = readFileSync(fileName,'utf8');   
-
-        if (isJSON(data) == true) {
-            this.#config = JSON.parse(data);
-            message('Config file: ' + fileName + ' loaded ','green');
-            return true
-        }
-        
-        errorMessage('Error loading config file: ' + fileName);
-        return false;
     }
 }

@@ -21,14 +21,14 @@ class Db {
         return this.#dbConnection;
     }
 
-    async connect(config) {
-        this.#dbConnection = new Sequelize(config.database, config.username, config.password, {
-            host: 'localhost',
-            dialect: 'mysql',
-            logging: config.logging
-        });
-
+    async connect(config) {    
         try {
+            this.#dbConnection = new Sequelize(config.database, config.username, config.password, {
+                host: config.host,
+                dialect: config.dialect,
+                logging: config.logging
+            });
+
             await this.#dbConnection.authenticate();
             // set global 
             global.sequelize = this.#dbConnection;
