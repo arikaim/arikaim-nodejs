@@ -21,7 +21,7 @@ class Db {
         return this.#dbConnection;
     }
 
-    async connect(config) {    
+    async connect(config) {  
         try {
             this.#dbConnection = new Sequelize(config.database, config.username, config.password, {
                 host: config.host,

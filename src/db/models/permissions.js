@@ -11,7 +11,7 @@ import findById from './../query/find.js';
 
 export default class Permissions extends Model {
 
-    static init() {
+    static init(connection) {
         super.init({
             id: {
               type: DataTypes.INTEGER,
@@ -34,7 +34,7 @@ export default class Permissions extends Model {
                 unique: true
             }
         },{ 
-            sequelize,
+            connection,
             modelName: 'Permissions',
             timestamps: false,
             tableName: 'permissions',
@@ -46,4 +46,3 @@ export default class Permissions extends Model {
     }
 }
 
-Permissions.init();

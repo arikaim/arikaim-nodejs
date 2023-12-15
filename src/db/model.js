@@ -9,6 +9,7 @@
 */
 
 import Path from './../system/path.js';
+import db from './db.js';
 
 export default class Model {
 
@@ -21,6 +22,7 @@ export default class Model {
         }
         var { default: modelClass } = await import(modelFile);
 
+        modelClass.init(sequelize);
         
         return modelClass;
     }

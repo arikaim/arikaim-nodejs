@@ -9,42 +9,37 @@
 import { DataTypes, Model } from 'sequelize';
 
 export default class AccessTokens extends Model {
-
-    static init() {
-        super.init({
-            id: {
-              type: DataTypes.INTEGER,
-              autoIncrement: true,
-              primaryKey: true
-            },
-            uuid: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true
-            },
-            user_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false
-            },
-            status: {
-                type: DataTypes.INTEGER
-            },
-            token: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            type: {
-                type: DataTypes.INTEGER,
-                allowNull: false
-            }
-        },{ 
-            sequelize,
-            modelName: 'AccessTokens',
-            timestamps: false,
-            tableName: 'access_tokens'
-        });
-    }
-
 }
 
-AccessTokens.init();
+AccessTokens.init({
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    uuid: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.INTEGER
+    },
+    token: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    type: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+},{ 
+    sequelize,
+    modelName: 'AccessTokens',
+    timestamps: false,
+    tableName: 'access_tokens'
+});

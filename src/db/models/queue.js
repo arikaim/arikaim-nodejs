@@ -12,7 +12,7 @@ import findById from './../query/find.js';
 
 export default class Queue extends Model {
 
-    static init() {
+    static init(connection) {
         super.init({
             id: {
               type: DataTypes.INTEGER,
@@ -80,7 +80,7 @@ export default class Queue extends Model {
                 allowNull: true
             }
         },{
-            sequelize,
+            connection,
             hooks: { 
                 beforeValidate: (instance, options) => {
                     instance.uuid = (isEmpty(instance.uuid) ==true) ? Uuid.create() : instance.uuid
@@ -94,5 +94,3 @@ export default class Queue extends Model {
         this.findById = findById;
     }
 }
-
-Queue.init();

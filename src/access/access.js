@@ -26,7 +26,7 @@ class Access {
     async init() {
         // create db models
         this.#usersModel = await Model.create('users');
-        this.#tokensModel = await Model.create('access-tokens');
+        //this.#tokensModel = await Model.create('access-tokens');
 
         // add strategies
         var phpSession = new PHPSessionStrategy({},this.#usersModel);
