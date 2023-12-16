@@ -19,6 +19,7 @@ import * as http from "http";
 import SocketServer from './socket-server.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import chalk from 'chalk';
 
 /**
  *  Server class
@@ -66,15 +67,14 @@ export default class ArikaimServicesServer {
     run() {
         // http server
         this.#httpServer.listen(this.#config.port,this.#config.host,() => {
-            console.log('Server started at ' + this.#config.host + ":" + this.#config.port);
+            writeLn('Server started at ' + this.#config.host + ":" + this.#config.port,'green');
         });
 
-        // start queue
-        queue.run();
+        // start queue        queue.run();
     }
 
     async loadServices() {
-        process.stdout.write('Load services ');
+        writeLn('Load services ');
 
         const router = express.Router();      
         var servicesPath = Path.getServicesPath();
@@ -90,9 +90,7 @@ export default class ArikaimServicesServer {
             var service = new serviceClass(router);
             await service.boot();
             this.#express.use('/api/service/',service.router);
-            process.stdout.write('.');
+            writeLn('Loaded ' + dir);
         }
-     
-        console.log(' Ok');
     }
 }

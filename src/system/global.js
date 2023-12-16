@@ -14,6 +14,11 @@ global.message = function(message,color) {
     console.log(message);
 }
 
+global.writeLn = function(message,color) {
+    message = (color) ? chalk.keyword(color)(message) : message;
+    process.stdout.write(message + "\n"); 
+}
+
 global.errorMessage = function(message) {
     global.message(message,'red');
 }
