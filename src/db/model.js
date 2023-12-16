@@ -21,9 +21,7 @@ export default class Model {
             modelFile = Path.getDbModelsPath(serviceName,modelName);
         }
         var { default: modelClass } = await import(modelFile);
-
-        modelClass.init(sequelize);
-        
+   
         return modelClass;
     }
 }

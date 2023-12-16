@@ -13,9 +13,7 @@ class Users extends Model {
     findById = findById;
 }
 
-console.log(sequelize);
-
-export default Users.init({
+Users.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -38,7 +36,7 @@ export default Users.init({
         allowNull: true
     }
 },{ 
-    sequelize,
+    sequelize: sequelize,
     modelName: 'Users',
     timestamps: false,
     tableName: 'users',
@@ -48,3 +46,5 @@ export default Users.init({
         }
     }
 });
+
+export default Users;

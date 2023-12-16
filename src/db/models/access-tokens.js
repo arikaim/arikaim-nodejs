@@ -8,10 +8,10 @@
 
 import { DataTypes, Model } from 'sequelize';
 
-export default class AccessTokens extends Model {
+class AccessTokens extends Model {
 }
 
-AccessTokens.init({
+export default AccessTokens.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -38,7 +38,7 @@ AccessTokens.init({
         allowNull: false
     }
 },{ 
-    sequelize,
+    sequelize: sequelize,
     modelName: 'AccessTokens',
     timestamps: false,
     tableName: 'access_tokens'
