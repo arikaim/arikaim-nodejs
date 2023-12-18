@@ -15,11 +15,9 @@ import access from './access/access.js';
 import queue from './queue/queue.js';
 import express from 'express'
 import path from 'path';
-import * as http from "http";
-import SocketServer from './socket-server.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import chalk from 'chalk';
+import * as http from "http";
 
 /**
  *  Server class
@@ -47,14 +45,11 @@ export default class ArikaimServicesServer {
        
         // init express
         this.#express = express();
-        this.#express.use(cookieParser());
-      
+        this.#express.use(cookieParser());      
         this.#express.use(cors(this.#config.cors));
 
-        // web socket server
-        this.#httpServer = http.createServer(this.#express);
-        global.socket = new SocketServer(this.#httpServer,this.#config.socket);
-        global.socket.boot();
+        // web server
+        this.#httpServer = http.createServer(this.express);
 
         // boot queue
         await queue.boot();
@@ -69,8 +64,6 @@ export default class ArikaimServicesServer {
         this.#httpServer.listen(this.#config.port,this.#config.host,() => {
             writeLn('Server started at ' + this.#config.host + ":" + this.#config.port,'green');
         });
-
-        // start queue        queue.run();
     }
 
     async loadServices() {
@@ -87,7 +80,7 @@ export default class ArikaimServicesServer {
             var serviceFile = servicesPath + dir + path.sep + dir + '.js';
             var { default: serviceClass } = await import(serviceFile);
        
-            var service = new serviceClass(router);
+            var service = new serviceClass(router,this.#httpServer,this.#config);
             await service.boot();
             this.#express.use('/api/service/',service.router);
             writeLn('Loaded ' + dir);
