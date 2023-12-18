@@ -22,6 +22,10 @@ export default class SocketServer {
         this.#users = new Map();     
     }
 
+    get io() {
+        return this.#io;
+    }
+    
     async boot() {
         // main namespace
         this.io.on('connection', (socket) => {
