@@ -22,24 +22,7 @@ export default class SocketServer {
         this.#users = new Map();     
     }
 
-    get io() {
-        return this.#io;
-    }
-    
     async boot() {
-        // main namespace
-        this.io.on('connection', (socket) => {
-            console.log("Web socket client connected.");
-        });
-
-        this.io.on('disconnect', (socket) => {
-            console.log("Disconnected");
-        });
-
-        this.io.on('error', (error) => {
-            console.log(error); 
-        });
-
         // users namespace 
         this.#usersNamespace.use( async (socket, next) => {
 
@@ -67,20 +50,7 @@ export default class SocketServer {
             }                 
         });
 
-        this.#usersNamespace.on('connection', async (socket) => {
-            // auth
-            console.log('Web scoket User connected');
-            console.log(socket.user);
-        });
-
-        this.#usersNamespace.on('disconnect', (socket) => {
-            console.log("Disconnected User");
-            //delete this.#users[]
-        });
-
-        this.#usersNamespace.on('error', (error) => {
-            console.log(error); 
-        });
+        writeLn('Socket server started ');
     }
 
     emit(eventName, ...args) {

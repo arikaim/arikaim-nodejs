@@ -8,11 +8,16 @@
 
 export default class ArikaimService {
     #router;
-    
-    constructor(router, express, config) {
+    #httpServer;
+
+    constructor(router, httpServer, config) {
         this.#router = router;
-        this.express = express;
+        this.#httpServer = httpServer;
         this.config = config;
+    }
+
+    get httpServer() {
+        return this.#httpServer;
     }
 
     get router() {
