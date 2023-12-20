@@ -15,14 +15,36 @@ export default class SocketServer {
     #io;
     #usersNamespace;
     #users;
-    
+    #clients;
+
     constructor(httpServer, config) {
         this.#io = new Server(httpServer,config);   
         this.#usersNamespace = this.#io.of('/users');  
         this.#users = new Map();     
+        this.#clients = new Map();   
+        this.onConnect = 'initSocket'
     }
 
+    initSocket(client) {};
+
     async boot() {
+
+        // main namespace
+        this.#io.on('connection', (socket) => {
+            console.log("Web socket client connected.");
+            this.#clients.set(socket,socket.id);
+
+            this.onConnect(socket);           
+        });
+
+        this.#io.on('disconnect', (socket) => {
+            console.log("Web socket client disconnected");
+        });
+
+        this.#io.on('error', (error) => {
+            console.log(error); 
+        });
+
         // users namespace 
         this.#usersNamespace.use( async (socket, next) => {
 
@@ -108,5 +130,9 @@ export default class SocketServer {
 
     get io() {
         return this.#io;
+    }
+
+    get clients() {
+        return this.#clients;
     }
 }
