@@ -9,7 +9,6 @@
 */
 
 import Path from './../system/path.js';
-import db from './db.js';
 
 export default class Model {
 

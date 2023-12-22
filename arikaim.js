@@ -9,19 +9,44 @@
 */
 
 import { Command } from 'commander';
+import { default as Config } from './src/system/config.js';
 import ArikaimServicesServer from './src/server.js';
+
 
 const arikaimCli = new Command();
 
+writeLn('\nArikaim Srvices Server (NodeJs)\n','blue');
+
 arikaimCli
     .version('1.0.0')
-  //  .option('-help','Show help')
-    .description('Arikaim Srvices Server');
+    .option('-help','Show help')
+    .description('');
 
 arikaimCli.command('help')
-    .description('Arikaim Service Server help')
+    .description('Help')
     .action((env, options) => {        
-        console.log('\nArikaim Services Server help\n');
-        console.log('Show help');
+        writeLn('\nHelp\n');
 });
 
+arikaimCli.command('start')
+    .description('Start server')
+    .action(async (env, options) => {        
+        const server = new ArikaimServicesServer();
+        // boot
+        if (await server.boot() == false) {
+            console.error('Error starting server');
+        } else {
+            // run
+            server.run();
+        }
+});
+
+arikaimCli.command('create-config-file')
+    .description('Create default config file')
+    .action((env, options) => {        
+        writeLn('\Create default config file\n');
+        Config.createConfigFile();
+        writeLn('\nSuccessfully created\n','green');      
+});
+
+arikaimCli.parse();
