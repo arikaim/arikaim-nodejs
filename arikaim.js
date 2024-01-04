@@ -33,12 +33,9 @@ arikaimCli.command('start')
     .action(async (env, options) => {        
         const server = new ArikaimServicesServer();
         // boot
-        if (await server.boot() == false) {
-            console.error('Error starting server');
-        } else {
-            // run
-            server.run();
-        }
+        await server.boot();
+        // run
+        server.run();
 });
 
 arikaimCli.command('create-config-file')

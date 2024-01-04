@@ -21,6 +21,7 @@ export default class Controller {
 
     field(name, value) {
         this.#result['result'][name] = value;
+        return this;
     }
 
     getField(name) {
@@ -29,6 +30,7 @@ export default class Controller {
 
     message(message) {
         this.field('message',message);
+        return this;
     }
 
     setCode(code) {

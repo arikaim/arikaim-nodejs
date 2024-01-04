@@ -31,6 +31,7 @@ export default class ArikaimServicesServer {
     }
 
     async boot() {
+        writeLn('Server boot...');
         // load server config 
         this.#config = await Config.loadConfig();
 
@@ -49,7 +50,7 @@ export default class ArikaimServicesServer {
         this.#express.use(cors(this.#config.cors));
 
         // web server
-        this.#httpServer = http.createServer(this.express);
+        this.#httpServer = http.createServer(this.#express);
 
         // boot queue
         await queue.boot();
@@ -67,7 +68,7 @@ export default class ArikaimServicesServer {
     }
 
     async loadServices() {
-        writeLn('Load services ');
+        writeLn('Load services ...');
 
         const router = express.Router();      
         var servicesPath = Path.getServicesPath();
@@ -82,7 +83,7 @@ export default class ArikaimServicesServer {
        
             var service = new serviceClass(router,this.#httpServer,this.#config);
             await service.boot();
-            this.#express.use('/api/service/',service.router);
+            this.#express.use('/',service.router);
             writeLn('Loaded ' + dir);
         }
     }
