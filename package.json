@@ -1,6 +1,6 @@
 {
   "name": "@arikaim/arikaim-services",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Arikam CMS services server for nodejs",
   "keywords": [
@@ -10,8 +10,7 @@
   ],
   "author": "Konstantin Atanasov",
   "main": "arikaim.js",
-  "dependencies": {
-    "@prisma/client": "^5.7.0",
+  "dependencies": {  
     "chalk": "^3.0.0",
     "commander": "^8.3.0",
     "cookie-parser": "^1.4.6",
