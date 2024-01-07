@@ -8,13 +8,27 @@
  * 
 */
 
+
+
+import Path from '@arikaim/arikaim-services/system/path.js';
+
 class View {
    
+    #viewPath = '';
+    #templatesPath = '';
+    #componentsPath = '';
 
     constructor() {
-       
+        this.#viewPath = Path.viewPath;      
+        this.#templatesPath = Path.templatesPath;
+        this.#componentsPath = Path.componentsPath;   
     }
 
+    boot() {
+        writeLn('Init template...');
+
+    }
+    
     renderComponent(name,language,params,type,mode) {
         
     }

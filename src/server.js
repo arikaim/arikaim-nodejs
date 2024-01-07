@@ -2,7 +2,7 @@
 /**
  * Arikaim Services
  * @link        http://www.arikaim.com
- * @copyright   Copyright (c) Konstantin Atanasov <info@arikaim.com>
+ * @copyright   Copyright (c) Intersoft Ltd <info@arikaim.com>
  * @license     http://www.arikaim.com/license
 */
 
@@ -13,6 +13,8 @@ import { default as Config } from './system/config.js';
 import db from './db/db.js';
 import access from './access/access.js';
 import queue from './queue/queue.js';
+import view from './view/view.js';
+
 import express from 'express'
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -26,7 +28,8 @@ export default class ArikaimServicesServer {
     #config = null;
     #express = null;
     #httpServer = null;
-   
+    #view = null;
+
     constructor() {
     }
 
@@ -44,6 +47,9 @@ export default class ArikaimServicesServer {
         // init auth
         await access.init();     
        
+        // init template engine
+        view.boot();
+
         // init express
         this.#express = express();
         this.#express.use(cookieParser());      

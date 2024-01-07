@@ -2,7 +2,7 @@
 /**
  * Arikaim Services
  * @link        http://www.arikaim.com
- * @copyright   Copyright (c)  Konstantin Atanasov <info@arikaim.com>
+ * @copyright   Copyright (c)  Intersoft Ltd <info@arikaim.com>
  * @license     http://www.arikaim.com/license
 */
 
@@ -24,6 +24,18 @@ export default class Path {
 
     static getConfigPath() {
         return Path.getArikaimPath() + 'config' + path.sep;
+    }
+
+    static get viewPath() {
+        return Path.getArikaimPath() + 'view' + path.sep; 
+    }
+
+    static get templatesPath() {
+        return Path.viewPath + 'templates' + path.sep; 
+    }
+
+    static get componentsPath() {
+        return Path.viewPath + 'components' + path.sep; 
     }
 
     static getServicesPath(serviceName) {
