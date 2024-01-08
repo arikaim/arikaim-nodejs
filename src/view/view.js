@@ -8,20 +8,21 @@
  * 
 */
 
-
-
 import Path from '@arikaim/arikaim-services/system/path.js';
+import Component from 'html/component/component.js'
 
 class View {
    
     #viewPath = '';
     #templatesPath = '';
     #componentsPath = '';
+    #primaryTemplate = null;
 
-    constructor() {
+    constructor(primaryTemplate) {
         this.#viewPath = Path.viewPath;      
         this.#templatesPath = Path.templatesPath;
-        this.#componentsPath = Path.componentsPath;   
+        this.#componentsPath = Path.componentsPath; 
+        this.#primaryTemplate = primaryTemplate; 
     }
 
     boot() {
@@ -29,8 +30,31 @@ class View {
 
     }
     
-    renderComponent(name,language,params,type,mode) {
-        
+    createComponent(name, language, type, renderMode) {             
+        var component = new Component(
+            name,
+            language,       
+            'components',   
+            this.#viewPath,
+            this.#primaryTemplate,
+            type
+        );
+
+        component.init();
+
+        return component;
+    }
+
+    renderComponent(name,language,params,type,renderMode) {
+        var component = this.createComponent(name,language,type,renderMode);
+        component.resolve(params);
+
+        if (component.hasContent() == true) {
+            // render template code
+            component.setHtmlCode('');  
+        }
+
+        return component;
     }
 
     renderPage(name,language,params) {

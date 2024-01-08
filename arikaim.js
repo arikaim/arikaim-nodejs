@@ -15,7 +15,7 @@ import ArikaimServicesServer from './src/server.js';
 
 const arikaimCli = new Command();
 
-writeLn('\nArikaim Srvices Server (NodeJs)\n','blue');
+writeLn('\nArikaim (NodeJs)\n','blue');
 
 arikaimCli
     .version('1.0.0')

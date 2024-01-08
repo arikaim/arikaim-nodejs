@@ -8,7 +8,7 @@
  * 
 */
 
-class BaseComponent {
+class Component {
 
     static NAME_SEPARATORS() {
         var sep = {};
@@ -19,6 +19,7 @@ class BaseComponent {
         return sep;   
     } 
 
+    #id = null;
     #name = '';
     #fullName = '';
     #templateName = '';
@@ -36,6 +37,7 @@ class BaseComponent {
     #viewPath;
     #primaryTemplate;
     #renderMode = 'view';
+    #context = {}
 
     constructor(
         name,
@@ -52,11 +54,11 @@ class BaseComponent {
 
         this.#primaryTemplate = primaryTemplate;
         this.#type = type;
+
         this.#files = {
             js: [],
             css: []           
         };
-
         this.#renderMode = 'view';  
     }
 
@@ -64,6 +66,16 @@ class BaseComponent {
         this.parseName(this.#fullName);
         //this.resolvePath(); 
     } 
+
+    resolve(params) {
+        // resolve id 
+        this.#id = params['component_id'] ?? params['id'] ?? this.#id;
+        this.#context['component_id'] = this.#id;       
+    }
+
+    hasContent() {
+        return true;
+    }
 
     parseName(name) {
         var nameSplit = name.split('/');  

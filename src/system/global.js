@@ -9,6 +9,7 @@
 import chalk from 'chalk';
 import Path from './path.js';
 
+
 global.message = function(message,color) {
     message = (color) ? chalk.keyword(color)(message) : message;
     console.log(message);
@@ -82,4 +83,18 @@ global.isObject = function(variable) {
 
 global.isArray = function(variable) {
     return (isEmpty(variable) == true) ? false : (variable.constructor === Array);   
+}
+
+global.applyTrait = function(targetClass, trait, methodName) {
+
+    if (isObject(trait) == true) {
+        Object.keys(trait).forEach(function(name) {
+            targetClass.prototype[name] = trait[name];
+        });
+    }
+    
+    if (isFunction(trait) == true) {
+        targetClass.prototype[methodName] = trait;
+    }
+
 }
