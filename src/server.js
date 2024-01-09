@@ -13,7 +13,8 @@ import { default as Config } from './system/config.js';
 import db from './db/db.js';
 import access from './access/access.js';
 import queue from './queue/queue.js';
-import view from './view/view.js';
+import View from './view/view.js';
+import CoreApiService from './core-api/service.js';
 
 import express from 'express'
 import path from 'path';
@@ -48,7 +49,7 @@ export default class ArikaimServicesServer {
         await access.init();     
        
         // init template engine
-        view.boot();
+        View.create(this.#config.settings.primaryTemplate);
 
         // init express
         this.#express = express();
@@ -60,6 +61,7 @@ export default class ArikaimServicesServer {
 
         // boot queue
         await queue.boot();
+        
         // load services 
         await this.loadServices(); 
          
@@ -77,6 +79,14 @@ export default class ArikaimServicesServer {
         writeLn('Load services ...');
 
         const router = express.Router();      
+        var service;
+
+        // load core api routes
+        service = new CoreApiService(router,this.#httpServer,this.#config);
+        await service.boot();
+        this.#express.use('/',service.router);
+
+        // load services
         var servicesPath = Path.getServicesPath();
 
         var services = await readdirSync(servicesPath).filter(function (file) {
@@ -87,7 +97,7 @@ export default class ArikaimServicesServer {
             var serviceFile = servicesPath + dir + path.sep + dir + '.js';
             var { default: serviceClass } = await import(serviceFile);
        
-            var service = new serviceClass(router,this.#httpServer,this.#config);
+            service = new serviceClass(router,this.#httpServer,this.#config);
             await service.boot();
             this.#express.use('/',service.router);
             writeLn('Loaded ' + dir);

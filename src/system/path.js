@@ -10,6 +10,10 @@ import path from 'path';
 
 export default class Path {
 
+    static get sep() {
+        return path.sep;
+    }
+
     static getRootPath() {
         return process.cwd();
     }
@@ -31,7 +35,7 @@ export default class Path {
     }
 
     static get templatesPath() {
-        return Path.viewPath + 'templates' + path.sep; 
+        return Path.viewPath + 'templates' + path.sep + 'nodejs' + path.sep; 
     }
 
     static get componentsPath() {

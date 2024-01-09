@@ -8,7 +8,8 @@
  * 
 */
 
-class Component {
+
+export default class Component {
 
     static NAME_SEPARATORS() {
         var sep = {};
@@ -81,7 +82,7 @@ class Component {
         var nameSplit = name.split('/');  
         name = nameSplit[0];
      
-        BaseComponent.NAME_SEPARATORS().foreach((key, value) => {
+        Component.NAME_SEPARATORS().foreach((key, value) => {
             tokens = name.splt(key) 
             if (isEmpty(tokens[1]) == false) {
                 this.#location = value;

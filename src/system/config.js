@@ -46,6 +46,9 @@ export default class Config {
         const config = {
             port: 3000,
             host: "127.0.0.1",
+            settings: {
+                primaryTemplate: "starter"
+            },
             cors: {
                 "origin": "http://localhost",
                 "credentials": true

@@ -8,10 +8,17 @@
  * 
 */
 
-import Path from '@arikaim/arikaim-services/system/path.js';
-import Component from 'html/component/component.js'
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
-class View {
+import Twig from 'twig';
+
+import Path from '@arikaim/arikaim-services/system/path.js';
+import Component from '@arikaim/arikaim-services/view/html/component/component.js'
+
+const nunjucks = require('nunjucks')
+
+export default class View {
    
     #viewPath = '';
     #templatesPath = '';
@@ -27,7 +34,7 @@ class View {
 
     boot() {
         writeLn('Init template...');
-
+        nunjucks.configure(this.getPagesPath());
     }
     
     createComponent(name, language, type, renderMode) {             
@@ -57,14 +64,40 @@ class View {
         return component;
     }
 
-    renderPage(name,language,params) {
-        
+    renderPage(name,params,onComplete) {
+       
+        var path = this.getPagePath(name);
+        console.log(path);
+        console.log(this.getIndexFile());
+
+
+        return nunjucks.render('index.html',params);
+
+        //await Twig.renderFile(this.getIndexFile(), params, (err, html) => {
+
+        //    console.log(err);
+       //     callFunction(onComplete,html);
+       // });       
     }
 
-    static getInstance() {
-        global.view = (global.view === undefined) ? new View() : global.view;     
+    getIndexFile() {
+        return this.getPagesPath() + 'index.html';
+    }
+
+    getPagesPath() {
+        return Path.templatesPath + this.#primaryTemplate + Path.sep + 'pages' + Path.sep;
+    }
+
+    getPagePath(name) {
+        return this.getPagesPath() + name + Path.sep;
+    }
+
+    static create(primaryTemplate) {
+        if (global.view === undefined) {
+            global.view = new View(primaryTemplate);
+            global.view.boot();
+        }
+      
         return global.view;  
     }
 }
-
-export default View.getInstance();
