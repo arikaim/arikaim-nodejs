@@ -8,18 +8,21 @@
  * 
 */
 
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-
 import Twig from 'twig';
 
 import Path from '@arikaim/arikaim/system/path.js';
-import Component from '@arikaim/arikaim/view/html/component/component.js'
+import Component from '@arikaim/arikaim/view/html/component/component.js';
+import Page from '@arikaim/arikaim/view/html/page.js';
 
-const nunjucks = require('nunjucks')
+const nunjucks = require('nunjucks');
 
 export default class View {
    
+    #COMPONENTS_CLASSES = {
+        page: Page,
+        base: Component
+    };
+
     #viewPath = '';
     #templatesPath = '';
     #componentsPath = '';
@@ -34,11 +37,16 @@ export default class View {
 
     boot() {
         writeLn('Init template...');
-        nunjucks.configure(this.getPagesPath());
+        console.log(this.getPagesPath());
+
+        nunjucks.configure([this.getPagesPath()]);
     }
     
-    createComponent(name, language, type, renderMode) {             
-        var component = new Component(
+    createComponent(name, language, type) {
+        type = type ?? 'base';
+       
+
+        var component = new this.#COMPONENTS_CLASSES[type](
             name,
             language,       
             'components',   
@@ -52,7 +60,7 @@ export default class View {
         return component;
     }
 
-    renderComponent(name,language,params,type,renderMode) {
+    renderComponent(name,params,language,type,renderMode) {
         var component = this.createComponent(name,language,type,renderMode);
         component.resolve(params);
 
@@ -64,8 +72,10 @@ export default class View {
         return component;
     }
 
-    renderPage(name,params,onComplete) {
-       
+    renderPage(name,params,language) {
+        const page = this.createComponent(name,language,'page');
+        page.resolve(params);
+
         var path = this.getPagePath(name);
         console.log(path);
         console.log(this.getIndexFile());

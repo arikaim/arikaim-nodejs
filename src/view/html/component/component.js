@@ -13,7 +13,7 @@ export default class Component {
 
     static NAME_SEPARATORS() {
         var sep = {};
-        sep['>'] = 3;
+        sep['~'] = 3;
         sep[':'] = 1;
         sep['>'] = 4;
 
@@ -79,17 +79,26 @@ export default class Component {
     }
 
     parseName(name) {
+        const separators = Component.NAME_SEPARATORS();
+        var tokens;
+        
+        console.log(separators);
+
         var nameSplit = name.split('/');  
         name = nameSplit[0];
-     
-        Component.NAME_SEPARATORS().foreach((key, value) => {
-            tokens = name.splt(key) 
+        
+        for (const key in separators) {
+            tokens = name.split(separators[key]) 
             if (isEmpty(tokens[1]) == false) {
                 this.#location = value;
-                return true;
+                break;
             }    
+        }
 
-            return false;
-        });
+       
+    }
+
+    resolveLocation(name) {
+
     }
 }

@@ -49,12 +49,20 @@ export default class ArikaimServicesServer {
         await access.init();     
        
         // init template engine
-        View.create(this.#config.settings.primaryTemplate);
+        const view = View.create(this.#config.settings.primaryTemplate);
 
         // init express
         this.#express = express();
         this.#express.use(cookieParser());      
         this.#express.use(cors(this.#config.cors));
+        this.#express.use((req, res, next) => {
+            res.renderPage = (name,params,language) => {              
+                const html = view.renderPage(name,params,language);
+                res.send(html);
+            };
+    
+            next();
+        });
 
         // web server
         this.#httpServer = http.createServer(this.#express);

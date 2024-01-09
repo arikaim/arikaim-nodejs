@@ -8,7 +8,9 @@
 
 import chalk from 'chalk';
 import Path from './path.js';
+import { createRequire } from "module";
 
+global.require = createRequire(import.meta.url);
 
 global.message = function(message,color) {
     message = (color) ? chalk.keyword(color)(message) : message;

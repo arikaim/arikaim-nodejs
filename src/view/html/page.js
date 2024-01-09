@@ -12,4 +12,10 @@ import Component from '@arikaim/arikaim/view/html/component/component.js'
 
 export default class Page extends Component {
 
+    constructor(name,language,viewPath,primaryTemplate) {
+        super(name,'pages',language,viewPath,primaryTemplate,'page');
+    }
+
+    render(params = []) {
+    }
 }
