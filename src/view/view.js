@@ -13,8 +13,8 @@ const require = createRequire(import.meta.url);
 
 import Twig from 'twig';
 
-import Path from '@arikaim/arikaim-services/system/path.js';
-import Component from '@arikaim/arikaim-services/view/html/component/component.js'
+import Path from '@arikaim/arikaim/system/path.js';
+import Component from '@arikaim/arikaim/view/html/component/component.js'
 
 const nunjucks = require('nunjucks')
 

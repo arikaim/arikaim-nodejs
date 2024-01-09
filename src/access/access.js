@@ -6,7 +6,7 @@
  * @license     http://www.arikaim.com/license
 */
 
-import { default as Model } from "@arikaim/arikaim-services/db/model.js"
+import { default as Model } from "@arikaim/arikaim/db/model.js"
 import passport from "passport";
 import BearerStrategy from "passport-http-bearer";
 import PHPSessionStrategy from './php-session.js';

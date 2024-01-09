@@ -7,7 +7,7 @@
 */
 
 import { Server } from "socket.io";
-import access from '@arikaim/arikaim-services/access/access.js';
+import access from '@arikaim/arikaim/access/access.js';
 import cookie from 'cookie';
 
 export default class SocketServer {
