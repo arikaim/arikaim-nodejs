@@ -12,6 +12,15 @@ import { createRequire } from "module";
 
 global.require = createRequire(import.meta.url);
 
+global.dumpObject = function(obj) {
+    const util = require('util');
+
+    console.log(util.inspect(obj,{
+        showHidden: true,        
+        colors: true
+    }));
+}
+
 global.message = function(message,color) {
     message = (color) ? chalk.keyword(color)(message) : message;
     console.log(message);

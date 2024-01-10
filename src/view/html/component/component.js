@@ -8,14 +8,15 @@
  * 
 */
 
+import Path from '@arikaim/arikaim/system/path.js';
 
 export default class Component {
 
     static NAME_SEPARATORS() {
         var sep = {};
         sep['~'] = 3;
-        sep[':'] = 1;
-        sep['>'] = 4;
+        sep[':'] = 1; // template component
+        sep['>'] = 4; // primary template
 
         return sep;   
     } 
@@ -38,6 +39,7 @@ export default class Component {
     #viewPath;
     #primaryTemplate;
     #renderMode = 'view';
+    #htmlFileName = '';
     #context = {}
 
     constructor(
@@ -65,7 +67,10 @@ export default class Component {
 
     init() {
         this.parseName(this.#fullName);
-        //this.resolvePath(); 
+        this.resolvePath(); 
+
+        // init context
+       
     } 
 
     resolve(params) {
@@ -81,24 +86,44 @@ export default class Component {
     parseName(name) {
         const separators = Component.NAME_SEPARATORS();
         var tokens;
-        
-        console.log(separators);
-
         var nameSplit = name.split('/');  
         name = nameSplit[0];
         
+        console.log(name);
+        console.log(separators);
+
         for (const key in separators) {
-            tokens = name.split(separators[key]) 
+            console.log(key);
+            tokens = name.split(key);
+            console.log(tokens);
             if (isEmpty(tokens[1]) == false) {
-                this.#location = value;
+                this.#location = separators[key];
+                console.log('location' + separators[key]);
                 break;
             }    
         }
 
        
+        console.log(tokens);
+       // exit();
+
+        this.#id = tokens[1].replace('.','-');
+        this.#path = tokens[1].replace('.','/');
+        this.#templateName = tokens[0];          
+               
+        this.#name = this.#path.split('/').slice(-1);
+        this.#htmlFileName = (isEmpty(nameSplit[1]) == false) ? nameSplit[1] + '.html' : this.#name + '.html';
+
+        if (this.#location == 4) {
+            this.#location = 1;
+            this.#templateName = this.#primaryTemplate;           
+        }
+
+        this.#fullPath = Path.templatePath(this.#templateName) + this.#basePath + Path.sep + this.#path + Path.sep;
     }
 
-    resolveLocation(name) {
-
+    resolvePath() {
+        const path = this.#basePath + Path.sep + this.#path + Path.sep;   
+        this.#filePath = Path.templatePath(this.#templateName). path;
     }
 }

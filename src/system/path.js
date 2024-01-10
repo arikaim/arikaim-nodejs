@@ -38,6 +38,10 @@ export default class Path {
         return Path.viewPath + 'templates' + path.sep + 'nodejs' + path.sep; 
     }
 
+    static templatePath(name) {
+        return Path.templatesPath + name + path.sep;
+    }
+
     static get componentsPath() {
         return Path.viewPath + 'components' + path.sep; 
     }

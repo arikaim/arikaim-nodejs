@@ -11,7 +11,7 @@ export default class CoreApiService extends ArikaimService {
            // var html = view.renderPage('home',{});
 
            // console.log(html);
-            res.renderPage('home',{});
+            res.renderPage('current>home',{});
          
         });
     }

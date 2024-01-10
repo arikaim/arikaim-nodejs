@@ -76,6 +76,8 @@ export default class View {
         const page = this.createComponent(name,language,'page');
         page.resolve(params);
 
+        dumpObject(page);
+
         var path = this.getPagePath(name);
         console.log(path);
         console.log(this.getIndexFile());
