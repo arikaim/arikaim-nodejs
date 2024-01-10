@@ -8,11 +8,10 @@
  * 
 */
 
-import Twig from 'twig';
-
 import Path from '@arikaim/arikaim/system/path.js';
 import Component from '@arikaim/arikaim/view/html/component/component.js';
 import Page from '@arikaim/arikaim/view/html/page.js';
+import TemplateExtension from '@arikaim/arikaim/view/template/extension.js';
 
 const nunjucks = require('nunjucks');
 
@@ -37,19 +36,24 @@ export default class View {
 
     boot() {
         writeLn('Init template...');
-        console.log(this.getPagesPath());
+      
+        const env = nunjucks.configure([
+            this.#templatesPath,
+            this.getPagesPath()
+        ],{
+            autoescape: false 
+        });
 
-        nunjucks.configure([this.getPagesPath()]);
+        // add funcitons 
+        env.addGlobal('component',this.renderComponent.bind(this));
     }
     
     createComponent(name, language, type) {
         type = type ?? 'base';
-       
-
         var component = new this.#COMPONENTS_CLASSES[type](
             name,
-            language,       
             'components',   
+            language,                  
             this.#viewPath,
             this.#primaryTemplate,
             type
@@ -60,36 +64,29 @@ export default class View {
         return component;
     }
 
-    renderComponent(name,params,language,type,renderMode) {
-        var component = this.createComponent(name,language,type,renderMode);
+    renderComponent(name,params,language,type) {
+        var component = this.createComponent(name,language,type);
         component.resolve(params);
 
+        var htmlCode = '';
         if (component.hasContent() == true) {
             // render template code
-            component.setHtmlCode('');  
+            htmlCode = nunjucks.render(component.templateFile,component.context);          
         }
 
-        return component;
+        return htmlCode;
     }
 
     renderPage(name,params,language) {
         const page = this.createComponent(name,language,'page');
         page.resolve(params);
 
-        dumpObject(page);
+        var body = nunjucks.render(page.templateFile,page.context);
 
-        var path = this.getPagePath(name);
-        console.log(path);
-        console.log(this.getIndexFile());
-
-
-        return nunjucks.render('index.html',params);
-
-        //await Twig.renderFile(this.getIndexFile(), params, (err, html) => {
-
-        //    console.log(err);
-       //     callFunction(onComplete,html);
-       // });       
+        return nunjucks.render('index.html',{
+            language: language,
+            body: body
+        }); 
     }
 
     getIndexFile() {

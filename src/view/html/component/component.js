@@ -9,6 +9,7 @@
 */
 
 import Path from '@arikaim/arikaim/system/path.js';
+const merge = require('deepmerge');
 
 export default class Component {
 
@@ -75,8 +76,11 @@ export default class Component {
 
     resolve(params) {
         // resolve id 
+        params = (isObject(params) == false) ? {} : params;
         this.#id = params['component_id'] ?? params['id'] ?? this.#id;
-        this.#context['component_id'] = this.#id;       
+        this.#context['component_id'] = this.#id; 
+        
+        this.#context = merge(this.#context,params);  
     }
 
     hasContent() {
@@ -89,23 +93,15 @@ export default class Component {
         var nameSplit = name.split('/');  
         name = nameSplit[0];
         
-        console.log(name);
-        console.log(separators);
-
         for (const key in separators) {
-            console.log(key);
-            tokens = name.split(key);
-            console.log(tokens);
+            tokens = name.split(key);         
             if (isEmpty(tokens[1]) == false) {
-                this.#location = separators[key];
-                console.log('location' + separators[key]);
+                this.#location = separators[key];               
                 break;
             }    
         }
 
-       
-        console.log(tokens);
-       // exit();
+        console.log(tokens[0]);
 
         this.#id = tokens[1].replace('.','-');
         this.#path = tokens[1].replace('.','/');
@@ -115,15 +111,36 @@ export default class Component {
         this.#htmlFileName = (isEmpty(nameSplit[1]) == false) ? nameSplit[1] + '.html' : this.#name + '.html';
 
         if (this.#location == 4) {
-            this.#location = 1;
+            this.#location = 1; // template 
             this.#templateName = this.#primaryTemplate;           
         }
 
+        console.log(this.#primaryTemplate);
+        console.log(this.#templateName);
+        console.log(this.#location);
+        console.log(this.#id);
+        console.log(this.#path);
+        console.log(this.#basePath);
+
         this.#fullPath = Path.templatePath(this.#templateName) + this.#basePath + Path.sep + this.#path + Path.sep;
+        this.#filePath = this.#templateName + Path.sep + this.#basePath + Path.sep + this.#path + Path.sep;
     }
 
-    resolvePath() {
-        const path = this.#basePath + Path.sep + this.#path + Path.sep;   
-        this.#filePath = Path.templatePath(this.#templateName). path;
+    resolvePath() {       
+        
     }
+
+    get fullPath() {
+        return this.#fullPath;
+    }
+
+    get context() {
+        return this.#context;
+    }
+
+    get templateFile()
+    {
+        return this.#filePath + this.#htmlFileName;
+    }
+
 }

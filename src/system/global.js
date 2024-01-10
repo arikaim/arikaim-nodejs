@@ -15,7 +15,9 @@ global.require = createRequire(import.meta.url);
 global.dumpObject = function(obj) {
     const util = require('util');
 
-    console.log(util.inspect(obj,{
+    console.dir(obj,{ depth: null });
+
+    console.log(util.inspect(obj,{ 
         showHidden: true,        
         colors: true
     }));
