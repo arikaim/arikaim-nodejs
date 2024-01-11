@@ -52,7 +52,7 @@ export default class Component {
         type
     ) {
         this.#fullName = name;
-        this.#language = language;      
+        this.#language = (isEmpty(language) == true) ? 'en' : language;      
         this.#basePath = basePath;
         this.#viewPath = viewPath; 
 
@@ -68,10 +68,6 @@ export default class Component {
 
     init() {
         this.parseName(this.#fullName);
-        this.resolvePath(); 
-
-        // init context
-       
     } 
 
     resolve(params) {
@@ -101,8 +97,6 @@ export default class Component {
             }    
         }
 
-        console.log(tokens[0]);
-
         this.#id = tokens[1].replace('.','-');
         this.#path = tokens[1].replace('.','/');
         this.#templateName = tokens[0];          
@@ -115,23 +109,24 @@ export default class Component {
             this.#templateName = this.#primaryTemplate;           
         }
 
-        console.log(this.#primaryTemplate);
-        console.log(this.#templateName);
-        console.log(this.#location);
-        console.log(this.#id);
-        console.log(this.#path);
-        console.log(this.#basePath);
-
         this.#fullPath = Path.templatePath(this.#templateName) + this.#basePath + Path.sep + this.#path + Path.sep;
         this.#filePath = this.#templateName + Path.sep + this.#basePath + Path.sep + this.#path + Path.sep;
     }
 
-    resolvePath() {       
-        
-    }
-
     get fullPath() {
         return this.#fullPath;
+    }
+
+    get name() {
+        return this.#name;
+    }
+
+    get language() {
+        return this.#language;
+    }
+
+    mergeContext(data) {
+        this.#context = merge(this.#context,data);  
     }
 
     get context() {
@@ -142,5 +137,4 @@ export default class Component {
     {
         return this.#filePath + this.#htmlFileName;
     }
-
 }

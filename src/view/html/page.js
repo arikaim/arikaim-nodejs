@@ -9,6 +9,7 @@
 */
 
 import Component from '@arikaim/arikaim/view/html/component/component.js'
+import loadPropertiesFile from '@arikaim/arikaim/view/html/traits/properties.js'
 
 export default class Page extends Component {
 
@@ -23,6 +24,14 @@ export default class Page extends Component {
         super(name,'pages',language,viewPath,primaryTemplate,'page');
     }
 
+    init() {
+        super.init();
+
+        this.loadPropertiesFile(); 
+    } 
+
     render(params = []) {
     }
 }
+
+applyTrait(Page,loadPropertiesFile,'loadPropertiesFile');
