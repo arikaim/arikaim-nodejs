@@ -61,6 +61,9 @@ export default class ArikaimServicesServer {
                 res.send(html);
             };
     
+            console.dir(req.url);
+            console.dir(req.headers);
+           
             next();
         });
 
@@ -84,8 +87,6 @@ export default class ArikaimServicesServer {
     }
 
     async loadServices() {
-        writeLn('Load services ...');
-
         const router = express.Router();      
         var service;
 
@@ -94,7 +95,7 @@ export default class ArikaimServicesServer {
         await service.boot();
         this.#express.use('/',service.router);
 
-        // load services
+        writeLn('Load services ...','green');    
         var servicesPath = Path.getServicesPath();
 
         var services = await readdirSync(servicesPath).filter(function (file) {
