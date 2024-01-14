@@ -10,8 +10,10 @@
 
 import Path from '@arikaim/arikaim/system/path.js';
 import Component from '@arikaim/arikaim/view/html/component/component.js';
+import SvgComponent from '@arikaim/arikaim/view/html/component/svg-component.js';
 import Page from '@arikaim/arikaim/view/html/page.js';
 import TemplateExtension from '@arikaim/arikaim/view/template/extension.js';
+import ComponentTag from '@arikaim/arikaim/view/template/tags/component.js';
 
 const nunjucks = require('nunjucks');
 
@@ -19,7 +21,8 @@ export default class View {
    
     #COMPONENTS_CLASSES = {
         page: Page,
-        base: Component
+        base: Component,
+        svg: SvgComponent
     };
 
     #viewPath = '';
@@ -38,6 +41,7 @@ export default class View {
         writeLn('Init template...');
       
         const env = nunjucks.configure([
+            this.#componentsPath,
             this.#templatesPath,
             this.getPagesPath()
         ],{
@@ -46,9 +50,10 @@ export default class View {
 
         // add funcitons 
         env.addGlobal('component',this.renderComponent.bind(this));
+        env.addExtension('component',new ComponentTag());
     }
     
-    createComponent(name, language, type) {
+    createComponent(name,type,language) {
         type = type ?? 'base';
         var component = new this.#COMPONENTS_CLASSES[type](
             name,
@@ -64,8 +69,8 @@ export default class View {
         return component;
     }
 
-    renderComponent(name,params,language,type) {
-        var component = this.createComponent(name,language,type);
+    renderComponent(name,params,type,language) {
+        var component = this.createComponent(name,type,language);
         component.resolve(params);
 
         var htmlCode = '';
@@ -78,7 +83,7 @@ export default class View {
     }
 
     renderPage(name,params,language) {
-        const page = this.createComponent(name,language,'page');
+        const page = this.createComponent(name,'page',language);
         page.resolve(params);
 
         var body = nunjucks.render(page.templateFile,page.context);

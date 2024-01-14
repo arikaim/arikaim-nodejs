@@ -9,31 +9,34 @@
 */
 
 
-export default function componentTag() {
+export default function ComponentTag() {
     this.tags = ['component'];
 
     this.parse = function(parser, nodes, lexer) {
-        var tok = parser.nextToken();
+        var token = parser.nextToken();
 
         var args = parser.parseSignature(null, true);
-        parser.advanceAfterBlockEnd(tok.value);
+        parser.advanceAfterBlockEnd(token.value);
 
-        var body = parser.parseUntilBlocks('error','endcomponent');
-        var errorBody = null;
-
-        if(parser.skipSymbol('error')) {
-            parser.skip(lexer.TOKEN_BLOCK_END);
-            errorBody = parser.parseUntilBlocks('endcomponent');
-        }
-
+        var content = parser.parseUntilBlocks('component','endcomponent');
+      //  console.log(content);
         parser.advanceAfterBlockEnd();
 
-
-        return new nodes.CallExtension(this, 'run', args,[body, errorBody]);
+        return new nodes.CallExtension(this, 'run', args,[content]);
     };
 
-    this.run = function(context, url, body, errorBody) {
+    this.run = function(context, name, bodyCallback) {
 
-        return body;
+        const content = bodyCallback();
+        var html = view.renderComponent(name,{ 
+             content: content
+        });
+      //  console.log(comp);
+
+    
+       // console.log(name);
+       // console.log(content);
+
+        return html;
     };
 }

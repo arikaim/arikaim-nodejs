@@ -15,7 +15,7 @@ export default class Component {
 
     static NAME_SEPARATORS() {
         var sep = {};
-        sep['~'] = 3;
+        sep['~'] = 3; // components library
         sep[':'] = 1; // template component
         sep['>'] = 4; // primary template
 
@@ -109,8 +109,16 @@ export default class Component {
             this.#templateName = this.#primaryTemplate;           
         }
 
-        this.#fullPath = Path.templatePath(this.#templateName) + this.#basePath + Path.sep + this.#path + Path.sep;
-        this.#filePath = this.#templateName + Path.sep + this.#basePath + Path.sep + this.#path + Path.sep;
+        console.log(this.#location);
+
+        if (this.#location == 3) { 
+            // components library location
+            this.#fullPath = Path.componentsPath + this.#templateName + Path.sep + this.#path + Path.sep;
+            this.#filePath = this.#templateName + Path.sep + this.#path + Path.sep;            
+        } else {    
+            this.#fullPath = Path.templatePath(this.#templateName) + this.#basePath + Path.sep + this.#path + Path.sep;
+            this.#filePath = this.#templateName + Path.sep + this.#basePath + Path.sep + this.#path + Path.sep;
+        }  
     }
 
     get fullPath() {
