@@ -1,12 +1,14 @@
 'use strict';
 /**
- * Arikaim Services
+ * Arikaim
+ * 
  * @link        http://www.arikaim.com
  * @copyright   Copyright (c)  Intersoft Ltd <info@arikaim.com>
  * @license     http://www.arikaim.com/license
 */
 
 import path from 'path';
+import { readdirSync, statSync } from 'fs';
 
 export default class Path {
 
