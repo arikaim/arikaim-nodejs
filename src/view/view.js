@@ -110,12 +110,54 @@ export default class View {
         const page = this.createComponent(name,'page',language);
         page.resolve(params);
 
+        this.getTemplateIncludeFiles();
+
         var body = nunjucks.render(page.templateFile,page.context);
 
         return nunjucks.render('index.html',{
             language: language,
             body: body
         }); 
+    }
+
+    getTemplateIncludeFiles() {
+
+    }
+
+    getLibraryIncludeFiles(items) {
+        items.forEach(item => {
+            var tokens = item.split(':');
+
+        });
+    }
+
+    getLibraryProperties(name, version) {
+        var data = ArikaimPackage.loadPackageDescriptor(this.#primaryTemplate,'template');
+        if (data == null) {
+            return null;
+        }
+
+        if (isEmpty(version) == true) {
+            return data;
+        }
+
+        if (data['versions'][version]['files'] !== 'undefined') {
+            data['files'] = data['versions'][version]['files'];
+        }
+        
+        return data;
+    }
+    
+    getLibraryFiles(libraryName, vaersion) {
+        var properties = this.getLibraryProperties(libraryName,version);
+        var files = {};
+        if (properties == null) {
+            return files;
+        }
+
+        properties['files'].forEach(file => {
+            console.log(file);
+        });
     }
 
     getIndexFile() {

@@ -8,7 +8,6 @@
 */
 
 import path from 'path';
-import { readdirSync, statSync } from 'fs';
 
 export default class Path {
 
@@ -40,8 +39,16 @@ export default class Path {
         return Path.viewPath + 'templates' + path.sep + 'nodejs' + path.sep; 
     }
 
+    static get librariesPath() {
+        return Path.viewPath + 'library' + path.sep
+    }
+
     static templatePath(name) {
         return Path.templatesPath + name + path.sep;
+    }
+
+    static libraryPath(name) {
+        return Path.librariesPath + name + path.sep; 
     }
 
     static get componentsPath() {

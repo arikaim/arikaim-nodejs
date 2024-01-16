@@ -66,6 +66,9 @@ export default class ArikaimServicesServer {
            
             next();
         });
+        // static files
+        this.#express.use(express.static(Path.templatesPath));
+        this.#express.use(express.static(Path.librariesPath));
 
         // web server
         this.#httpServer = http.createServer(this.#express);

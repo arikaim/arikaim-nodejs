@@ -22,6 +22,9 @@ export default class ArikaimPackage {
                 break;
             case 'service':
                 path = Path.getServicesPath(name);
+                break;
+            case 'library':
+                path = Path.libraryPath(name);
                 break;           
         }
 
