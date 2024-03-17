@@ -1,5 +1,5 @@
 {
-  "name": "@arikaim/arikaim",
+  "name": "@arikaim/arikaim-server",
   "version": "1.0.1",
   "type": "module",
   "description": "Arikam CMS services server for nodejs",
