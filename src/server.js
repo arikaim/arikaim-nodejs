@@ -6,9 +6,10 @@
  * @license     http://www.arikaim.com/license
 */
 
-import './system/global.js';
+import '@arikaim/arikaim/common/global.js';
+import Path from '@arikaim/arikaim/common/path.js';
 import { readdirSync, statSync } from 'fs';
-import Path from './system/path.js';
+
 import { default as Config } from './system/config.js';
 import db from './db/db.js';
 import access from './access/access.js';

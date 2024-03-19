@@ -9,15 +9,15 @@
 */
 
 import { readFileSync } from 'fs';
-import Path from '@arikaim/arikaim/system/path.js';
-import ArikaimPackage from '@arikaim/arikaim/system/package.js';
-import Component from '@arikaim/arikaim/view/html/component/component.js';
-import SvgComponent from '@arikaim/arikaim/view/html/component/svg-component.js';
-import Page from '@arikaim/arikaim/view/html/page.js';
-import TemplateExtension from '@arikaim/arikaim/view/template/extension.js';
-import ComponentTag from '@arikaim/arikaim/view/template/tags/component.js';
+import Path from '@arikaim/arikaim/common/path.js';
+import ArikaimPackage from '@arikaim/arikaim/common/package.js';
+import Component from '@arikaim/arikaim-server/view/html/component/component.js';
+import SvgComponent from '@arikaim/arikaim-server/view/html/component/svg-component.js';
+import Page from '@arikaim/arikaim-server/view/html/page.js';
+import TemplateExtension from '@arikaim/arikaim-server/view/template/extension.js';
+import ComponentTag from '@arikaim/arikaim-server/view/template/tags/component.js';
 
-const nunjucks = require('nunjucks');
+import nunjucks from 'nunjucks';
 
 export default class View {
    

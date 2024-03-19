@@ -8,7 +8,7 @@
  * 
 */
 
-import Path from './../system/path.js';
+import Path from '@arikaim/arikaim/common/path.js';
 
 export default class Model {
 

@@ -5,3 +5,4 @@ composer.json
 composer.lock
 package-lock.json
 vendor
+_temp

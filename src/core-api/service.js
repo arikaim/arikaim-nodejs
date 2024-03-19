@@ -1,6 +1,6 @@
 'use strict';
 
-import ArikaimService from "@arikaim/arikaim/service.js"
+import ArikaimService from "@arikaim/arikaim-server/service.js"
 
 
 export default class CoreApiService extends ArikaimService {

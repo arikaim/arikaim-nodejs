@@ -8,8 +8,9 @@
  * 
 */
 
-import Path from '@arikaim/arikaim/system/path.js';
-const merge = require('deepmerge');
+import Path from '@arikaim/arikaim/common/path.js';
+import merge  from 'deepmerge' ;
+
 
 export default class Component {
 

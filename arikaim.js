@@ -9,19 +9,12 @@
  * @license     http://www.arikaim.com/license
 */
 
+import merge  from 'deepmerge' ;
+
 import ArikaimServicesServer from './src/server.js';
-import cli from './src/cli/cli.js';
 
-writeLn('\nArikaim (NodeJs)\n','blue');
-
-cli.command('start')
-    .description('Start server')
-    .action(async (env, options) => {        
-        const server = new ArikaimServicesServer();
-        // boot
-        await server.boot();
-        // run
-        server.run();
-});
-
-cli.parse();
+const server = new ArikaimServicesServer();
+// boot
+await server.boot();
+// run
+server.run();

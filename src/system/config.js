@@ -7,7 +7,8 @@
 */
 
 import { readFileSync, existsSync, writeFileSync } from 'fs';
-import Path from './path.js';
+import Path from '@arikaim/arikaim/common/path.js';
+
 
 export default class Config {
 

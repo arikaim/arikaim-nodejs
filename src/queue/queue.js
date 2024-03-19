@@ -6,9 +6,9 @@
  * @license     http://www.arikaim.com/license
 */
 
-import { default as Model } from "@arikaim/arikaim/db/model.js"
-import { default as Job } from "@arikaim/arikaim/queue/job.js"
-import Path from './../system/path.js';
+import Path from '@arikaim/arikaim/common/path.js';
+import { default as Model } from "@arikaim/arikaim-server/db/model.js"
+import { default as Job } from "@arikaim/arikaim-server/queue/job.js"
 import { EventEmitter } from "events";
 
 class Queue {

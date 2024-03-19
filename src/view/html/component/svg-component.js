@@ -8,7 +8,7 @@
  * 
 */
 
-import Component from '@arikaim/arikaim/view/html/component/component.js';
+import Component from '@arikaim/arikaim-server/view/html/component/component.js';
 
 export default class SvgComponent extends Component{
 
