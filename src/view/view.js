@@ -8,8 +8,8 @@
  * 
 */
 
-import { readFileSync } from 'fs';
 import Path from '@arikaim/arikaim/common/path.js';
+import { File } from '@arikaim/arikaim/common/file.js';
 import ArikaimPackage from '@arikaim/arikaim/common/package.js';
 import Component from '@arikaim/arikaim-server/view/html/component/component.js';
 import SvgComponent from '@arikaim/arikaim-server/view/html/component/svg-component.js';
@@ -55,7 +55,9 @@ export default class View {
         this.#templateDescriptor = ArikaimPackage.loadPackageDescriptor(this.#primaryTemplate,'template');
         // load theme globals file 
         this.loadThemeVars();
-
+        // create template incude files code
+        this.resolveTemplateIncludes();
+    
         // add funcitons 
         env.addGlobal('component',this.renderComponent.bind(this));
         env.addExtension('component',new ComponentTag());
@@ -69,9 +71,7 @@ export default class View {
     loadThemeVars() {
         var fileName = Path.templatePath(this.#primaryTemplate) + 'themes' + Path.sep + 'default.json';               
         try {
-            var json = readFileSync(fileName,'utf8');  
-            // merge data
-            this.#themeVars = JSON.parse(json);  
+            this.#themeVars = File.readJSONFile(fileName);  
         } catch (error) {
             writeLn(error);
         }
@@ -110,25 +110,31 @@ export default class View {
         const page = this.createComponent(name,'page',language);
         page.resolve(params);
 
-        this.getTemplateIncludeFiles();
-
         var body = nunjucks.render(page.templateFile,page.context);
+        page.head.mergeContent(page.context.head)
 
         return nunjucks.render('index.html',{
             language: language,
-            body: body
+            body: body,
+            head: page.head.context
         }); 
     }
 
-    getTemplateIncludeFiles() {
+    resolveTemplateIncludes() {
+        if (isEmpty(this.templateDescriptor) == true) {
+            return false;
+        }
 
+        this.resolveLibraryIncludes();
     }
 
-    getLibraryIncludeFiles(items) {
-        items.forEach(item => {
-            var tokens = item.split(':');
+    resolveLibraryIncludes() {
 
-        });
+        console.log(this.templateDescriptor.include);
+       // items.forEach(item => {
+       //     var tokens = item.split(':');
+
+      //  });
     }
 
     getLibraryProperties(name, version) {

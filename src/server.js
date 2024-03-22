@@ -16,6 +16,7 @@ import access from './access/access.js';
 import queue from './queue/queue.js';
 import View from './view/view.js';
 import CoreApiService from './core-api/service.js';
+import { createLogger, createExpressLogger } from './logger.js';
 
 import express from 'express'
 import path from 'path';
@@ -31,9 +32,10 @@ export default class ArikaimServicesServer {
     #config = null;
     #express = null;
     #httpServer = null;
-    #view = null;
+    #logger = null;
 
     constructor() {
+        this.#logger = createLogger();
     }
 
     async boot() {
@@ -61,16 +63,14 @@ export default class ArikaimServicesServer {
                 const html = view.renderPage(name,params,language);
                 res.send(html);
             };
-    
-            console.dir(req.url);
-            console.dir(req.headers);
-           
+       
             next();
         });
         // static files
         this.#express.use(express.static(Path.templatesPath));
         this.#express.use(express.static(Path.librariesPath));
-
+        // logger 
+        this.#express.use(createExpressLogger());
         // web server
         this.#httpServer = http.createServer(this.#express);
 

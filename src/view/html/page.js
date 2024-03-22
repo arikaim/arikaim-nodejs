@@ -8,10 +8,13 @@
  * 
 */
 
+import { PageHead } from '@arikaim/arikaim-server/view/html/page-head.js'
 import Component from '@arikaim/arikaim-server/view/html/component/component.js'
 import loadPropertiesFile from '@arikaim/arikaim-server/view/html/traits/properties.js'
 
 export default class Page extends Component {
+
+    #head;
 
     constructor(
         name,
@@ -22,6 +25,8 @@ export default class Page extends Component {
         type
     ) {
         super(name,'pages',language,viewPath,primaryTemplate,'page');
+       
+        this.#head = new PageHead();
     }
 
     init() {
@@ -29,6 +34,10 @@ export default class Page extends Component {
 
         this.loadPropertiesFile(); 
     } 
+
+    get head() {
+        return this.#head;
+    }
 
     render(params = []) {
     }

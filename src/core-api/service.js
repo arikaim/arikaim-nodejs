@@ -16,7 +16,7 @@ export default class CoreApiService extends ArikaimService {
         writeLn('Load template page roues','green');
 
         view.templateDescriptor.routes.forEach(item => {
-            writeLn('Asdd page route ' + item.path);
+            writeLn('Add page route ' + item.path);
             this.router.get(item.path,this.loadPage(item.page));         
         });     
     }

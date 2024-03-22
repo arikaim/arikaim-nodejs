@@ -9,7 +9,7 @@
 */
 
 import Path from '@arikaim/arikaim/common/path.js';
-import merge  from 'deepmerge' ;
+import merge from 'deepmerge';
 
 
 export default class Component {
