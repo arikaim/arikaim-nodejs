@@ -9,9 +9,7 @@
  * @license     http://www.arikaim.com/license
 */
 
-import merge  from 'deepmerge' ;
-
-import ArikaimServicesServer from './src/server.js';
+import ArikaimServicesServer from '@arikaim/arikaim-server/server.js';
 
 const server = new ArikaimServicesServer();
 // boot

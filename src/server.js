@@ -10,7 +10,7 @@ import '@arikaim/arikaim/common/global.js';
 import Path from '@arikaim/arikaim/common/path.js';
 import { readdirSync, statSync } from 'fs';
 
-import { default as Config } from './system/config.js';
+import { loadConfig } from './system/config.js';
 import db from './db/db.js';
 import access from './access/access.js';
 import queue from './queue/queue.js';
@@ -22,6 +22,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import * as http from "http";
+import { exit } from 'process';
 
 /**
  *  Server class
@@ -38,10 +39,9 @@ export default class ArikaimServicesServer {
     async boot() {
         writeLn('Server boot...');
         // load server config 
-        this.#config = await Config.loadConfig();
-
+        this.#config = await loadConfig();
         if (this.#config === false) {           
-            return false;
+            exit();
         };
 
         // init db      

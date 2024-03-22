@@ -27,8 +27,8 @@
     "sequelize": "^6.19.0",
     "socket.io": "^4.5.1"
   },
-  "bin": {
-    "arikaim": "./arikaim.js"
+  "scripts":{
+    "start": "node ./src/arikaim.js"
   },
   "exports": {
     "./db": "./src/db/",
