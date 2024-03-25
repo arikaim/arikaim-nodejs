@@ -13,6 +13,7 @@ import { File } from '@arikaim/arikaim/common/file.js';
 import ArikaimPackage from '@arikaim/arikaim/common/package.js';
 import Component from '@arikaim/arikaim-server/view/html/component/component.js';
 import SvgComponent from '@arikaim/arikaim-server/view/html/component/svg-component.js';
+import ArikaimComponent from '@arikaim/arikaim-server/view/html/component/arikaim-component.js';
 import Page from '@arikaim/arikaim-server/view/html/page.js';
 import TemplateExtension from '@arikaim/arikaim-server/view/template/extension.js';
 import ComponentTag from '@arikaim/arikaim-server/view/template/tags/component.js';
@@ -24,7 +25,8 @@ export default class View {
     #COMPONENTS_CLASSES = {
         page: Page,
         base: Component,
-        svg: SvgComponent
+        svg: SvgComponent,
+        arikaim: ArikaimComponent
     };
 
     #viewPath = '';
@@ -78,7 +80,7 @@ export default class View {
     } 
 
     createComponent(name,type,language) {
-        type = type ?? 'base';
+        type = type ?? 'arikaim';
         var component = new this.#COMPONENTS_CLASSES[type](
             name,
             'components',   
@@ -94,13 +96,25 @@ export default class View {
     }
 
     renderComponent(name,params,type,language) {
+        if (isEmpty(name) == true) {
+            return '';
+        }
+        console.log('render comp: ' + name);
+
+        console.log(url.host);
+
         var component = this.createComponent(name,type,language);
         component.resolve(params);
     
         var htmlCode = '';
         if (component.hasContent() == true) {
             // render template code
-            htmlCode = nunjucks.render(component.templateFile,component.context);          
+            try {
+                htmlCode = nunjucks.render(component.templateFile,component.context);          
+            } catch (error) {
+                errorMessage(error);
+                htmlCode = '';
+            }
         }
 
         return htmlCode;

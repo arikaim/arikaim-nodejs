@@ -14,10 +14,10 @@ export function loadConfig(fileName) {
 
     var data = File.readJSONFile(fileName);   
     if (data !== false) {
-        writeLn('Config file: ' + fileName + ' loaded ','green');
+        logger.info('Loaded config file ' + fileName);
         return data;
     }
     
-    errorMessage('Error loading config file: ' + fileName);
+    logger.error('Error loading config file: ' + fileName);
     return false;
 }

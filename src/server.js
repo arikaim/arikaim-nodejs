@@ -7,6 +7,7 @@
 */
 
 import '@arikaim/arikaim/common/global.js';
+import '@arikaim/arikaim-server/system/global.js';
 import Path from '@arikaim/arikaim/common/path.js';
 import { readdirSync, statSync } from 'fs';
 
@@ -16,7 +17,6 @@ import access from './access/access.js';
 import queue from './queue/queue.js';
 import View from './view/view.js';
 import CoreApiService from './core-api/service.js';
-import { createLogger, createExpressLogger } from './logger.js';
 
 import express from 'express'
 import path from 'path';
@@ -32,10 +32,8 @@ export default class ArikaimServicesServer {
     #config = null;
     #express = null;
     #httpServer = null;
-    #logger = null;
-
+    
     constructor() {
-        this.#logger = createLogger();
     }
 
     async boot() {
@@ -59,6 +57,8 @@ export default class ArikaimServicesServer {
         this.#express.use(cookieParser());      
         this.#express.use(cors(this.#config.cors));
         this.#express.use((req, res, next) => {
+            url.setHost(req.protocol + '://' + req.headers.host);
+
             res.renderPage = (name,params,language) => {              
                 const html = view.renderPage(name,params,language);
                 res.send(html);
@@ -69,8 +69,9 @@ export default class ArikaimServicesServer {
         // static files
         this.#express.use(express.static(Path.templatesPath));
         this.#express.use(express.static(Path.librariesPath));
+        this.#express.use(express.static(Path.storagePublicPath));
         // logger 
-        this.#express.use(createExpressLogger());
+        this.#express.use(logger.getExpressMiddleware());
         // web server
         this.#httpServer = http.createServer(this.#express);
 

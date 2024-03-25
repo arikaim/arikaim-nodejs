@@ -110,8 +110,6 @@ export default class Component {
             this.#templateName = this.#primaryTemplate;           
         }
 
-        console.log(this.#location);
-
         if (this.#location == 3) { 
             // components library location
             this.#fullPath = Path.componentsPath + this.#templateName + Path.sep + this.#path + Path.sep;

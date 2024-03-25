@@ -10,7 +10,7 @@
 
 import { PageHead } from '@arikaim/arikaim-server/view/html/page-head.js'
 import Component from '@arikaim/arikaim-server/view/html/component/component.js'
-import loadPropertiesFile from '@arikaim/arikaim-server/view/html/traits/properties.js'
+import { loadPropertiesFile } from '@arikaim/arikaim-server/view/html/traits/properties.js'
 
 export default class Page extends Component {
 
@@ -31,7 +31,6 @@ export default class Page extends Component {
 
     init() {
         super.init();
-
         this.loadPropertiesFile(); 
     } 
 
