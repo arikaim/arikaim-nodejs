@@ -31,4 +31,15 @@ export class PageHead {
     get html_code() {
         return this.#context.html_code;
     }
+
+    createCode(includes) {
+        // css include files
+        includes.css.forEach(item => {
+            this.addCssFileLink('css/' + item);
+        });
+    }
+
+    addCssFileLink(file) {
+        this.#context.html_code += '<link media="all" href="' + file + '"  type="text/css" rel="stylesheet"/>' + '\n'
+    }
 }

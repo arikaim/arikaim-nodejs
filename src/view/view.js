@@ -35,12 +35,18 @@ export default class View {
     #primaryTemplate = null;
     #themeVars = {};
     #templateDescriptor = {};
+    #includes;
 
     constructor(primaryTemplate) {
         this.#viewPath = Path.view();      
         this.#templatesPath = Path.templates();
         this.#componentsPath = Path.components(); 
         this.#primaryTemplate = primaryTemplate; 
+        this.#includes = {
+            css: [],
+            library: [],
+            components: []
+        };
     }
 
     boot() {
@@ -57,7 +63,7 @@ export default class View {
         this.#templateDescriptor = ArikaimPackage.loadPackageDescriptor(this.#primaryTemplate,'template');
         // load theme globals file 
         this.loadThemeVars();
-        // create template incude files code
+        // create template include files code
         this.resolveTemplateIncludes();
     
         // add funcitons 
@@ -109,7 +115,7 @@ export default class View {
             try {
                 htmlCode = nunjucks.render(component.templateFile,component.context);          
             } catch (error) {
-                errorMessage(error);
+                logger.error(error);
                 htmlCode = '';
             }
         }
@@ -123,6 +129,8 @@ export default class View {
 
         var body = nunjucks.render(page.templateFile,page.context);
         page.head.mergeContent(page.context.head)
+        // generate head code
+        page.head.createCode(this.templateDescriptor.include);
 
         return nunjucks.render('index.html',{
             language: language,
@@ -136,16 +144,16 @@ export default class View {
             return false;
         }
 
+      //  var cssItems = this.templateDescriptor.include['css'];
+
+       
         this.resolveLibraryIncludes();
+
+        console.log(this.#includes);
     }
 
-    resolveLibraryIncludes() {
+    resolveLibraryIncludes(items) {
 
-       // console.log(this.templateDescriptor.include);
-       // items.forEach(item => {
-       //     var tokens = item.split(':');
-
-      //  });
     }
 
     getLibraryProperties(name, version) {

@@ -13,8 +13,7 @@ class PermissionRelations extends Model {
     findById = findById;
 }
 
-export default  PermissionRelations.init({
-    
+export default PermissionRelations.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

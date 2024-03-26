@@ -67,7 +67,7 @@ export default class ArikaimServicesServer {
             next();
         });
         // static files
-        this.#express.use(express.static(Path.templates()));
+        this.#express.use(express.static(Path.template(this.#config.settings.primaryTemplate)));
         this.#express.use(express.static(Path.libraries()));
         this.#express.use(express.static(Path.publicStorage()));
         // logger 
@@ -92,7 +92,7 @@ export default class ArikaimServicesServer {
     }
 
     async loadServices() {
-        logger.info('Load services ...');
+        logger.info('Boot services ...');
 
         const router = express.Router();      
         var service;
@@ -114,7 +114,7 @@ export default class ArikaimServicesServer {
             service = new serviceClass(router,this.#httpServer,this.#config);
             await service.boot();
             this.#express.use('/',service.router);
-            writeLn('Loaded ' + dir);
+            logger.info('Service loaded ' + dir);
         }
     }
 }

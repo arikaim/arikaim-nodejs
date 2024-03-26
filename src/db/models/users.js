@@ -13,7 +13,7 @@ class Users extends Model {
     findById = findById;
 }
 
-Users.init({
+export default Users.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -46,7 +46,3 @@ Users.init({
         }
     }
 });
-
-
-
-export default Users;
