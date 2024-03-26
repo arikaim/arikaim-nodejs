@@ -107,14 +107,14 @@ export default class ArikaimServicesServer {
             return statSync(servicesPath + path.sep + file).isDirectory();
         });
 
-        for (var dir of services) {
-            var serviceFile = servicesPath + dir + path.sep + dir + '.js';
+        for (var serviceName of services) {
+            var serviceFile = servicesPath + serviceName + path.sep + serviceName + '.js';
             var { default: serviceClass } = await import(serviceFile);
        
             service = new serviceClass(router,this.#httpServer,this.#config);
             await service.boot();
             this.#express.use('/',service.router);
-            logger.info('Service loaded ' + dir);
+            logger.info('Service loaded ' + serviceName);
         }
     }
 }
