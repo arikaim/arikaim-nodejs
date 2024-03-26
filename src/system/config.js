@@ -10,14 +10,14 @@ import Path from '@arikaim/arikaim/common/path.js';
 import { File } from '@arikaim/arikaim/common/file.js';
 
 export function loadConfig(fileName) {    
-    fileName = Path.getConfigPath() + getDefaultValue(fileName,'services-config.json');
+    fileName = Path.config() + getDefaultValue(fileName,'services-config.json');
 
     var data = File.readJSONFile(fileName);   
     if (data !== false) {
-        logger.info('Loaded config file ' + fileName);
+        logger.info('Loaded config file ' + Path.getRelative(fileName));
         return data;
     }
     
-    logger.error('Error loading config file: ' + fileName);
+    logger.error('Error loading config file: ' + Path.getRelative(fileName));
     return false;
 }

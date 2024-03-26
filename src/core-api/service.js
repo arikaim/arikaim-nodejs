@@ -1,6 +1,6 @@
 'use strict';
 
-import ArikaimService from "@arikaim/arikaim-server/service.js"
+import ArikaimService from "@arikaim/server/service.js"
 
 
 export default class CoreApiService extends ArikaimService {
@@ -13,10 +13,9 @@ export default class CoreApiService extends ArikaimService {
     }
 
     loadTemplateRoutes() {
-        writeLn('Load template page roues','green');
+        logger.info('Load core api routes ...');
 
         view.templateDescriptor.routes.forEach(item => {
-            writeLn('Add page route ' + item.path);
             this.router.get(item.path,this.loadPage(item.page));         
         });     
     }

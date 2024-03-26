@@ -8,8 +8,8 @@
  * 
 */
 
-import Component from '@arikaim/arikaim-server/view/html/component/component.js';
-import { loadPropertiesFile } from '@arikaim/arikaim-server/view/html/traits/properties.js';
+import Component from '@arikaim/server/view/html/component/component.js';
+import { loadPropertiesFile } from '@arikaim/server/view/html/traits/properties.js';
 
 export default class ArikaimComponent extends Component{
 

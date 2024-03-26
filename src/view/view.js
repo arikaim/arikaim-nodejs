@@ -11,12 +11,12 @@
 import Path from '@arikaim/arikaim/common/path.js';
 import { File } from '@arikaim/arikaim/common/file.js';
 import ArikaimPackage from '@arikaim/arikaim/common/package.js';
-import Component from '@arikaim/arikaim-server/view/html/component/component.js';
-import SvgComponent from '@arikaim/arikaim-server/view/html/component/svg-component.js';
-import ArikaimComponent from '@arikaim/arikaim-server/view/html/component/arikaim-component.js';
-import Page from '@arikaim/arikaim-server/view/html/page.js';
-import TemplateExtension from '@arikaim/arikaim-server/view/template/extension.js';
-import ComponentTag from '@arikaim/arikaim-server/view/template/tags/component.js';
+import Component from '@arikaim/server/view/html/component/component.js';
+import SvgComponent from '@arikaim/server/view/html/component/svg-component.js';
+import ArikaimComponent from '@arikaim/server/view/html/component/arikaim-component.js';
+import Page from '@arikaim/server/view/html/page.js';
+import TemplateExtension from '@arikaim/server/view/template/extension.js';
+import ComponentTag from '@arikaim/server/view/template/tags/component.js';
 
 import nunjucks from 'nunjucks';
 
@@ -37,14 +37,14 @@ export default class View {
     #templateDescriptor = {};
 
     constructor(primaryTemplate) {
-        this.#viewPath = Path.viewPath;      
-        this.#templatesPath = Path.templatesPath;
-        this.#componentsPath = Path.componentsPath; 
+        this.#viewPath = Path.view();      
+        this.#templatesPath = Path.templates();
+        this.#componentsPath = Path.components(); 
         this.#primaryTemplate = primaryTemplate; 
     }
 
     boot() {
-        writeLn('Init template...');
+        logger.info('Init template (' + this.#primaryTemplate + ')');
       
         const env = nunjucks.configure([
             this.#componentsPath,
@@ -71,11 +71,11 @@ export default class View {
     }
 
     loadThemeVars() {
-        var fileName = Path.templatePath(this.#primaryTemplate) + 'themes' + Path.sep + 'default.json';               
+        var fileName = Path.template(this.#primaryTemplate) + 'themes' + Path.sep + 'default.json';               
         try {
             this.#themeVars = File.readJSONFile(fileName);  
-        } catch (error) {
-            writeLn(error);
+        } catch(error) {
+            logger.warn('Theme file not found: ' + Path.getRelative(fileName));
         }
     } 
 
@@ -99,9 +99,6 @@ export default class View {
         if (isEmpty(name) == true) {
             return '';
         }
-        console.log('render comp: ' + name);
-
-        console.log(url.host);
 
         var component = this.createComponent(name,type,language);
         component.resolve(params);
@@ -144,7 +141,7 @@ export default class View {
 
     resolveLibraryIncludes() {
 
-        console.log(this.templateDescriptor.include);
+       // console.log(this.templateDescriptor.include);
        // items.forEach(item => {
        //     var tokens = item.split(':');
 
@@ -176,7 +173,7 @@ export default class View {
         }
 
         properties['files'].forEach(file => {
-            console.log(file);
+           // console.log(file);
         });
     }
 
@@ -185,7 +182,7 @@ export default class View {
     }
 
     getPagesPath() {
-        return Path.templatesPath + this.#primaryTemplate + Path.sep + 'pages' + Path.sep;
+        return Path.template(this.#primaryTemplate) + 'pages' + Path.sep;
     }
 
     getPagePath(name) {

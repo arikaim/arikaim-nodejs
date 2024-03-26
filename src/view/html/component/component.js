@@ -112,10 +112,10 @@ export default class Component {
 
         if (this.#location == 3) { 
             // components library location
-            this.#fullPath = Path.componentsPath + this.#templateName + Path.sep + this.#path + Path.sep;
+            this.#fullPath = Path.components() + this.#templateName + Path.sep + this.#path + Path.sep;
             this.#filePath = this.#templateName + Path.sep + this.#path + Path.sep;            
         } else {    
-            this.#fullPath = Path.templatePath(this.#templateName) + this.#basePath + Path.sep + this.#path + Path.sep;
+            this.#fullPath = Path.template(this.#templateName) + this.#basePath + Path.sep + this.#path + Path.sep;
             this.#filePath = this.#templateName + Path.sep + this.#basePath + Path.sep + this.#path + Path.sep;
         }  
     }

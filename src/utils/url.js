@@ -30,7 +30,7 @@ export default class Url {
     }
 
     templates(relative) {
-        return this.view(relative) + 'templates' + path.sep + 'nodejs/'; 
+        return this.view(relative) + 'templates/nodejs/'; 
     }
 
     librariesPath(relative) {

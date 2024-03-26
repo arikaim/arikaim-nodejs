@@ -7,7 +7,7 @@
 */
 
 import '@arikaim/arikaim/common/global.js';
-import '@arikaim/arikaim-server/system/global.js';
+import '@arikaim/server/system/global.js';
 import Path from '@arikaim/arikaim/common/path.js';
 import { readdirSync, statSync } from 'fs';
 
@@ -37,7 +37,7 @@ export default class ArikaimServicesServer {
     }
 
     async boot() {
-        writeLn('Server boot...');
+        writeLn('Server boot ...\n','green');
         // load server config 
         this.#config = await loadConfig();
         if (this.#config === false) {           
@@ -67,9 +67,9 @@ export default class ArikaimServicesServer {
             next();
         });
         // static files
-        this.#express.use(express.static(Path.templatesPath));
-        this.#express.use(express.static(Path.librariesPath));
-        this.#express.use(express.static(Path.storagePublicPath));
+        this.#express.use(express.static(Path.templates()));
+        this.#express.use(express.static(Path.libraries()));
+        this.#express.use(express.static(Path.publicStorage()));
         // logger 
         this.#express.use(logger.getExpressMiddleware());
         // web server
@@ -87,11 +87,13 @@ export default class ArikaimServicesServer {
     run() {
         // http server
         this.#httpServer.listen(this.#config.port,this.#config.host,() => {
-            writeLn('Server started at ' + this.#config.host + ":" + this.#config.port,'green');
+            logger.info('Server started at ' + this.#config.host + ":" + this.#config.port,'green');
         });
     }
 
     async loadServices() {
+        logger.info('Load services ...');
+
         const router = express.Router();      
         var service;
 
@@ -99,9 +101,7 @@ export default class ArikaimServicesServer {
         service = new CoreApiService(router,this.#httpServer,this.#config);
         await service.boot();
         this.#express.use('/',service.router);
-
-        writeLn('Load services ...','green');    
-        var servicesPath = Path.getServicesPath();
+        var servicesPath = Path.services();
 
         var services = await readdirSync(servicesPath).filter(function (file) {
             return statSync(servicesPath + path.sep + file).isDirectory();

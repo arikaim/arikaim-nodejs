@@ -7,8 +7,8 @@
 */
 
 import Path from '@arikaim/arikaim/common/path.js';
-import { default as Model } from "@arikaim/arikaim-server/db/model.js"
-import { default as Job } from "@arikaim/arikaim-server/queue/job.js"
+import { default as Model } from "@arikaim/server/db/model.js"
+import { default as Job } from "@arikaim/server/queue/job.js"
 import { EventEmitter } from "events";
 
 class Queue {
@@ -30,7 +30,7 @@ class Queue {
     }
 
     async boot() {
-        console.log('Boot jobs queue.');
+        logger.info('Boot jobs queue ...');
         this.#queueModel = await Model.create('queue');
     }
 
@@ -38,7 +38,7 @@ class Queue {
         if (isEmpty(serviceName) == true) {
            return null;
         }
-        var jobPath = Path.getJobsPath(serviceName,jobFile);
+        var jobPath = Path.jobs(serviceName,jobFile);
         if (isEmpty(jobPath) == true) {
             return null;
         }
@@ -86,8 +86,6 @@ class Queue {
                 status: status          
             }
         ,{ where: { uuid: uuid } });
-
-        console.log(result);
 
         return (isEmpty(result) == false);
     }
@@ -140,10 +138,10 @@ class Queue {
             if (isObject(job) == true) {
                 this.executeJob(job);
             } else {
-               // console.log('Queue is empty.');
+              
             }
-        }).catch( (error) => {
-            console.log(error);
+        }).catch((error) => {
+            logger.error(error);
         });
 
         if (this.isRunning() == false) {
@@ -154,8 +152,7 @@ class Queue {
     }
 
     stop() {
-        console.log('Queue stop');
-        
+        logger.info('Queue stop.');
         clearInterval(this.#interval);
     }
 

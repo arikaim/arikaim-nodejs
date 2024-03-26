@@ -7,7 +7,7 @@
 */
 
 import { Server } from "socket.io";
-import access from '@arikaim/arikaim-server/access/access.js';
+import access from '@arikaim/server/access/access.js';
 import cookie from 'cookie';
 
 export default class SocketServer {
@@ -31,18 +31,18 @@ export default class SocketServer {
 
         // main namespace
         this.#io.on('connection', (socket) => {
-            console.log("Web socket client connected.");
+            logger.info("Web socket client connected.");
             this.#clients.set(socket,socket.id);
 
             this.onConnect(socket);           
         });
 
         this.#io.on('disconnect', (socket) => {
-            console.log("Web socket client disconnected");
+            logger.info("Web socket client disconnected");
         });
 
         this.#io.on('error', (error) => {
-            console.log(error); 
+            logger.error(error); 
         });
 
         // users namespace 
@@ -51,7 +51,7 @@ export default class SocketServer {
             var phpSession = (socket.handshake.headers.tokentype == 'php-session') ?  socket.handshake.headers.token : socket.handshake.headers.cookie;
               
             if (isEmpty(phpSession) == true) {
-                console.log('Cookie data is empty Not autorized');
+                logger.error('Cookie data is empty Not autorized');
                 next(new Error('Cookie data is empty Not autorized'));
                 return;
             }

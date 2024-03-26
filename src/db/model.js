@@ -17,7 +17,7 @@ export default class Model {
         if (isEmpty(serviceName) == true) {
             modelFile = './models/' + modelName + '.js';
         } else {
-            modelFile = Path.getDbModelsPath(serviceName,modelName);
+            modelFile = Path.dbModels(serviceName,modelName);
         }
         var { default: modelClass } = await import(modelFile);
    
