@@ -27,6 +27,7 @@
     "php-unserialize": "^0.0.1",
     "sequelize": "^6.19.0",
     "socket.io": "^4.5.1",
+    "uuid": "^9.0.1",
     "winston": "^3.12.0"
   },
   "scripts": {

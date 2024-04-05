@@ -72,9 +72,13 @@ export default class SocketServer {
             }                 
         });
 
-        writeLn('Socket server started ');
+        logger.info('Socket server started ');
     }
 
+    stop() {
+
+    }
+    
     emit(eventName, ...args) {
         this.#io.sockets.emit(eventName,...args);
     }

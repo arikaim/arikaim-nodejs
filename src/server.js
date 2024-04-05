@@ -9,6 +9,7 @@
 import '@arikaim/arikaim/common/global.js';
 import '@arikaim/server/system/global.js';
 import Path from '@arikaim/arikaim/common/path.js';
+import ArikaimPackage from '@arikaim/arikaim/common/package.js';
 import { readdirSync, statSync } from 'fs';
 
 import { loadConfig } from './system/config.js';
@@ -75,6 +76,9 @@ export default class ArikaimServicesServer {
         // web server
         this.#httpServer = http.createServer(this.#express);
 
+        process.on('SIGTERM', () => { this.stop() });
+        process.on('SIGINT',() => { this.stop() });
+
         // boot queue
         await queue.boot();
         
@@ -82,6 +86,18 @@ export default class ArikaimServicesServer {
         await this.loadServices(); 
          
         return true;            
+    }
+
+    get server() {
+        return this.#httpServer;
+    }
+
+    stop() {
+
+        this.server.close((err) => {
+            logger.warn('Http server shutdown.');
+            process.exit(err ? 1 : 0);
+        });
     }
 
     run() {
@@ -108,6 +124,13 @@ export default class ArikaimServicesServer {
         });
 
         for (var serviceName of services) {
+            // load package description
+            var packageDescriptor = ArikaimPackage.loadPackageDescriptor(serviceName,'service');
+            if (packageDescriptor.disabled === true) {
+                // service is disabled
+                continue;
+            }
+            
             var serviceFile = servicesPath + serviceName + path.sep + serviceName + '.js';
             var { default: serviceClass } = await import(serviceFile);
        

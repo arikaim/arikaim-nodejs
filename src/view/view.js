@@ -15,7 +15,6 @@ import Component from '@arikaim/server/view/html/component/component.js';
 import SvgComponent from '@arikaim/server/view/html/component/svg-component.js';
 import ArikaimComponent from '@arikaim/server/view/html/component/arikaim-component.js';
 import Page from '@arikaim/server/view/html/page.js';
-import TemplateExtension from '@arikaim/server/view/template/extension.js';
 import ComponentTag from '@arikaim/server/view/template/tags/component.js';
 
 import nunjucks from 'nunjucks';
