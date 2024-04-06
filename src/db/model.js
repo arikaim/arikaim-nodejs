@@ -13,16 +13,18 @@ import Path from '@arikaim/arikaim/common/path.js';
 export default class Model {
 
     static async create(modelName, serviceName) {
-       
-        var modelFile;
         if (isEmpty(serviceName) == true) {
-            modelFile = './models/' + modelName + '.js';
+            var modelFile = './models/' + modelName + '.js';
         } else {
-            modelFile = Path.dbModel(serviceName,modelName);
+            var modelFile = Path.dbModel(serviceName,modelName);
         }
 
-        var { default: modelClass } = await import(modelFile);
+        return Model.createFromFile(modelFile);  
+    }
 
-        return modelClass;      
+    static async createFromFile(modelFile) {
+        const { default: model } = await import(modelFile);
+
+        return await model; 
     }
 }

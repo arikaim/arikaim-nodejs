@@ -45,7 +45,10 @@ export default class ArikaimServicesServer {
             exit();
         };
 
-        // init db      
+        logger.info('Loaded config file ');
+
+        // init db  
+        logger.info('Db connection ...');    
         await db.connect(this.#config.database);
         // init auth
         await access.init();     
@@ -119,7 +122,7 @@ export default class ArikaimServicesServer {
         this.#express.use('/',service.router);
         var servicesPath = Path.services();
 
-        var services = await readdirSync(servicesPath).filter(function (file) {
+        var services = readdirSync(servicesPath).filter(function (file) {
             return statSync(servicesPath + path.sep + file).isDirectory();
         });
 

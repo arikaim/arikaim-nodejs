@@ -14,10 +14,8 @@ export function loadConfig(fileName) {
 
     var data = File.readJSONFile(fileName);   
     if (data !== false) {
-        logger.info('Loaded config file ' + Path.getRelative(fileName));
         return data;
     }
-    
-    logger.error('Error loading config file: ' + Path.getRelative(fileName));
+
     return false;
 }

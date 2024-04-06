@@ -33,11 +33,10 @@ export default Permissions.init({
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    }},{ 
-        sequelize: sequelize,
-        modelName: 'Permissions',
-        timestamps: false,
-        tableName: 'permissions',
-        scopes: {                
-        }
+    }
+},{ 
+    sequelize: sequelize,
+    modelName: 'Permissions',
+    timestamps: false,
+    tableName: 'permissions'
 });

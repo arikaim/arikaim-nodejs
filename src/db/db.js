@@ -23,8 +23,6 @@ class Db {
 
     async connect(config) {  
         try {
-            logger.info('Db connection ...');
-
             this.#dbConnection = new Sequelize(config.database, config.username, config.password, {
                 host: config.host,
                 dialect: config.dialect,
@@ -35,7 +33,7 @@ class Db {
             // set global 
             global.sequelize = this.#dbConnection;
           } catch (error) {
-            logger.error('Unable to connect to the database:', error);
+            errorMessage('Unable to connect to the database:', error);
         }
 
         return isObject(this.#dbConnection);

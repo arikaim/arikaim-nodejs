@@ -49,10 +49,11 @@ export default PermissionRelations.init({
     execute: {
         type: DataTypes.INTEGER,
         allowNull: true
-    }},{ 
-        sequelize: sequelize,
-        modelName: 'PermissionRelations',
-        timestamps: false,
-        tableName: 'permission_relations',
-        scopes: {}
+    }
+},{ 
+    sequelize: sequelize,
+    modelName: 'PermissionRelations',
+    timestamps: false,
+    tableName: 'permission_relations',
+    scopes: {}
 });

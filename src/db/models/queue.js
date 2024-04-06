@@ -7,14 +7,15 @@
 */
 
 import { DataTypes, Model } from 'sequelize';
-import Uuid from './../../utils/uuid.js';
 import findById from './../query/find.js';
+import { setUuid } from './../hooks/uuid.js';
+import { setDateCreated } from './../hooks/date-created.js';
 
 class Queue extends Model {
     findById = findById;
 }
 
-export default Queue.init({
+Queue.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -81,13 +82,13 @@ export default Queue.init({
         allowNull: true
     }
 },{
-    sequelize: sequelize,
-    hooks: { 
-        beforeValidate: (instance, options) => {
-            instance.uuid = (isEmpty(instance.uuid) ==true) ? Uuid.create() : instance.uuid
-        }
-    },            
+    sequelize: sequelize,       
     modelName: 'Queue',
     timestamps: false,
     tableName: 'queue'
 });
+
+Queue.addHook('beforeCreate',setDateCreated);
+Queue.addHook('beforeCreate',setUuid);
+
+export default Queue;
