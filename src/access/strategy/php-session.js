@@ -7,7 +7,7 @@
 */
 
 import Strategy from 'passport-strategy';
-import Utils from './../utils/utils.js';
+import Utils from '../../utils/utils.js';
 
 export default class PHPSessionStrategy extends Strategy {
 
@@ -20,7 +20,7 @@ export default class PHPSessionStrategy extends Strategy {
         this.userModel = userModel;  
     }
 
-    async authenticate(req, options, callback) {       
+    async authenticate(req, options) {       
         var sessionId = null;
         var sessionId = options['sessionId'] ?? req.cookies.PHPSESSID;              
         var user = await this.authUser(sessionId);

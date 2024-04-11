@@ -9,14 +9,13 @@
 
 import { default as Model } from "@arikaim/server/db/model.js"
 import passport from "passport";
-import BearerStrategy from "passport-http-bearer";
-import PHPSessionStrategy from './php-session.js';
+
+import PHPSessionStrategy from './strategy/php-session.js';
 
 class Access {
 
     #passport = null;
     #usersModel = null;
-    #tokensModel = null;
     #strategies = {};
 
     constructor() {
@@ -27,33 +26,19 @@ class Access {
     async init() {
         // create db models
         this.#usersModel = await Model.create('users');
-        this.#tokensModel = await Model.create('access-tokens');
-
-        // add strategies
-        var phpSession = new PHPSessionStrategy({},this.#usersModel);
-        var bearer = new BearerStrategy(
-            function(token, done) {
-                return done(null,user);        
-            }
-        );
-
-        // init passport 
-        this.#passport.initialize();
-       
-        this.add('php-session',phpSession);
+    
+        this.add('php-session',new PHPSessionStrategy({},this.#usersModel));
     }
 
     hasControlPanelAccess(id) {
-
     }
 
     hasAccess(name, id) {
-
     }
 
     add(name, strategy) {
         this.#strategies[name] = strategy;      
-        this.#passport.use(strategy);        
+        this.#passport.use(name,strategy);        
     }
 
     getStrategy(name) {
