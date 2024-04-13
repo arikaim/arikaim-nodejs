@@ -15,7 +15,6 @@ import { readdirSync, statSync } from 'fs';
 import { loadConfig } from './system/config.js';
 import db from './db/db.js';
 import access from './access/access.js';
-import queue from './queue/queue.js';
 import View from './view/view.js';
 import CoreApiService from './core-api/service.js';
 
@@ -63,7 +62,7 @@ export default class ArikaimServicesServer {
         this.#express.use((req, res, next) => {
             url.setHost(req.protocol + '://' + req.headers.host);
 
-            res.renderPage = (name,params,language) => {              
+            res.renderPage = (name,params,language) => {      
                 const html = view.renderPage(name,params,language);
                 res.send(html);
             };
@@ -82,9 +81,6 @@ export default class ArikaimServicesServer {
         process.on('SIGTERM', () => { this.stop() });
         process.on('SIGINT',() => { this.stop() });
 
-        // boot queue
-        await queue.boot();
-        
         // load services 
         await this.loadServices(); 
          

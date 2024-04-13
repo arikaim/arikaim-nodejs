@@ -10,8 +10,9 @@
 
 import merge from 'deepmerge';
 
-export class PageHead {
+const NEW_LINE = '\n \t \t';
 
+export class PageHead { 
     #context;
 
     constructor() {
@@ -21,7 +22,9 @@ export class PageHead {
     }
 
     mergeContent(params) {
-        this.#context = merge(this.#context,params);  
+        if (isObject(params) == true) {
+            this.#context = merge(this.#context,params);  
+        }
     }
 
     get context() {
@@ -40,6 +43,10 @@ export class PageHead {
     }
 
     addCssFileLink(file) {
-        this.#context.html_code += '<link media="all" href="' + file + '"  type="text/css" rel="stylesheet"/>' + '\n'
+        this.#context.html_code += PageHead.linkCode({ file: file }) + NEW_LINE;
+    }
+
+    static linkCode(options) {
+        return '<link media="all" href="' + options.file + '"  type="text/css" rel="stylesheet"/>';
     }
 }
