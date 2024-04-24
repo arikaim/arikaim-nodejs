@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Arikaim services server
+ * Arikaim Server server
  * @link        http://www.arikaim.com
  * @copyright   Copyright (c) Intersoft Ltd <info@arikaim.com>
  * @license     http://www.arikaim.com/license

@@ -16,6 +16,7 @@ import SvgComponent from '@arikaim/server/view/html/component/svg-component.js';
 import ArikaimComponent from '@arikaim/server/view/html/component/arikaim-component.js';
 import Page from '@arikaim/server/view/html/page.js';
 import ComponentTag from '@arikaim/server/view/template/tags/component.js';
+import { resolveLibraryFiles } from '@arikaim/server/view/html/traits/ui-library.js';
 
 import nunjucks from 'nunjucks';
 
@@ -129,7 +130,8 @@ export default class View {
         var body = nunjucks.render(page.templateFile,page.context);
         page.head.mergeContent(page.context.head)
         // generate head code
-        page.head.createCode(this.templateDescriptor.include);
+        // include css files
+        page.head.createCode(this.templateDescriptor.include['css']);
 
         return nunjucks.render('index.html',{
             language: language,
@@ -143,16 +145,20 @@ export default class View {
             return false;
         }
 
-      //  var cssItems = this.templateDescriptor.include['css'];
-
-       
         this.resolveLibraryIncludes();
 
         console.log(this.#includes);
     }
 
-    resolveLibraryIncludes(items) {
+    resolveLibraryIncludes() {
+        if (this.templateDescriptor.include.hasOwnProperty('library') == false) {
+            return false;
+        }
+        var libraries = this.templateDescriptor.include['library'];
 
+        libraries.forEach((libraryName => {
+            resolveLibraryFiles(libraryName);
+        }));
     }
 
     getLibraryProperties(name, version) {

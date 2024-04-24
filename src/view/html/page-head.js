@@ -14,8 +14,10 @@ const NEW_LINE = '\n \t \t';
 
 export class PageHead { 
     #context;
+    #templatePath;
 
-    constructor() {
+    constructor(templatePath) {
+        this.#templatePath = templatePath;
         this.#context = {
             html_code: ''
         }
@@ -35,9 +37,9 @@ export class PageHead {
         return this.#context.html_code;
     }
 
-    createCode(includes) {
+    createCode(cssFiles) {
         // css include files
-        includes.css.forEach(item => {
+        cssFiles.forEach(item => {
             this.addCssFileLink('css/' + item);
         });
     }

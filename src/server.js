@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Arikaim Services
+ * Arikaim server
  * @link        http://www.arikaim.com
  * @copyright   Copyright (c) Intersoft Ltd <info@arikaim.com>
  * @license     http://www.arikaim.com/license
@@ -17,7 +17,7 @@ import db from './db/db.js';
 import access from './access/access.js';
 import View from './view/view.js';
 import CoreApiService from './core-api/service.js';
-
+import helmet from "helmet";
 import express from 'express'
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -57,11 +57,27 @@ export default class ArikaimServicesServer {
 
         // init express
         this.#express = express();
+        // add helmet protection
+       
+        this.#express.use(helmet({
+            strictTransportSecurity: false,
+            xContentTypeOptions: false,
+            contentSecurityPolicy: {
+                useDefaults: false,
+                directives: {
+                    defaultSrc: ["'self'"],
+                    scriptSrc: ["'self'"],                    
+                    styleSrc: ["'self'"],
+                    imgSrc: ["'self'"],
+                    upgradeInsecureRequests: null
+                }
+            }
+        }));
+
         this.#express.use(cookieParser());      
         this.#express.use(cors(this.#config.cors));
         this.#express.use((req, res, next) => {
             url.setHost(req.protocol + '://' + req.headers.host);
-
             res.renderPage = (name,params,language) => {      
                 const html = view.renderPage(name,params,language);
                 res.send(html);
@@ -69,7 +85,9 @@ export default class ArikaimServicesServer {
        
             next();
         });
+
         // static files
+        logger.info('Add static folder ' + Path.template(this.#config.settings.primaryTemplate));
         this.#express.use(express.static(Path.template(this.#config.settings.primaryTemplate)));
         this.#express.use(express.static(Path.libraries()));
         this.#express.use(express.static(Path.publicStorage()));
@@ -92,9 +110,10 @@ export default class ArikaimServicesServer {
     }
 
     stop() {
-
         this.server.close((err) => {
             logger.warn('Http server shutdown.');
+            logger.warn('Db connection close.');
+            db.close();
             process.exit(err ? 1 : 0);
         });
     }

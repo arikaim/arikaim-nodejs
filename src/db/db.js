@@ -21,6 +21,12 @@ class Db {
         return this.#dbConnection;
     }
 
+    close() {
+        if (isEmpty(this.connection) == false) {
+            this.connection.close();
+        }
+    }
+
     async connect(config) {  
         try {
             this.#dbConnection = new Sequelize(config.database, config.username, config.password, {

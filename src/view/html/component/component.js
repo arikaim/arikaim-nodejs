@@ -120,6 +120,10 @@ export default class Component {
         }  
     }
 
+    templatePath(relative) {
+        return Path.template(this.#templateName,relative);
+    }
+
     get fullPath() {
         return this.#fullPath;
     }
@@ -138,6 +142,10 @@ export default class Component {
 
     get context() {
         return this.#context;
+    }
+
+    get templateName() {
+        return this.#templateName;
     }
 
     get templateFile()

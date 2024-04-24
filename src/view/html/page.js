@@ -25,20 +25,19 @@ export default class Page extends Component {
         type
     ) {
         super(name,'pages',language,viewPath,primaryTemplate,'page');
-       
-        this.#head = new PageHead();
     }
 
     init() {
         super.init();
         this.loadPropertiesFile(); 
+        this.#head = new PageHead(this.templatePath(true));
     } 
 
     get head() {
         return this.#head;
     }
 
-    render(params = []) {
+    render(params) {
     }
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Arikaim
+ * Arikaim server
  * 
  * @link        http://www.arikaim.com
  * @copyright   Copyright (c) Intersoft Ltd <info@arikaim.com>
@@ -10,7 +10,7 @@
 import { default as Model } from "@arikaim/server/db/model.js"
 import passport from "passport";
 
-import PHPSessionStrategy from './strategy/php-session.js';
+import PHPSessionStrategy from './providers/php-session.js';
 
 class Access {
 
@@ -27,7 +27,7 @@ class Access {
         // create db models
         this.#usersModel = await Model.create('users');
     
-        this.add('php-session',new PHPSessionStrategy({},this.#usersModel));
+       // this.add('php-session',new PHPSessionStrategy({},this.#usersModel));
     }
 
     hasControlPanelAccess(id) {
