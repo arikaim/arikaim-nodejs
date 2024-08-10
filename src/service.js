@@ -25,4 +25,6 @@ export default class ArikaimService {
     }
 
     async boot() {}
+
+    bootConsole() {}
 }

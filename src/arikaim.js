@@ -9,10 +9,9 @@
  * @license     http://www.arikaim.com/license
 */
 
-import ArikaimServicesServer from '@arikaim/server/server.js';
+import arikaimServer from '@arikaim/server/server.js';
 
-const server = new ArikaimServicesServer();
 // boot
-await server.boot();
+await arikaimServer.boot();
 // run
-server.run();
+arikaimServer.run();

@@ -32,8 +32,10 @@ export default class ArikaimServicesServer {
     #config = null;
     #express = null;
     #httpServer = null;
-    
+    #services;
+
     constructor() {
+       this.#services = []; 
     }
 
     async boot() {
@@ -125,6 +127,38 @@ export default class ArikaimServicesServer {
         });
     }
 
+    get services() {
+        return this.#services;
+    }
+
+    bootConsole() {
+        this.#services = readdirSync(servicesPath).filter(function (file) {
+            return statSync(servicesPath + path.sep + file).isDirectory();
+        });
+    }
+
+    async scanServices(callback) {
+        var servicesPath = Path.services();
+        this.#services = readdirSync(servicesPath).filter(function (file) {
+            return statSync(servicesPath + path.sep + file).isDirectory();
+        });
+
+        for (var serviceName of this.#services) {
+            // load package description
+            var packageDescriptor = ArikaimPackage.loadPackageDescriptor(serviceName,'service');
+            if (packageDescriptor.disabled === true || packageDescriptor.type != 'nodejs') {
+                // service is disabled
+                continue;
+            }
+            
+            var serviceFile = servicesPath + serviceName + path.sep + serviceName + '.js';
+            var { default: serviceClass } = await import(serviceFile);
+       
+            service = new serviceClass(router,this.#httpServer,this.#config);
+            callback(service);
+        }
+    }
+
     async loadServices() {
         logger.info('Boot services ...');
 
@@ -135,27 +169,22 @@ export default class ArikaimServicesServer {
         service = new CoreApiService(router,this.#httpServer,this.#config);
         await service.boot();
         this.#express.use('/',service.router);
-        var servicesPath = Path.services();
-
-        var services = readdirSync(servicesPath).filter(function (file) {
-            return statSync(servicesPath + path.sep + file).isDirectory();
-        });
-
-        for (var serviceName of services) {
-            // load package description
-            var packageDescriptor = ArikaimPackage.loadPackageDescriptor(serviceName,'service');
-            if (packageDescriptor.disabled === true) {
-                // service is disabled
-                continue;
-            }
-            
-            var serviceFile = servicesPath + serviceName + path.sep + serviceName + '.js';
-            var { default: serviceClass } = await import(serviceFile);
-       
-            service = new serviceClass(router,this.#httpServer,this.#config);
+        
+        await this.scanServices(async function(service) {
             await service.boot();
             this.#express.use('/',service.router);
             logger.info('Service loaded ' + serviceName);
-        }
+        });
+       
     }
+
+    static getInstance() {
+        if (global.arikaimServer === undefined) {
+            global.arikaimServer = new ArikaimServicesServer()
+        }
+
+        return global.arikaimServer;
+    } 
 }
+
+export var arikaimServer = ArikaimServicesServer.getInstance();

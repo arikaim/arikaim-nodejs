@@ -1,7 +1,7 @@
 'use strict';
 
 import ArikaimService from "@arikaim/server/service.js"
-
+import arikaimServer from '@arikaim/server/server.js';
 
 export default class CoreApiService extends ArikaimService {
 
@@ -9,7 +9,14 @@ export default class CoreApiService extends ArikaimService {
         if (isEmpty(view.templateDescriptor) == false) {
             this.loadTemplateRoutes();
         }
-        
+        // services server routes
+        this.router.get('help/services',this.getServices());         
+    }
+
+    getServices() {
+        return async (req, res) => {
+            //res.renderPage('current>' + name,{});         
+        };
     }
 
     loadTemplateRoutes() {
