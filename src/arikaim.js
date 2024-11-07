@@ -9,7 +9,7 @@
  * @license     http://www.arikaim.com/license
 */
 
-import arikaimServer from '@arikaim/server/server.js';
+import { arikaimServer } from '@arikaim/server/server.js';
 
 // boot
 await arikaimServer.boot();

@@ -8,8 +8,7 @@
  * 
 */
 
-
-const { sutando } = require('sutando');
+import { Sequelize } from 'sequelize';
 
 class Db {
     #dbConnection;

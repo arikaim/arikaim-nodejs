@@ -182,7 +182,6 @@ export default class ArikaimServicesServer {
         if (global.arikaimServer === undefined) {
             global.arikaimServer = new ArikaimServicesServer()
         }
-
         return global.arikaimServer;
     } 
 }
