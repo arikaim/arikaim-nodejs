@@ -7,21 +7,22 @@
 */
 
 export default class ArikaimService {
-    #router;
-    #httpServer;
+    private _router: any;
+    private _httpServer: any;
+    private config: any
 
     constructor(router, httpServer, config) {
-        this.#router = router;
-        this.#httpServer = httpServer;
+        this._router = router;
+        this._httpServer = httpServer;
         this.config = config;
     }
 
     get httpServer() {
-        return this.#httpServer;
+        return this._httpServer;
     }
 
-    get router() {
-        return this.#router;
+    get router(): any {
+        return this._router;
     }
 
     async boot() {}

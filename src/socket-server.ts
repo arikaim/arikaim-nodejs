@@ -9,44 +9,48 @@
 import { Server } from "socket.io";
 import access from '@arikaim/server/access/access.js';
 import cookie from 'cookie';
+import logger from '@arikaim/server/system/logger.js'
 
 export default class SocketServer {
 
-    #io;
-    #usersNamespace;
-    #users;
-    #clients;
+    private _io: any;
+    private _usersNamespace: any;
+    private _users: any;
+    private _clients: any;
+    public onConnect: any
 
     constructor(httpServer, config) {
-        this.#io = new Server(httpServer,config);   
-        this.#usersNamespace = this.#io.of('/users');  
-        this.#users = new Map();     
-        this.#clients = new Map();   
+        this._io = new Server(httpServer,config);   
+        this._usersNamespace = this._io.of('/users');  
+        this._users = new Map();     
+        this._clients = new Map();   
         this.onConnect = 'initSocket'
     }
 
-    initSocket(client) {};
+    initSocket(client) {
+
+    };
 
     async boot() {
 
         // main namespace
-        this.#io.on('connection', (socket) => {
+        this._io.on('connection', (socket) => {
             logger.info("Web socket client connected.");
-            this.#clients.set(socket,socket.id);
+            this._clients.set(socket,socket.id);
 
             this.onConnect(socket);           
         });
 
-        this.#io.on('disconnect', (socket) => {
+        this._io.on('disconnect', (socket) => {
             logger.info("Web socket client disconnected");
         });
 
-        this.#io.on('error', (error) => {
+        this._io.on('error', (error) => {
             logger.error(error); 
         });
 
         // users namespace 
-        this.#usersNamespace.use( async (socket, next) => {
+        this._usersNamespace.use( async (socket, next) => {
 
             var phpSession = (socket.handshake.headers.tokentype == 'php-session') ?  socket.handshake.headers.token : socket.handshake.headers.cookie;
               
@@ -67,7 +71,7 @@ export default class SocketServer {
                 // authorized
                 socket.user['socketId'] = socket.id;
                 var userId = socket.user.uuid ?? socket.user.id;
-                this.#users[userId] = socket.user;   
+                this._users[userId] = socket.user;   
                 next();    
             }                 
         });
@@ -80,7 +84,7 @@ export default class SocketServer {
     }
     
     emit(eventName, ...args) {
-        this.#io.sockets.emit(eventName,...args);
+        this._io.sockets.emit(eventName,...args);
     }
 
     emitTo(id, eventName, ...args) {
@@ -94,22 +98,22 @@ export default class SocketServer {
     }
 
     usersOn(eventName, callback) {
-        this.#usersNamespace.on(eventName,callback);
+        this._usersNamespace.on(eventName,callback);
     }
     
     usersEmit(eventName, ...args) {
-        this.#usersNamespace.sockets.emit(eventName,...args);
+        this._usersNamespace.sockets.emit(eventName,...args);
     }
 
     findUser(id) {
-        if (this.#users.has(id) == true) {
-            return this.#users.get(id);
+        if (this._users.has(id) == true) {
+            return this._users.get(id);
         } else {    
-            var user = this.#users.find((item) => item.socketId === id);
+            var user = this._users.find((item) => item.socketId === id);
             if (isObject(user) == true) {
                 return user;
             } else {
-                return this.#users.find((item) => item.id === id);
+                return this._users.find((item) => item.id === id);
             }
         }
     }
@@ -117,26 +121,26 @@ export default class SocketServer {
     getUserSocket(id) {
         var user = findUser(id);
 
-        return (isObject(user) == true) ? this.#io.sockets[user.socketId] : null;           
+        return (isObject(user) == true) ? this.io.sockets[user.socketId] : null;           
     }
 
     on(eventName, callback) {
-        this.#io.on(eventName,callback);
+        this._io.on(eventName,callback);
     }
 
     get usersNamespace() {
-        return this.#usersNamespace;
+        return this._usersNamespace;
     }
 
     get users() {
-        return this.#users;
+        return this._users;
     } 
 
     get io() {
-        return this.#io;
+        return this._io;
     }
 
     get clients() {
-        return this.#clients;
+        return this._clients;
     }
 }

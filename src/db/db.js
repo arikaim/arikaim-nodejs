@@ -9,7 +9,7 @@
 */
 
 
-const { sutando } = require('sutando');
+
 
 class Db {
     #dbConnection;
